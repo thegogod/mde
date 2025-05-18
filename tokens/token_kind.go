@@ -5,6 +5,8 @@ type Kind uint8
 const (
 	Eof Kind = iota
 
+	Plain // # test
+
 	// singles
 
 	Comma        // ,

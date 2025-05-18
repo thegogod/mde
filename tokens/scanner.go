@@ -161,7 +161,7 @@ func (self *Scanner) Scan() (*Token, error) {
 			return self.onIdentifier()
 		}
 
-		return nil, self.error("unexpected character")
+		return self.create(Plain), nil
 	}
 
 	return self.Scan()
