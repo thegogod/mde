@@ -9,15 +9,17 @@ type Node interface {
 	Kind() NodeKind
 	Start() tokens.Position
 	End() tokens.Position
-	Exec() (*reflect.Value, error)
 }
 
 type Expr interface {
 	Node
 
 	Type() (reflect.Type, error)
+	Eval() (*reflect.Value, error)
 }
 
 type Stmt interface {
 	Node
+
+	Exec() (*reflect.Value, error)
 }
