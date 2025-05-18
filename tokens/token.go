@@ -1,29 +1,37 @@
-package ast
+package tokens
 
 import "strconv"
 
 type Token struct {
-	Kind  TokenKind
-	Path  string
-	Ln    int
-	Start int
-	End   int
-	Value []byte
+	Kind     Kind
+	Position Position
+	Value    []byte
 }
 
-func NewToken(kind TokenKind, path string, ln int, start int, end int, value []byte) *Token {
+func NewToken(kind Kind, position Position, value []byte) *Token {
 	return &Token{
-		Kind:  kind,
-		Path:  path,
-		Ln:    ln,
-		Start: start,
-		End:   end,
-		Value: value,
+		Kind:     kind,
+		Position: position,
+		Value:    value,
 	}
 }
 
-func (self Token) Type() TokenKind {
+func (self Token) IsType() bool {
+	_, ok := Types[string(self.Value)]
+	return ok
+}
+
+func (self Token) IsKeyword() bool {
+	_, ok := Keywords[string(self.Value)]
+	return ok
+}
+
+func (self Token) Type() Kind {
 	return Types[string(self.Value)]
+}
+
+func (self Token) Keyword() Kind {
+	return Keywords[string(self.Value)]
 }
 
 func (self Token) Byte() byte {

@@ -1,4 +1,4 @@
-package ast
+package tokens
 
 import (
 	"slices"
@@ -22,7 +22,7 @@ func NewScanner(path string, src []byte) *Scanner {
 	}
 }
 
-func (self *Scanner) Next() (*Token, error) {
+func (self *Scanner) Scan() (*Token, error) {
 	if self.right >= len(self.src) {
 		return self.create(Eof), nil
 	}
@@ -73,6 +73,8 @@ func (self *Scanner) Next() (*Token, error) {
 		return self.create(HashSymbol), nil
 	case '_':
 		return self.create(Underscore), nil
+	case '`':
+		return self.create(BackTick), nil
 	case '|':
 		if self.peek() != '|' {
 			return nil, self.error("expected '|'")
@@ -162,7 +164,7 @@ func (self *Scanner) Next() (*Token, error) {
 		return nil, self.error("unexpected character")
 	}
 
-	return self.Next()
+	return self.Scan()
 }
 
 func (self *Scanner) onComment() (*Token, error) {
@@ -172,7 +174,7 @@ func (self *Scanner) onComment() (*Token, error) {
 
 	self.ln++
 	self.right++
-	return self.Next()
+	return self.Scan()
 }
 
 func (self *Scanner) onByte() (*Token, error) {
@@ -299,23 +301,27 @@ func (self Scanner) isAlpha(b byte) bool {
 		(b == '_')
 }
 
-func (self Scanner) create(kind TokenKind) *Token {
+func (self Scanner) create(kind Kind) *Token {
 	return NewToken(
 		kind,
-		self.path,
-		self.ln,
-		self.left,
-		self.right,
+		Position{
+			Path:  self.path,
+			Ln:    self.ln,
+			Start: self.left,
+			End:   self.right,
+		},
 		self.src[self.left:self.right],
 	)
 }
 
 func (self Scanner) error(message string) error {
 	return NewError(
-		self.path,
-		self.ln,
-		self.left,
-		self.right,
+		Position{
+			Path:  self.path,
+			Ln:    self.ln,
+			Start: self.left,
+			End:   self.right,
+		},
 		message,
 	)
 }

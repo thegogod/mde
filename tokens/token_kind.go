@@ -1,9 +1,9 @@
-package ast
+package tokens
 
-type TokenKind uint8
+type Kind uint8
 
 const (
-	Eof TokenKind = iota
+	Eof Kind = iota
 
 	// singles
 
@@ -21,6 +21,7 @@ const (
 	AtSymbol     // @
 	HashSymbol   // #
 	Underscore   // _
+	BackTick     // `
 
 	// doubles
 
@@ -81,7 +82,7 @@ const (
 	Map    // map
 )
 
-var Keywords = map[string]TokenKind{
+var Keywords = map[string]Kind{
 	"@use":   Use,
 	"@if":    If,
 	"@else":  Else,
@@ -98,7 +99,7 @@ var Keywords = map[string]TokenKind{
 	"map":    Type,
 }
 
-var Types = map[string]TokenKind{
+var Types = map[string]Kind{
 	"string": String,
 	"byte":   Byte,
 	"int":    Int,
