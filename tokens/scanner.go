@@ -68,7 +68,7 @@ func (self *Scanner) Scan() (*Token, error) {
 	case '?':
 		return self.create(QuestionMark), nil
 	case '@':
-		return self.onCode()
+		return self.create(AtSymbol), nil
 	case '#':
 		return self.create(HashSymbol), nil
 	case '_':
@@ -131,9 +131,6 @@ func (self *Scanner) Scan() (*Token, error) {
 		if self.peek() == '=' {
 			self.right++
 			return self.create(LtEq), nil
-		} else if self.isAlpha(self.peek()) {
-			self.right++
-			return self.onHtml()
 		}
 
 		return self.create(Lt), nil
@@ -268,14 +265,6 @@ func (self *Scanner) onIdentifier() (*Token, error) {
 	}
 
 	return self.create(Identifier), nil
-}
-
-func (self *Scanner) onHtml() (*Token, error) {
-	return nil, nil
-}
-
-func (self *Scanner) onCode() (*Token, error) {
-	return nil, nil
 }
 
 func (self Scanner) peek() byte {
