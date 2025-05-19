@@ -4,8 +4,12 @@ type Kind uint8
 
 const (
 	Eof Kind = iota
+	PlainText
 
-	Plain // # test
+	// whitespace
+
+	Space
+	NewLine
 
 	// singles
 
@@ -20,8 +24,8 @@ const (
 	LeftBracket  // [
 	RightBracket // ]
 	QuestionMark // ?
-	AtSymbol     // @
-	HashSymbol   // #
+	At           // @
+	Hash         // #
 	Underscore   // _
 	BackTick     // `
 
@@ -102,4 +106,119 @@ var Types = map[string]Kind{
 	"float":  Float,
 	"bool":   Bool,
 	"map":    Map,
+}
+
+func (self Kind) String() string {
+	switch self {
+	case Eof:
+		return "eof"
+	case PlainText:
+		return "plain-text"
+	case Space:
+		return "space"
+	case NewLine:
+		return "newline"
+	case Comma:
+		return "comma"
+	case Dot:
+		return "dot"
+	case Colon:
+		return "colon"
+	case SemiColon:
+		return "semi-colon"
+	case LeftParen:
+		return "left-paren"
+	case RightParen:
+		return "right-paren"
+	case LeftBrace:
+		return "left-brace"
+	case RightBrace:
+		return "right-brace"
+	case LeftBracket:
+		return "left-bracket"
+	case RightBracket:
+		return "right-bracket"
+	case QuestionMark:
+		return "question-mark"
+	case At:
+		return "at"
+	case Hash:
+		return "hash"
+	case Underscore:
+		return "underscore"
+	case BackTick:
+		return "back-tick"
+	case DoubleColon:
+		return "double-colon"
+	case Plus:
+		return "plus"
+	case Minus:
+		return "minus"
+	case Star:
+		return "star"
+	case Slash:
+		return "slash"
+	case Not:
+		return "not"
+	case NotEq:
+		return "not-eq"
+	case Eq:
+		return "eq"
+	case EqEq:
+		return "eq-eq"
+	case Gt:
+		return "gt"
+	case GtEq:
+		return "gt-eq"
+	case Lt:
+		return "lt"
+	case LtEq:
+		return "lt-eq"
+	case And:
+		return "and"
+	case Or:
+		return "or"
+	case Identifier:
+		return "identifier"
+	case LString:
+		return "literal-string"
+	case LByte:
+		return "literal-byte"
+	case LInt:
+		return "literal-int"
+	case LFloat:
+		return "literal-float"
+	case Nil:
+		return "nil"
+	case If:
+		return "if"
+	case Else:
+		return "else"
+	case For:
+		return "for"
+	case Use:
+		return "use"
+	case Let:
+		return "let"
+	case True:
+		return "true"
+	case False:
+		return "false"
+	case Type:
+		return "type"
+	case String:
+		return "string"
+	case Byte:
+		return "byte"
+	case Int:
+		return "int"
+	case Float:
+		return "float"
+	case Bool:
+		return "bool"
+	case Map:
+		return "map"
+	default:
+		panic("unsupported token type")
+	}
 }

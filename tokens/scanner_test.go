@@ -6,8 +6,16 @@ import (
 	"github.com/thegogod/mde/tokens"
 )
 
-var src = `# Hello World
-this is a test`
+var src = `# Test
+
+1. a
+2. b
+3. c
+
+@if (true) {
+	4. d
+	5. e
+}`
 
 func TestScanner(t *testing.T) {
 	t.Run("should scan", func(t *testing.T) {
@@ -16,12 +24,18 @@ func TestScanner(t *testing.T) {
 			[]byte(src),
 		)
 
-		token, err := scanner.Scan()
+		for {
+			token, err := scanner.Scan()
 
-		if err != nil {
-			t.Fatal(err)
+			if token == nil || token.Kind == tokens.Eof {
+				break
+			}
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			t.Logf("%s => %s", token.Kind, token.String())
 		}
-
-		t.Log(token)
 	})
 }

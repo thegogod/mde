@@ -1,9 +1,5 @@
 package tokens
 
-import (
-	"slices"
-)
-
 type Scanner struct {
 	path  string
 	src   []byte
@@ -33,13 +29,23 @@ func (self *Scanner) Scan() (*Token, error) {
 
 	switch b {
 	case ' ':
-	case '\r':
-	case '\t':
-		// ignore whitespace
-		break
+		return self.create(Space), nil
 	case '\n':
-		self.ln++
-		break
+		return self.create(NewLine), nil
+	case '#':
+		return self.create(Hash), nil
+	case '-':
+		return self.create(Minus), nil
+	case '_':
+		return self.create(Underscore), nil
+	case '*':
+		return self.create(Star), nil
+	case '`':
+		return self.create(BackTick), nil
+	case '[':
+		return self.create(LeftBracket), nil
+	case ']':
+		return self.create(RightBracket), nil
 	case '(':
 		return self.create(LeftParen), nil
 	case ')':
@@ -48,212 +54,37 @@ func (self *Scanner) Scan() (*Token, error) {
 		return self.create(LeftBrace), nil
 	case '}':
 		return self.create(RightBrace), nil
-	case '[':
-		return self.create(LeftBracket), nil
-	case ']':
-		return self.create(RightBracket), nil
-	case ',':
-		return self.create(Comma), nil
-	case '.':
-		return self.create(Dot), nil
-	case ':':
-		if self.peek() == ':' {
-			self.right++
-			return self.create(DoubleColon), nil
-		}
-
-		return self.create(Colon), nil
-	case ';':
-		return self.create(SemiColon), nil
-	case '?':
-		return self.create(QuestionMark), nil
-	case '@':
-		return self.create(AtSymbol), nil
-	case '#':
-		return self.create(HashSymbol), nil
-	case '_':
-		return self.create(Underscore), nil
-	case '`':
-		return self.create(BackTick), nil
-	case '|':
-		if self.peek() != '|' {
-			return nil, self.error("expected '|'")
-		}
-
-		self.right++
-		return self.create(Or), nil
-	case '&':
-		if self.peek() != '&' {
-			return nil, self.error("expected '&'")
-		}
-
-		self.right++
-		return self.create(And), nil
-	case '+':
-		return self.create(Plus), nil
-	case '-':
-		if self.isInt(self.peek()) {
-			self.right++
-			return self.onNumeric()
-		}
-
-		return self.create(Minus), nil
-	case '*':
-		return self.create(Star), nil
-	case '/':
-		if self.peek() == '/' {
-			return self.onComment()
-		}
-
-		return self.create(Slash), nil
 	case '!':
-		if self.peek() == '=' {
-			self.right++
-			return self.create(NotEq), nil
-		}
-
 		return self.create(Not), nil
-	case '=':
-		if self.peek() == '=' {
-			self.right++
-			return self.create(EqEq), nil
-		}
-
-		return self.create(Eq), nil
 	case '>':
-		if self.peek() == '=' {
-			self.right++
-			return self.create(GtEq), nil
-		}
-
 		return self.create(Gt), nil
 	case '<':
-		if self.peek() == '=' {
-			self.right++
-			return self.create(LtEq), nil
-		}
-
 		return self.create(Lt), nil
-	case '\'':
-		return self.onByte()
-	case '"':
-		return self.onString()
-	default:
-		if self.isInt(b) {
-			return self.onNumeric()
-		} else if self.isAlpha(b) {
-			return self.onIdentifier()
-		}
+	case '.':
+		return self.create(Dot), nil
+	case '@':
+		if self.isAlpha(self.peek()) {
+			self.right++
+			token, err := self.onKeyword()
 
-		return self.create(Plain), nil
-	}
-
-	return self.Scan()
-}
-
-func (self *Scanner) onComment() (*Token, error) {
-	for self.peek() != '\n' && self.peek() != 0 {
-		self.right++
-	}
-
-	self.ln++
-	self.right++
-	return self.Scan()
-}
-
-func (self *Scanner) onByte() (*Token, error) {
-	self.right++
-
-	if self.peek() != '\'' {
-		return nil, self.error("unterminated byte")
-	}
-
-	self.left++
-	token := self.create(LByte)
-	self.right++
-	return token, nil
-}
-
-func (self *Scanner) onString() (*Token, error) {
-	for self.peek() != '"' && self.peek() != 0 {
-		if self.peek() == '\n' {
-			self.ln++
-		} else if self.peek() == '\\' {
-			err := self.onEscape()
-
-			if err != nil {
-				return nil, err
+			if err == nil {
+				return token, nil
 			}
 		}
-
-		self.right++
-	}
-
-	if self.right == len(self.src) {
-		return nil, self.error("unterminated string")
-	}
-
-	self.left++
-	token := self.create(LString)
-	self.right++
-	return token, nil
-}
-
-func (self *Scanner) onEscape() error {
-	self.right++
-
-	defer func() {
-		self.right--
-	}()
-
-	switch self.peek() {
-	case 'a': // bell
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\a')
-	case 'b': // backspace
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\b')
-	case 'f': // form feed
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\f')
-	case 'n': // new line
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\n')
-	case 'r': // carriage return
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\r')
-	case 't': // horizontal tab
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\t')
-	case 'v': // verical tab
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\v')
-	case '\'': // single quote
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\'')
-	case '"': // double quote
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '"')
-	case '\\': // back slash
-		self.src = slices.Replace(self.src, self.right-1, self.right+1, '\\')
 	default:
-		return self.error("unknown escape sequence")
-	}
+		if self.isAlpha(self.peek()) {
+			token, err := self.onKeyword()
 
-	return nil
-}
-
-func (self *Scanner) onNumeric() (*Token, error) {
-	kind := LInt
-
-	for self.isInt(self.peek()) {
-		self.right++
-	}
-
-	if self.peek() == '.' {
-		kind = LFloat
-		self.right++
-
-		for self.isInt(self.peek()) {
-			self.right++
+			if err == nil {
+				return token, nil
+			}
 		}
 	}
 
-	return self.create(kind), nil
+	return self.create(PlainText), nil
 }
 
-func (self *Scanner) onIdentifier() (*Token, error) {
+func (self *Scanner) onKeyword() (*Token, error) {
 	for self.isAlpha(self.peek()) || self.isInt(self.peek()) {
 		self.right++
 	}
@@ -264,7 +95,7 @@ func (self *Scanner) onIdentifier() (*Token, error) {
 		return self.create(kind), nil
 	}
 
-	return self.create(Identifier), nil
+	return nil, self.error("keyword not found")
 }
 
 func (self Scanner) peek() byte {
