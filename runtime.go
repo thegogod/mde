@@ -1,8 +1,7 @@
 package mde
 
 import (
-	"go/ast"
-
+	"github.com/thegogod/mde/ast"
 	"github.com/thegogod/mde/reflect"
 )
 

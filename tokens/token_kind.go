@@ -75,7 +75,7 @@ const (
 
 	// types
 
-	Type
+	Type   // type
 	String // string
 	Byte   // byte
 	Int    // int
