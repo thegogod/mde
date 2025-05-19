@@ -11,6 +11,15 @@ const (
 	Space
 	NewLine
 
+	// elements
+
+	H1 // # test
+	H2 // ## test
+	H3 // ### test
+	H4 // #### test
+	H5 // ##### test
+	H6 // ###### test
+
 	// singles
 
 	Comma        // ,
@@ -118,6 +127,18 @@ func (self Kind) String() string {
 		return "space"
 	case NewLine:
 		return "newline"
+	case H1:
+		return "h1"
+	case H2:
+		return "h2"
+	case H3:
+		return "h3"
+	case H4:
+		return "h4"
+	case H5:
+		return "h5"
+	case H6:
+		return "h6"
 	case Comma:
 		return "comma"
 	case Dot:

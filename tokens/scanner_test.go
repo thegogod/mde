@@ -6,7 +6,13 @@ import (
 	"github.com/thegogod/mde/tokens"
 )
 
-var src = `# Test
+var src = `# Title
+
+my description...
+
+## Sub Title
+
+some more text...
 
 1. a
 2. b
@@ -19,10 +25,7 @@ var src = `# Test
 
 func TestScanner(t *testing.T) {
 	t.Run("should scan", func(t *testing.T) {
-		scanner := tokens.NewScanner(
-			"README.md",
-			[]byte(src),
-		)
+		scanner := tokens.NewScanner([]byte(src))
 
 		for {
 			token, err := scanner.Scan()

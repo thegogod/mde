@@ -1,16 +1,14 @@
 package tokens
 
 type Scanner struct {
-	path  string
 	src   []byte
 	ln    int
 	left  int
 	right int
 }
 
-func NewScanner(path string, src []byte) *Scanner {
+func NewScanner(src []byte) *Scanner {
 	return &Scanner{
-		path:  path,
 		src:   src,
 		ln:    0,
 		left:  0,
@@ -33,7 +31,11 @@ func (self *Scanner) Scan() (*Token, error) {
 	case '\n':
 		return self.create(NewLine), nil
 	case '#':
-		return self.create(Hash), nil
+		token, err := self.onHeading()
+
+		if err == nil {
+			return token, nil
+		}
 	case '-':
 		return self.create(Minus), nil
 	case '_':
@@ -84,6 +86,53 @@ func (self *Scanner) Scan() (*Token, error) {
 	return self.create(PlainText), nil
 }
 
+func (self *Scanner) onHeading() (*Token, error) {
+	i := 1
+
+	for self.peek() == '#' {
+		i++
+		self.right++
+	}
+
+	if self.peek() != ' ' {
+		return nil, self.error("expected space")
+	}
+
+	self.right++
+	self.left = self.right
+
+	for self.right < len(self.src) && self.peek() != '\n' {
+		self.right++
+	}
+
+	kind := H1
+
+	switch i {
+	case 1:
+		kind = H1
+		break
+	case 2:
+		kind = H2
+		break
+	case 3:
+		kind = H3
+		break
+	case 4:
+		kind = H4
+		break
+	case 5:
+		kind = H5
+		break
+	case 6:
+		kind = H6
+		break
+	default:
+		return nil, self.error("max heading depth is 6")
+	}
+
+	return self.create(kind), nil
+}
+
 func (self *Scanner) onKeyword() (*Token, error) {
 	for self.isAlpha(self.peek()) || self.isInt(self.peek()) {
 		self.right++
@@ -120,7 +169,6 @@ func (self Scanner) create(kind Kind) *Token {
 	return NewToken(
 		kind,
 		Position{
-			Path:  self.path,
 			Ln:    self.ln,
 			Start: self.left,
 			End:   self.right,
@@ -132,7 +180,6 @@ func (self Scanner) create(kind Kind) *Token {
 func (self Scanner) error(message string) error {
 	return NewError(
 		Position{
-			Path:  self.path,
 			Ln:    self.ln,
 			Start: self.left,
 			End:   self.right,
