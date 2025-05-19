@@ -31,14 +31,10 @@ const (
 
 	// arithmetic
 
-	Plus    // +
-	PlusEq  // +=
-	Minus   // -
-	MinusEq // -=
-	Star    // *
-	StarEq  // *=
-	Slash   // /
-	SlashEq // /=
+	Plus  // +
+	Minus // -
+	Star  // *
+	Slash // /
 
 	// logical
 
@@ -64,12 +60,11 @@ const (
 
 	// keywords
 
-	If    // if
-	Else  // else
-	For   // for
+	If    // @if
+	Else  // @else
+	For   // @for
+	Use   // @use
 	Let   // let
-	Self  // self
-	Use   // use
 	True  // true
 	False // false
 
@@ -90,7 +85,6 @@ var Keywords = map[string]Kind{
 	"@else":  Else,
 	"@for":   For,
 	"let":    Let,
-	"self":   Self,
 	"true":   True,
 	"false":  False,
 	"string": Type,

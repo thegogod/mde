@@ -90,35 +90,19 @@ func (self *Scanner) Scan() (*Token, error) {
 		self.right++
 		return self.create(And), nil
 	case '+':
-		if self.peek() == '=' {
-			self.right++
-			return self.create(PlusEq), nil
-		}
-
 		return self.create(Plus), nil
 	case '-':
-		if self.peek() == '=' {
-			self.right++
-			return self.create(MinusEq), nil
-		} else if self.isInt(self.peek()) {
+		if self.isInt(self.peek()) {
 			self.right++
 			return self.onNumeric()
 		}
 
 		return self.create(Minus), nil
 	case '*':
-		if self.peek() == '=' {
-			self.right++
-			return self.create(StarEq), nil
-		}
-
 		return self.create(Star), nil
 	case '/':
 		if self.peek() == '/' {
 			return self.onComment()
-		} else if self.peek() == '=' {
-			self.right++
-			return self.create(SlashEq), nil
 		}
 
 		return self.create(Slash), nil
