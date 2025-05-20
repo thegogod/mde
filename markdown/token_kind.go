@@ -30,6 +30,8 @@ const (
 	Code       // `test`
 	CodeBlock  // ```test```
 	Hr         // horizontal rule (<hr>) (---)
+	Link       // link (<a>) ([test](https://test.com))
+	Image      // image (<img>) (![test](https://test.com/image.png))
 )
 
 func (self TokenKind) String() string {
@@ -76,6 +78,10 @@ func (self TokenKind) String() string {
 		return "code-block"
 	case Hr:
 		return "hr"
+	case Link:
+		return "link"
+	case Image:
+		return "image"
 	default:
 		panic("unsupported token type")
 	}

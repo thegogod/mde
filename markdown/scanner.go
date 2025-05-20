@@ -41,7 +41,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 	case '\n':
 		return self.create(Space), nil
 	case '#':
-		token, err := self.onHeading()
+		token, err := self.parseHeading()
 
 		if err == nil {
 			return token, nil
@@ -95,6 +95,44 @@ func (self *Scanner) Scan() (core.Token, error) {
 		}
 
 		break
+	case '[':
+		pos := core.Position{
+			Ln:    self.ln,
+			Start: self.left,
+			End:   self.right,
+		}
+
+		token, err := self.parseLink()
+
+		if err == nil {
+			return token, err
+		}
+
+		self.ln = pos.Ln
+		self.left = pos.Start
+		self.right = pos.End
+		break
+	case '!':
+		if self.peek() == '[' {
+			pos := core.Position{
+				Ln:    self.ln,
+				Start: self.left,
+				End:   self.right,
+			}
+
+			self.right++
+			token, err := self.parseImage()
+
+			if err == nil {
+				return token, err
+			}
+
+			self.ln = pos.Ln
+			self.left = pos.Start
+			self.right = pos.End
+		}
+
+		break
 	default:
 		if unicode.IsNumber(rune(b)) && self.peek() == '.' {
 			self.right++
@@ -110,7 +148,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 	return self.create(Text), nil
 }
 
-func (self *Scanner) onHeading() (*Token, error) {
+func (self *Scanner) parseHeading() (*Token, error) {
 	i := 1
 
 	for self.peek() == '#' {
@@ -155,6 +193,66 @@ func (self *Scanner) onHeading() (*Token, error) {
 	}
 
 	return self.create(TokenKind), nil
+}
+
+func (self *Scanner) parseImage() (*Token, error) {
+	self.right++
+
+	for self.peek() != 0 && self.peek() != ']' {
+		self.right++
+	}
+
+	if self.peek() == 0 {
+		return nil, self.error("eof")
+	}
+
+	self.right++
+
+	if self.peek() != '(' {
+		return nil, self.error("expected '('")
+	}
+
+	self.right++
+
+	for self.peek() != 0 && self.peek() != ')' {
+		self.right++
+	}
+
+	if self.peek() == 0 {
+		return nil, self.error("eof")
+	}
+
+	self.right++
+	return self.create(Image), nil
+}
+
+func (self *Scanner) parseLink() (*Token, error) {
+	for self.peek() != 0 && self.peek() != ']' {
+		self.right++
+	}
+
+	if self.peek() == 0 {
+		return nil, self.error("eof")
+	}
+
+	self.right++
+
+	if self.peek() != '(' {
+		return nil, self.error("expected '('")
+	}
+
+	self.right++
+
+	for self.peek() != 0 && self.peek() != ')' {
+		self.right++
+	}
+
+	if self.peek() == 0 {
+		return nil, self.error("eof")
+	}
+
+	self.right++
+	return self.create(Link), nil
 }
 
 func (self Scanner) peek() byte {

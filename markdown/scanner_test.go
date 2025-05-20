@@ -23,7 +23,13 @@ my description...
 
 > a test quote
 
----`
+---
+
+[google](https://google.com)
+
+![IMAGE!!!](https://google.com/images/batman.jpg)
+
+`
 
 func TestScanner(t *testing.T) {
 	t.Run("should scan", func(t *testing.T) {
