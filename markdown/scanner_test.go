@@ -21,7 +21,9 @@ my description...
 - test
 - ing
 
-> a test quote`
+> a test quote
+
+---`
 
 func TestScanner(t *testing.T) {
 	t.Run("should scan", func(t *testing.T) {

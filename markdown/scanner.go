@@ -52,16 +52,26 @@ func (self *Scanner) Scan() (mde.Token, error) {
 		if self.peek() == ' ' {
 			self.right++
 			return self.create(Ul), nil
+		} else if self.peek() == '-' {
+			self.right++
+
+			if self.peek() == '-' {
+				self.right++
+
+				if self.peek() == 0 || unicode.IsSpace(rune(self.peek())) {
+					return self.create(Hr), nil
+				}
+			}
 		}
 
 		break
 	case '_':
 		if self.peek() == '_' {
 			self.right++
-			return self.create(Bold), nil
+			return self.create(BoldAlt), nil
 		}
 
-		return self.create(Italic), nil
+		return self.create(ItalicAlt), nil
 	case '*':
 		if self.peek() == '*' {
 			self.right++
@@ -71,6 +81,20 @@ func (self *Scanner) Scan() (mde.Token, error) {
 		return self.create(Italic), nil
 	case '>':
 		return self.create(BlockQuote), nil
+	case '`':
+		for self.peek() == '`' {
+			self.right++
+		}
+
+		i := self.right - self.left
+
+		if i == 1 {
+			return self.create(Code), nil
+		} else if i == 3 {
+			return self.create(CodeBlock), nil
+		}
+
+		break
 	default:
 		if unicode.IsNumber(rune(b)) && self.peek() == '.' {
 			self.right++

@@ -19,12 +19,17 @@ const (
 	H4         // #### test
 	H5         // ##### test
 	H6         // ###### test
-	Bold       // ** or __
-	Italic     // * or _
+	Bold       // **
+	BoldAlt    // __
+	Italic     // *
+	ItalicAlt  // _
 	Br         // line break (<br>) (two spaces)
 	Ol         // ordered list (<ol>) (1. test)
 	Ul         // unordered list (<ul>) (- test)
 	BlockQuote // >
+	Code       // `test`
+	CodeBlock  // ```test```
+	Hr         // horizontal rule (<hr>) (---)
 )
 
 func (self Kind) String() string {
@@ -51,8 +56,12 @@ func (self Kind) String() string {
 		return "h6"
 	case Bold:
 		return "bold"
+	case BoldAlt:
+		return "bold-alt"
 	case Italic:
 		return "italic"
+	case ItalicAlt:
+		return "italic-alt"
 	case Br:
 		return "br"
 	case Ol:
@@ -61,6 +70,12 @@ func (self Kind) String() string {
 		return "ul"
 	case BlockQuote:
 		return "block-quote"
+	case Code:
+		return "code"
+	case CodeBlock:
+		return "code-block"
+	case Hr:
+		return "hr"
 	default:
 		panic("unsupported token type")
 	}
