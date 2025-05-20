@@ -3,7 +3,7 @@ package markdown_test
 import (
 	"testing"
 
-	"github.com/thegogod/mde/markdown"
+	"github.com/thegogod/mde/parsers/markdown"
 )
 
 var src = `# Title

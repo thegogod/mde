@@ -75,6 +75,13 @@ func (self *Scanner) Scan() (core.Token, error) {
 		}
 
 		return self.create(Italic), nil
+	case '~':
+		if self.peek() == '~' {
+			self.pos.End++
+			return self.create(StrikeAlt), nil
+		}
+
+		return self.create(Strike), nil
 	case '>':
 		return self.create(BlockQuote), nil
 	case '`':
@@ -86,7 +93,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 
 		if i == 1 {
 			return self.create(Code), nil
-		} else if i == 3 {
+		} else if i >= 3 {
 			return self.create(CodeBlock), nil
 		}
 

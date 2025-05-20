@@ -23,6 +23,8 @@ const (
 	BoldAlt    // __
 	Italic     // *
 	ItalicAlt  // _
+	Strike     // ~
+	StrikeAlt  // ~~
 	Br         // line break (<br>) (two spaces)
 	Ol         // ordered list (<ol>) (1. test)
 	Ul         // unordered list (<ul>) (- test)
@@ -64,6 +66,10 @@ func (self TokenKind) String() string {
 		return "italic"
 	case ItalicAlt:
 		return "italic-alt"
+	case Strike:
+		return "strike"
+	case StrikeAlt:
+		return "strike-alt"
 	case Br:
 		return "br"
 	case Ol:
