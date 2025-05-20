@@ -248,22 +248,14 @@ func (self Scanner) peek() byte {
 func (self Scanner) create(TokenKind TokenKind) *Token {
 	return NewToken(
 		TokenKind,
-		core.Position{
-			Ln:    self.pos.Ln,
-			Start: self.pos.Start,
-			End:   self.pos.End,
-		},
+		self.pos,
 		self.src[self.pos.Start:self.pos.End],
 	)
 }
 
 func (self Scanner) error(message string) error {
 	return NewError(
-		core.Position{
-			Ln:    self.pos.Ln,
-			Start: self.pos.Start,
-			End:   self.pos.End,
-		},
+		self.pos,
 		message,
 	)
 }
