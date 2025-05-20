@@ -129,32 +129,32 @@ func (self *Scanner) onHeading() (*Token, error) {
 		self.right++
 	}
 
-	kind := H1
+	TokenKind := H1
 
 	switch i {
 	case 1:
-		kind = H1
+		TokenKind = H1
 		break
 	case 2:
-		kind = H2
+		TokenKind = H2
 		break
 	case 3:
-		kind = H3
+		TokenKind = H3
 		break
 	case 4:
-		kind = H4
+		TokenKind = H4
 		break
 	case 5:
-		kind = H5
+		TokenKind = H5
 		break
 	case 6:
-		kind = H6
+		TokenKind = H6
 		break
 	default:
 		return nil, self.error("max heading depth is 6")
 	}
 
-	return self.create(kind), nil
+	return self.create(TokenKind), nil
 }
 
 func (self Scanner) peek() byte {
@@ -165,9 +165,9 @@ func (self Scanner) peek() byte {
 	return self.src[self.right]
 }
 
-func (self Scanner) create(kind Kind) *Token {
+func (self Scanner) create(TokenKind TokenKind) *Token {
 	return NewToken(
-		kind,
+		TokenKind,
 		mde.Position{
 			Ln:    self.ln,
 			Start: self.left,

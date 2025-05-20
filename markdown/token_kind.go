@@ -1,9 +1,9 @@
 package markdown
 
-type Kind uint8
+type TokenKind uint8
 
 const (
-	Eof Kind = iota
+	Eof TokenKind = iota
 	Text
 
 	// whitespace
@@ -32,7 +32,7 @@ const (
 	Hr         // horizontal rule (<hr>) (---)
 )
 
-func (self Kind) String() string {
+func (self TokenKind) String() string {
 	switch self {
 	case Eof:
 		return "eof"
