@@ -1,9 +1,9 @@
-package tokens_test
+package markdown_test
 
 import (
 	"testing"
 
-	"github.com/thegogod/mde/tokens"
+	"github.com/thegogod/mde/markdown"
 )
 
 var src = `# Title
@@ -18,19 +18,19 @@ my description...
 2. b
 3. c
 
-@if (true) {
-	4. d
-	5. e
-}`
+- test
+- ing
+
+> a test quote`
 
 func TestScanner(t *testing.T) {
 	t.Run("should scan", func(t *testing.T) {
-		scanner := tokens.NewScanner([]byte(src))
+		scanner := markdown.NewScanner([]byte(src))
 
 		for {
 			token, err := scanner.Scan()
 
-			if token == nil || token.Kind == tokens.Eof {
+			if token == nil || markdown.Kind(token.GetKind()) == markdown.Eof {
 				break
 			}
 
@@ -38,7 +38,7 @@ func TestScanner(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			t.Logf("%s => %s", token.Kind, token.String())
+			t.Logf("%s => %s", markdown.Kind(token.GetKind()), token.String())
 		}
 	})
 }

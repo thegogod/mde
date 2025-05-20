@@ -1,15 +1,16 @@
-package tokens
+package markdown
 
 import (
+	mde "github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/strings"
 )
 
 type Error struct {
-	Position Position
+	Position mde.Position
 	Message  string
 }
 
-func NewError(position Position, message string) *Error {
+func NewError(position mde.Position, message string) *Error {
 	return &Error{
 		Position: position,
 		Message:  message,

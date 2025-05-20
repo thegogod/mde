@@ -1,6 +1,10 @@
-package tokens
+package markdown
 
-import "unicode"
+import (
+	"unicode"
+
+	mde "github.com/thegogod/mde/core"
+)
 
 type Scanner struct {
 	src   []byte
@@ -18,7 +22,7 @@ func NewScanner(src []byte) *Scanner {
 	}
 }
 
-func (self *Scanner) Scan() (*Token, error) {
+func (self *Scanner) Scan() (mde.Token, error) {
 	if self.right >= len(self.src) {
 		return self.create(Eof), nil
 	}
@@ -45,7 +49,7 @@ func (self *Scanner) Scan() (*Token, error) {
 
 		break
 	case '-':
-		if unicode.IsSpace(rune(self.peek())) {
+		if self.peek() == ' ' {
 			self.right++
 			return self.create(Ul), nil
 		}
@@ -65,27 +69,13 @@ func (self *Scanner) Scan() (*Token, error) {
 		}
 
 		return self.create(Italic), nil
-	case '`':
-		return self.create(BackTick), nil
-	case '[':
-		return self.create(LeftBracket), nil
-	case ']':
-		return self.create(RightBracket), nil
-	case '(':
-		return self.create(LeftParen), nil
-	case ')':
-		return self.create(RightParen), nil
-	case '!':
-		return self.create(Bang), nil
 	case '>':
-		return self.create(Gt), nil
-	case '<':
-		return self.create(Lt), nil
+		return self.create(BlockQuote), nil
 	default:
 		if unicode.IsNumber(rune(b)) && self.peek() == '.' {
 			self.right++
 
-			if unicode.IsSpace(rune(self.peek())) {
+			if self.peek() == ' ' {
 				return self.create(Ol), nil
 			}
 
@@ -154,7 +144,7 @@ func (self Scanner) peek() byte {
 func (self Scanner) create(kind Kind) *Token {
 	return NewToken(
 		kind,
-		Position{
+		mde.Position{
 			Ln:    self.ln,
 			Start: self.left,
 			End:   self.right,
@@ -165,7 +155,7 @@ func (self Scanner) create(kind Kind) *Token {
 
 func (self Scanner) error(message string) error {
 	return NewError(
-		Position{
+		mde.Position{
 			Ln:    self.ln,
 			Start: self.left,
 			End:   self.right,

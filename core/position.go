@@ -1,4 +1,4 @@
-package tokens
+package mde
 
 import "fmt"
 
