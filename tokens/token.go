@@ -16,24 +16,6 @@ func NewToken(kind Kind, position Position, value []byte) *Token {
 	}
 }
 
-func (self Token) IsType() bool {
-	_, ok := Types[string(self.Value)]
-	return ok
-}
-
-func (self Token) IsKeyword() bool {
-	_, ok := Keywords[string(self.Value)]
-	return ok
-}
-
-func (self Token) Type() Kind {
-	return Types[string(self.Value)]
-}
-
-func (self Token) Keyword() Kind {
-	return Keywords[string(self.Value)]
-}
-
 func (self Token) Byte() byte {
 	return self.Value[0]
 }

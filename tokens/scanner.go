@@ -1,5 +1,7 @@
 package tokens
 
+import "unicode"
+
 type Scanner struct {
 	src   []byte
 	ln    int
@@ -27,21 +29,42 @@ func (self *Scanner) Scan() (*Token, error) {
 
 	switch b {
 	case ' ':
-		return self.create(Space), nil
+		if self.peek() == ' ' {
+			return self.create(Br), nil
+		}
+
+		break
 	case '\n':
-		return self.create(NewLine), nil
+		return self.create(Space), nil
 	case '#':
 		token, err := self.onHeading()
 
 		if err == nil {
 			return token, nil
 		}
+
+		break
 	case '-':
-		return self.create(Minus), nil
+		if unicode.IsSpace(rune(self.peek())) {
+			self.right++
+			return self.create(Ul), nil
+		}
+
+		break
 	case '_':
-		return self.create(Underscore), nil
+		if self.peek() == '_' {
+			self.right++
+			return self.create(Bold), nil
+		}
+
+		return self.create(Italic), nil
 	case '*':
-		return self.create(Star), nil
+		if self.peek() == '*' {
+			self.right++
+			return self.create(Bold), nil
+		}
+
+		return self.create(Italic), nil
 	case '`':
 		return self.create(BackTick), nil
 	case '[':
@@ -52,38 +75,25 @@ func (self *Scanner) Scan() (*Token, error) {
 		return self.create(LeftParen), nil
 	case ')':
 		return self.create(RightParen), nil
-	case '{':
-		return self.create(LeftBrace), nil
-	case '}':
-		return self.create(RightBrace), nil
 	case '!':
-		return self.create(Not), nil
+		return self.create(Bang), nil
 	case '>':
 		return self.create(Gt), nil
 	case '<':
 		return self.create(Lt), nil
-	case '.':
-		return self.create(Dot), nil
-	case '@':
-		if self.isAlpha(self.peek()) {
-			self.right++
-			token, err := self.onKeyword()
-
-			if err == nil {
-				return token, nil
-			}
-		}
 	default:
-		if self.isAlpha(self.peek()) {
-			token, err := self.onKeyword()
+		if unicode.IsNumber(rune(b)) && self.peek() == '.' {
+			self.right++
 
-			if err == nil {
-				return token, nil
+			if unicode.IsSpace(rune(self.peek())) {
+				return self.create(Ol), nil
 			}
+
+			self.right--
 		}
 	}
 
-	return self.create(PlainText), nil
+	return self.create(Text), nil
 }
 
 func (self *Scanner) onHeading() (*Token, error) {
@@ -133,36 +143,12 @@ func (self *Scanner) onHeading() (*Token, error) {
 	return self.create(kind), nil
 }
 
-func (self *Scanner) onKeyword() (*Token, error) {
-	for self.isAlpha(self.peek()) || self.isInt(self.peek()) {
-		self.right++
-	}
-
-	name := self.src[self.left:self.right]
-
-	if kind, ok := Keywords[string(name)]; ok {
-		return self.create(kind), nil
-	}
-
-	return nil, self.error("keyword not found")
-}
-
 func (self Scanner) peek() byte {
 	if self.right >= len(self.src) {
-		return 0
+		return byte(Eof)
 	}
 
 	return self.src[self.right]
-}
-
-func (self Scanner) isInt(b byte) bool {
-	return b >= '0' && b <= '9'
-}
-
-func (self Scanner) isAlpha(b byte) bool {
-	return (b >= 'a' && b <= 'z') ||
-		(b >= 'A' && b <= 'Z') ||
-		(b == '_')
 }
 
 func (self Scanner) create(kind Kind) *Token {

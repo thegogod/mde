@@ -12,9 +12,9 @@ my description...
 
 ## Sub Title
 
-some more text...
+**_some more text..._**
 
-1. a
+1. __a__
 2. b
 3. c
 
