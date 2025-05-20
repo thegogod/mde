@@ -1,4 +1,4 @@
-package mde
+package core
 
 type Token interface {
 	GetTokenKind() uint8

@@ -3,7 +3,7 @@ package markdown
 import (
 	"unicode"
 
-	mde "github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/core"
 )
 
 type Scanner struct {
@@ -22,7 +22,7 @@ func NewScanner(src []byte) *Scanner {
 	}
 }
 
-func (self *Scanner) Scan() (mde.Token, error) {
+func (self *Scanner) Scan() (core.Token, error) {
 	if self.right >= len(self.src) {
 		return self.create(Eof), nil
 	}
@@ -168,7 +168,7 @@ func (self Scanner) peek() byte {
 func (self Scanner) create(TokenKind TokenKind) *Token {
 	return NewToken(
 		TokenKind,
-		mde.Position{
+		core.Position{
 			Ln:    self.ln,
 			Start: self.left,
 			End:   self.right,
@@ -179,7 +179,7 @@ func (self Scanner) create(TokenKind TokenKind) *Token {
 
 func (self Scanner) error(message string) error {
 	return NewError(
-		mde.Position{
+		core.Position{
 			Ln:    self.ln,
 			Start: self.left,
 			End:   self.right,

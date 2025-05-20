@@ -1,14 +1,14 @@
 package markdown
 
-import mde "github.com/thegogod/mde/core"
+import "github.com/thegogod/mde/core"
 
 type Token struct {
 	TokenKind TokenKind
-	Position  mde.Position
+	Position  core.Position
 	Value     []byte
 }
 
-func NewToken(TokenKind TokenKind, position mde.Position, value []byte) *Token {
+func NewToken(TokenKind TokenKind, position core.Position, value []byte) *Token {
 	return &Token{
 		TokenKind: TokenKind,
 		Position:  position,
@@ -20,7 +20,7 @@ func (self Token) GetTokenKind() uint8 {
 	return uint8(self.TokenKind)
 }
 
-func (self Token) GetPosition() mde.Position {
+func (self Token) GetPosition() core.Position {
 	return self.Position
 }
 

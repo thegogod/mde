@@ -1,4 +1,4 @@
-package mde
+package core
 
 import "fmt"
 

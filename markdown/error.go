@@ -1,16 +1,16 @@
 package markdown
 
 import (
-	mde "github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/strings"
 )
 
 type Error struct {
-	Position mde.Position
+	Position core.Position
 	Message  string
 }
 
-func NewError(position mde.Position, message string) *Error {
+func NewError(position core.Position, message string) *Error {
 	return &Error{
 		Position: position,
 		Message:  message,
