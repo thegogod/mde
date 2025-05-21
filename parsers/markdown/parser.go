@@ -94,7 +94,7 @@ func (self *Parser) parseHeading(depth int) (ast.Heading, error) {
 	for !self.match(NewLine) {
 		node, err := self.parse()
 
-		if err != nil {
+		if node == nil || err != nil {
 			return heading, err
 		}
 
@@ -220,26 +220,60 @@ func (self *Parser) parseHr() (ast.Hr, error) {
 	return ast.Hr{}, nil
 }
 
-func (self *Parser) parseNewLine() (ast.NewLine, error) {
-	return ast.NewLine{}, nil
+func (self *Parser) parseNewLine() (ast.Group, error) {
+	group := ast.Group{
+		Items: []core.Node{
+			ast.NewLine{},
+		},
+	}
+
+	if self.match(NewLine) {
+		group.Add(ast.NewLine{})
+
+		if self.curr.Kind.IsInline() {
+			node, err := self.parseParagraph()
+
+			if err != nil {
+				return group, err
+			}
+
+			group.Add(node)
+		}
+	}
+
+	return group, nil
 }
 
-func (self *Parser) parseText() (ast.Paragraph, error) {
+func (self *Parser) parseParagraph() (ast.Paragraph, error) {
 	paragraph := ast.Paragraph{
 		Content: []core.Node{},
 	}
 
-	for {
-		token, err := self.consume(Text, "expected text token")
+	for !self.match(Eof) {
+		if self.match(NewLine) && self.match(NewLine) {
+			break
+		}
+
+		node, err := self.parse()
 
 		if err != nil {
 			break
 		}
 
-		paragraph.Add(ast.Text{Content: token})
+		paragraph.Add(node)
 	}
 
 	return paragraph, nil
+}
+
+func (self *Parser) parseText() (ast.Text, error) {
+	token, err := self.consume(Text, "expected text")
+
+	if err != nil {
+		return ast.Text{}, err
+	}
+
+	return ast.Text{Content: token}, nil
 }
 
 func (self *Parser) next() bool {

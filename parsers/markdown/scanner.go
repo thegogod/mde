@@ -25,7 +25,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 
 	self.pos.Start = self.pos.End
 	b := self.src[self.pos.End]
-	self.pos.End++
+	self.next()
 
 	switch b {
 	case ' ':
@@ -46,13 +46,13 @@ func (self *Scanner) Scan() (core.Token, error) {
 		break
 	case '-':
 		if self.peek() == ' ' {
-			self.pos.End++
+			self.next()
 			return self.create(Ul), nil
 		} else if self.peek() == '-' {
-			self.pos.End++
+			self.next()
 
 			if self.peek() == '-' {
-				self.pos.End++
+				self.next()
 
 				if self.peek() == 0 || unicode.IsSpace(rune(self.peek())) {
 					return self.create(Hr), nil
@@ -63,21 +63,21 @@ func (self *Scanner) Scan() (core.Token, error) {
 		break
 	case '_':
 		if self.peek() == '_' {
-			self.pos.End++
+			self.next()
 			return self.create(BoldAlt), nil
 		}
 
 		return self.create(ItalicAlt), nil
 	case '*':
 		if self.peek() == '*' {
-			self.pos.End++
+			self.next()
 			return self.create(Bold), nil
 		}
 
 		return self.create(Italic), nil
 	case '~':
 		if self.peek() == '~' {
-			self.pos.End++
+			self.next()
 			return self.create(StrikeAlt), nil
 		}
 
@@ -86,7 +86,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 		return self.create(BlockQuote), nil
 	case '`':
 		for self.peek() == '`' {
-			self.pos.End++
+			self.next()
 		}
 
 		i := self.pos.End - self.pos.Start
@@ -111,7 +111,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 	case '!':
 		if self.peek() == '[' {
 			self.pos.Save()
-			self.pos.End++
+			self.next()
 			token, err := self.scanImage()
 
 			if err == nil {
@@ -124,7 +124,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 		break
 	default:
 		if unicode.IsNumber(rune(b)) && self.peek() == '.' {
-			self.pos.End++
+			self.next()
 
 			if self.peek() == ' ' {
 				return self.create(Ol), nil
@@ -142,14 +142,14 @@ func (self *Scanner) scanHeading() (*Token, error) {
 
 	for self.peek() == '#' {
 		i++
-		self.pos.End++
+		self.next()
 	}
 
 	if self.peek() != ' ' {
 		return nil, self.error("expected space")
 	}
 
-	self.pos.End++
+	self.next()
 	TokenKind := H1
 
 	switch i {
@@ -179,63 +179,75 @@ func (self *Scanner) scanHeading() (*Token, error) {
 }
 
 func (self *Scanner) scanImage() (*Token, error) {
-	self.pos.End++
+	self.next()
 
 	for self.peek() != 0 && self.peek() != ']' {
-		self.pos.End++
+		self.next()
 	}
 
 	if self.peek() == 0 {
 		return nil, self.error("eof")
 	}
 
-	self.pos.End++
+	self.next()
 
 	if self.peek() != '(' {
 		return nil, self.error("expected '('")
 	}
 
-	self.pos.End++
+	self.next()
 
 	for self.peek() != 0 && self.peek() != ')' {
-		self.pos.End++
+		self.next()
 	}
 
 	if self.peek() == 0 {
 		return nil, self.error("eof")
 	}
 
-	self.pos.End++
+	self.next()
 	return self.create(Image), nil
 }
 
 func (self *Scanner) scanLink() (*Token, error) {
 	for self.peek() != 0 && self.peek() != ']' {
-		self.pos.End++
+		self.next()
 	}
 
 	if self.peek() == 0 {
 		return nil, self.error("eof")
 	}
 
-	self.pos.End++
+	self.next()
 
 	if self.peek() != '(' {
 		return nil, self.error("expected '('")
 	}
 
-	self.pos.End++
+	self.next()
 
 	for self.peek() != 0 && self.peek() != ')' {
-		self.pos.End++
+		self.next()
 	}
 
 	if self.peek() == 0 {
 		return nil, self.error("eof")
 	}
 
-	self.pos.End++
+	self.next()
 	return self.create(Link), nil
+}
+
+func (self *Scanner) next() byte {
+	self.pos.End++
+	self.pos.Col++
+
+	if self.peek() == '\n' {
+		self.pos.Ln++
+		self.pos.Col = 0
+	}
+
+	return self.peek()
 }
 
 func (self Scanner) peek() byte {

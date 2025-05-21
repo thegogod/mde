@@ -35,6 +35,35 @@ const (
 	Image      // image (<img>) (![test](https://test.com/image.png))
 )
 
+func (self TokenKind) IsInline() bool {
+	switch self {
+	case H1:
+		fallthrough
+	case H2:
+		fallthrough
+	case H3:
+		fallthrough
+	case H4:
+		fallthrough
+	case H5:
+		fallthrough
+	case H6:
+		fallthrough
+	case Ol:
+		fallthrough
+	case Ul:
+		fallthrough
+	case BlockQuote:
+		fallthrough
+	case CodeBlock:
+		fallthrough
+	case Hr:
+		return false
+	default:
+		return true
+	}
+}
+
 func (self TokenKind) String() string {
 	switch self {
 	case Eof:

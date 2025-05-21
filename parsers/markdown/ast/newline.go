@@ -7,5 +7,5 @@ import (
 type NewLine struct{}
 
 func (self NewLine) Eval() (reflect.Value, error) {
-	return reflect.ValueOf([]byte(" ")), nil
+	return reflect.ValueOf([]byte("\n")), nil
 }
