@@ -42,6 +42,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 		}
 
 		group.Add(node)
+		group.Add(ast.NewLine{})
 	}
 
 	return group, nil
