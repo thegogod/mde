@@ -65,6 +65,8 @@ func (self *Parser) parseBlock() (core.Node, error) {
 		return self.parseHeading(6)
 	} else if self.match(Hr) {
 		return self.parseHr()
+	} else if self.match(CodeBlock) {
+		return self.parseCodeBlock()
 	}
 
 	return self.parseParagraph()
@@ -87,6 +89,8 @@ func (self *Parser) parseInline() (core.Node, error) {
 		return self.parseStrikeAlt()
 	} else if self.match(Br) {
 		return self.parseBr()
+	} else if self.match(Code) {
+		return self.parseCode()
 	} else if self.match(NewLine) {
 		if self.match(NewLine) {
 			return nil, nil
@@ -141,6 +145,24 @@ func (self *Parser) parseParagraph() (ast.Paragraph, error) {
 
 func (self *Parser) parseHr() (ast.Hr, error) {
 	return ast.Hr{}, nil
+}
+
+func (self *Parser) parseCodeBlock() (ast.CodeBlock, error) {
+	code := ast.CodeBlock{
+		Content: []core.Node{},
+	}
+
+	for !self.match(CodeBlock) {
+		node, err := self.parseInline()
+
+		if node == nil || err != nil {
+			return code, err
+		}
+
+		code.Add(node)
+	}
+
+	return code, nil
 }
 
 //
@@ -259,11 +281,33 @@ func (self *Parser) parseBr() (ast.Br, error) {
 	return ast.Br{}, nil
 }
 
+func (self *Parser) parseCode() (ast.Code, error) {
+	code := ast.Code{
+		Content: []core.Node{},
+	}
+
+	for !self.match(Code) {
+		node, err := self.parseText()
+
+		if node == nil || err != nil {
+			return code, err
+		}
+
+		code.Add(node)
+	}
+
+	return code, nil
+}
+
 func (self *Parser) parseNewLine() (ast.NewLine, error) {
 	return ast.NewLine{}, nil
 }
 
-func (self *Parser) parseText() (ast.Text, error) {
+func (self *Parser) parseText() (core.Node, error) {
+	if self.curr.Kind == Eof {
+		return nil, nil
+	}
+
 	node := ast.Text{Content: self.curr}
 	self.next()
 	return node, nil
