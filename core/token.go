@@ -1,7 +1,7 @@
 package core
 
 type Token interface {
-	GetTokenKind() uint8
+	GetKind() uint8
 	GetPosition() Position
 	GetBytes() []byte
 	String() string

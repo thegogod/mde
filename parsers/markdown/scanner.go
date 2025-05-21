@@ -35,9 +35,9 @@ func (self *Scanner) Scan() (core.Token, error) {
 
 		break
 	case '\n':
-		return self.create(Space), nil
+		return self.create(NewLine), nil
 	case '#':
-		token, err := self.parseHeading()
+		token, err := self.scanHeading()
 
 		if err == nil {
 			return token, nil
@@ -100,10 +100,10 @@ func (self *Scanner) Scan() (core.Token, error) {
 		break
 	case '[':
 		self.pos.Save()
-		token, err := self.parseLink()
+		token, err := self.scanLink()
 
 		if err == nil {
-			return token, err
+			return token, nil
 		}
 
 		self.pos.Revert()
@@ -112,10 +112,10 @@ func (self *Scanner) Scan() (core.Token, error) {
 		if self.peek() == '[' {
 			self.pos.Save()
 			self.pos.End++
-			token, err := self.parseImage()
+			token, err := self.scanImage()
 
 			if err == nil {
-				return token, err
+				return token, nil
 			}
 
 			self.pos.Revert()
@@ -137,7 +137,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 	return self.create(Text), nil
 }
 
-func (self *Scanner) parseHeading() (*Token, error) {
+func (self *Scanner) scanHeading() (*Token, error) {
 	i := 1
 
 	for self.peek() == '#' {
@@ -150,12 +150,6 @@ func (self *Scanner) parseHeading() (*Token, error) {
 	}
 
 	self.pos.End++
-	self.pos.Start = self.pos.End
-
-	for self.pos.End < len(self.src) && self.peek() != '\n' {
-		self.pos.End++
-	}
-
 	TokenKind := H1
 
 	switch i {
@@ -184,7 +178,7 @@ func (self *Scanner) parseHeading() (*Token, error) {
 	return self.create(TokenKind), nil
 }
 
-func (self *Scanner) parseImage() (*Token, error) {
+func (self *Scanner) scanImage() (*Token, error) {
 	self.pos.End++
 
 	for self.peek() != 0 && self.peek() != ']' {
@@ -215,7 +209,7 @@ func (self *Scanner) parseImage() (*Token, error) {
 	return self.create(Image), nil
 }
 
-func (self *Scanner) parseLink() (*Token, error) {
+func (self *Scanner) scanLink() (*Token, error) {
 	for self.peek() != 0 && self.peek() != ']' {
 		self.pos.End++
 	}

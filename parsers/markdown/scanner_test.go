@@ -6,7 +6,7 @@ import (
 	"github.com/thegogod/mde/parsers/markdown"
 )
 
-var src = `# Title
+var src = `# *Title*
 
 my description...
 
@@ -38,7 +38,7 @@ func TestScanner(t *testing.T) {
 		for {
 			token, err := scanner.Scan()
 
-			if token == nil || markdown.TokenKind(token.GetTokenKind()) == markdown.Eof {
+			if token == nil || markdown.TokenKind(token.GetKind()) == markdown.Eof {
 				break
 			}
 
@@ -46,7 +46,7 @@ func TestScanner(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			t.Logf("%s => %s", markdown.TokenKind(token.GetTokenKind()), token.String())
+			t.Logf("%s => %s", markdown.TokenKind(token.GetKind()), token.String())
 		}
 	})
 }

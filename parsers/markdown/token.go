@@ -16,7 +16,7 @@ func NewToken(kind TokenKind, position core.Position, value []byte) *Token {
 	}
 }
 
-func (self Token) GetTokenKind() uint8 {
+func (self Token) GetKind() uint8 {
 	return uint8(self.Kind)
 }
 

@@ -9,7 +9,6 @@ const (
 	// whitespace
 
 	NewLine
-	Space
 
 	// elements
 
@@ -44,8 +43,6 @@ func (self TokenKind) String() string {
 		return "text"
 	case NewLine:
 		return "newline"
-	case Space:
-		return "space"
 	case H1:
 		return "h1"
 	case H2:
