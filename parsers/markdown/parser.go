@@ -31,7 +31,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 			break
 		}
 
-		node, err := self.parse()
+		node, err := self.parseBlock()
 
 		if node == nil {
 			continue
@@ -47,7 +47,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 	return group, nil
 }
 
-func (self *Parser) parse() (core.Node, error) {
+func (self *Parser) parseBlock() (core.Node, error) {
 	if self.match(Eof) {
 		return nil, nil
 	} else if self.match(H1) {
@@ -62,6 +62,16 @@ func (self *Parser) parse() (core.Node, error) {
 		return self.parseHeading(5)
 	} else if self.match(H6) {
 		return self.parseHeading(6)
+	} else if self.match(Hr) {
+		return self.parseHr()
+	}
+
+	return self.parseParagraph()
+}
+
+func (self *Parser) parseInline() (core.Node, error) {
+	if self.match(Eof) {
+		return nil, nil
 	} else if self.match(Bold) {
 		return self.parseBold()
 	} else if self.match(BoldAlt) {
@@ -76,14 +86,20 @@ func (self *Parser) parse() (core.Node, error) {
 		return self.parseStrikeAlt()
 	} else if self.match(Br) {
 		return self.parseBr()
-	} else if self.match(Hr) {
-		return self.parseHr()
 	} else if self.match(NewLine) {
+		if self.match(NewLine) {
+			return nil, nil
+		}
+
 		return self.parseNewLine()
 	}
 
 	return self.parseText()
 }
+
+//
+// Blocks
+//
 
 func (self *Parser) parseHeading(depth int) (ast.Heading, error) {
 	heading := ast.Heading{
@@ -91,8 +107,8 @@ func (self *Parser) parseHeading(depth int) (ast.Heading, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(NewLine) {
-		node, err := self.parse()
+	for self.curr.Kind.IsInline() {
+		node, err := self.parseInline()
 
 		if node == nil || err != nil {
 			return heading, err
@@ -104,15 +120,41 @@ func (self *Parser) parseHeading(depth int) (ast.Heading, error) {
 	return heading, nil
 }
 
+func (self *Parser) parseParagraph() (ast.Paragraph, error) {
+	paragraph := ast.Paragraph{
+		Content: []core.Node{},
+	}
+
+	for self.curr.Kind.IsInline() {
+		node, err := self.parseInline()
+
+		if node == nil || err != nil {
+			return paragraph, err
+		}
+
+		paragraph.Add(node)
+	}
+
+	return paragraph, nil
+}
+
+func (self *Parser) parseHr() (ast.Hr, error) {
+	return ast.Hr{}, nil
+}
+
+//
+// InLines
+//
+
 func (self *Parser) parseBold() (ast.Bold, error) {
 	bold := ast.Bold{
 		Content: []core.Node{},
 	}
 
 	for !self.match(Bold) {
-		node, err := self.parse()
+		node, err := self.parseInline()
 
-		if err != nil {
+		if node == nil || err != nil {
 			return bold, err
 		}
 
@@ -128,9 +170,9 @@ func (self *Parser) parseBoldAlt() (ast.Bold, error) {
 	}
 
 	for !self.match(BoldAlt) {
-		node, err := self.parse()
+		node, err := self.parseInline()
 
-		if err != nil {
+		if node == nil || err != nil {
 			return bold, err
 		}
 
@@ -146,9 +188,9 @@ func (self *Parser) parseItalic() (ast.Italic, error) {
 	}
 
 	for !self.match(Italic) {
-		node, err := self.parse()
+		node, err := self.parseInline()
 
-		if err != nil {
+		if node == nil || err != nil {
 			return italic, err
 		}
 
@@ -164,9 +206,9 @@ func (self *Parser) parseItalicAlt() (ast.Italic, error) {
 	}
 
 	for !self.match(ItalicAlt) {
-		node, err := self.parse()
+		node, err := self.parseInline()
 
-		if err != nil {
+		if node == nil || err != nil {
 			return italic, err
 		}
 
@@ -182,9 +224,9 @@ func (self *Parser) parseStrike() (ast.Strike, error) {
 	}
 
 	for !self.match(Strike) {
-		node, err := self.parse()
+		node, err := self.parseInline()
 
-		if err != nil {
+		if node == nil || err != nil {
 			return strike, err
 		}
 
@@ -200,9 +242,9 @@ func (self *Parser) parseStrikeAlt() (ast.Strike, error) {
 	}
 
 	for !self.match(StrikeAlt) {
-		node, err := self.parse()
+		node, err := self.parseInline()
 
-		if err != nil {
+		if node == nil || err != nil {
 			return strike, err
 		}
 
@@ -216,64 +258,14 @@ func (self *Parser) parseBr() (ast.Br, error) {
 	return ast.Br{}, nil
 }
 
-func (self *Parser) parseHr() (ast.Hr, error) {
-	return ast.Hr{}, nil
-}
-
-func (self *Parser) parseNewLine() (ast.Group, error) {
-	group := ast.Group{
-		Items: []core.Node{
-			ast.NewLine{},
-		},
-	}
-
-	if self.match(NewLine) {
-		group.Add(ast.NewLine{})
-
-		if self.curr.Kind.IsInline() {
-			node, err := self.parseParagraph()
-
-			if err != nil {
-				return group, err
-			}
-
-			group.Add(node)
-		}
-	}
-
-	return group, nil
-}
-
-func (self *Parser) parseParagraph() (ast.Paragraph, error) {
-	paragraph := ast.Paragraph{
-		Content: []core.Node{},
-	}
-
-	for !self.match(Eof) {
-		if self.match(NewLine) && self.match(NewLine) {
-			break
-		}
-
-		node, err := self.parse()
-
-		if err != nil {
-			break
-		}
-
-		paragraph.Add(node)
-	}
-
-	return paragraph, nil
+func (self *Parser) parseNewLine() (ast.NewLine, error) {
+	return ast.NewLine{}, nil
 }
 
 func (self *Parser) parseText() (ast.Text, error) {
-	token, err := self.consume(Text, "expected text")
-
-	if err != nil {
-		return ast.Text{}, err
-	}
-
-	return ast.Text{Content: token}, nil
+	node := ast.Text{Content: self.curr}
+	self.next()
+	return node, nil
 }
 
 func (self *Parser) next() bool {
@@ -300,13 +292,4 @@ func (self *Parser) match(kind TokenKind) bool {
 
 	self.next()
 	return true
-}
-
-func (self *Parser) consume(kind TokenKind, message string) (*Token, error) {
-	if self.curr.Kind == kind {
-		self.next()
-		return self.prev, nil
-	}
-
-	return nil, NewError(self.curr.Position, message)
 }

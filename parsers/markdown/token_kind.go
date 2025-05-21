@@ -58,6 +58,8 @@ func (self TokenKind) IsInline() bool {
 	case CodeBlock:
 		fallthrough
 	case Hr:
+		fallthrough
+	case Eof:
 		return false
 	default:
 		return true

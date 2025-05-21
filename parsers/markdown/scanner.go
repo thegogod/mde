@@ -7,8 +7,9 @@ import (
 )
 
 type Scanner struct {
-	src []byte
-	pos core.Position
+	src  []byte
+	pos  core.Position
+	prev *Token
 }
 
 func NewScanner(src []byte) *Scanner {
@@ -19,6 +20,12 @@ func NewScanner(src []byte) *Scanner {
 }
 
 func (self *Scanner) Scan() (core.Token, error) {
+	token, err := self.scan()
+	self.prev = token
+	return token, err
+}
+
+func (self *Scanner) scan() (*Token, error) {
 	if self.pos.End >= len(self.src) {
 		return self.create(Eof), nil
 	}
