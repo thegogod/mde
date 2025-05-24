@@ -53,9 +53,9 @@ func (self TokenKind) IsInline() bool {
 		fallthrough
 	case Ul:
 		fallthrough
-	case BlockQuote:
-		fallthrough
 	case CodeBlock:
+		fallthrough
+	case BlockQuote:
 		fallthrough
 	case Hr:
 		fallthrough

@@ -6,9 +6,10 @@ import (
 )
 
 type Parser struct {
-	curr    *Token
-	prev    *Token
-	scanner *Scanner
+	curr            *Token
+	prev            *Token
+	scanner         *Scanner
+	blockQuoteDepth int
 }
 
 func Markdown() *Parser {
@@ -18,6 +19,7 @@ func Markdown() *Parser {
 func (self *Parser) Parse(src []byte) (core.Node, error) {
 	self.curr = nil
 	self.prev = nil
+	self.blockQuoteDepth = 0
 	self.scanner = NewScanner(src)
 
 	if !self.next() {
@@ -31,6 +33,10 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 			break
 		}
 
+		if self.prev != nil {
+			group.Add(ast.NewLine{})
+		}
+
 		node, err := self.parseBlock()
 
 		if node == nil {
@@ -42,13 +48,18 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 		}
 
 		group.Add(node)
-		group.Add(ast.NewLine{})
 	}
 
 	return group, nil
 }
 
 func (self *Parser) parseBlock() (core.Node, error) {
+	for range self.blockQuoteDepth {
+		if !self.match(BlockQuote) {
+			break
+		}
+	}
+
 	if self.match(Eof) {
 		return nil, nil
 	} else if self.match(H1) {
@@ -67,6 +78,10 @@ func (self *Parser) parseBlock() (core.Node, error) {
 		return self.parseHr()
 	} else if self.match(CodeBlock) {
 		return self.parseCodeBlock()
+	} else if self.match(BlockQuote) {
+		return self.parseBlockQuote()
+	} else if self.match(NewLine) {
+		return self.parseBlock()
 	}
 
 	return self.parseParagraph()
@@ -96,6 +111,12 @@ func (self *Parser) parseInline() (core.Node, error) {
 			return nil, nil
 		}
 
+		for range self.blockQuoteDepth {
+			if !self.match(BlockQuote) {
+				break
+			}
+		}
+
 		return self.parseNewLine()
 	}
 
@@ -106,7 +127,7 @@ func (self *Parser) parseInline() (core.Node, error) {
 // Blocks
 //
 
-func (self *Parser) parseHeading(depth int) (ast.Heading, error) {
+func (self *Parser) parseHeading(depth int) (core.Node, error) {
 	heading := ast.Heading{
 		Depth:   depth,
 		Content: []core.Node{},
@@ -125,7 +146,7 @@ func (self *Parser) parseHeading(depth int) (ast.Heading, error) {
 	return heading, nil
 }
 
-func (self *Parser) parseParagraph() (ast.Paragraph, error) {
+func (self *Parser) parseParagraph() (core.Node, error) {
 	paragraph := ast.Paragraph{
 		Content: []core.Node{},
 	}
@@ -143,11 +164,11 @@ func (self *Parser) parseParagraph() (ast.Paragraph, error) {
 	return paragraph, nil
 }
 
-func (self *Parser) parseHr() (ast.Hr, error) {
+func (self *Parser) parseHr() (core.Node, error) {
 	return ast.Hr{}, nil
 }
 
-func (self *Parser) parseCodeBlock() (ast.CodeBlock, error) {
+func (self *Parser) parseCodeBlock() (core.Node, error) {
 	code := ast.CodeBlock{
 		Content: []core.Node{},
 	}
@@ -165,11 +186,32 @@ func (self *Parser) parseCodeBlock() (ast.CodeBlock, error) {
 	return code, nil
 }
 
+func (self *Parser) parseBlockQuote() (core.Node, error) {
+	self.blockQuoteDepth++
+	blockQuote := ast.BlockQuote{Content: []core.Node{}}
+
+	for {
+		node, err := self.parseBlock()
+
+		if node == nil || err != nil {
+			return nil, err
+		}
+
+		blockQuote.Add(node)
+
+		if self.curr.Kind != BlockQuote {
+			break
+		}
+	}
+
+	return blockQuote, nil
+}
+
 //
 // InLines
 //
 
-func (self *Parser) parseBold() (ast.Bold, error) {
+func (self *Parser) parseBold() (core.Node, error) {
 	bold := ast.Bold{
 		Content: []core.Node{},
 	}
@@ -187,7 +229,7 @@ func (self *Parser) parseBold() (ast.Bold, error) {
 	return bold, nil
 }
 
-func (self *Parser) parseBoldAlt() (ast.Bold, error) {
+func (self *Parser) parseBoldAlt() (core.Node, error) {
 	bold := ast.Bold{
 		Content: []core.Node{},
 	}
@@ -205,7 +247,7 @@ func (self *Parser) parseBoldAlt() (ast.Bold, error) {
 	return bold, nil
 }
 
-func (self *Parser) parseItalic() (ast.Italic, error) {
+func (self *Parser) parseItalic() (core.Node, error) {
 	italic := ast.Italic{
 		Content: []core.Node{},
 	}
@@ -223,7 +265,7 @@ func (self *Parser) parseItalic() (ast.Italic, error) {
 	return italic, nil
 }
 
-func (self *Parser) parseItalicAlt() (ast.Italic, error) {
+func (self *Parser) parseItalicAlt() (core.Node, error) {
 	italic := ast.Italic{
 		Content: []core.Node{},
 	}
@@ -241,7 +283,7 @@ func (self *Parser) parseItalicAlt() (ast.Italic, error) {
 	return italic, nil
 }
 
-func (self *Parser) parseStrike() (ast.Strike, error) {
+func (self *Parser) parseStrike() (core.Node, error) {
 	strike := ast.Strike{
 		Content: []core.Node{},
 	}
@@ -259,7 +301,7 @@ func (self *Parser) parseStrike() (ast.Strike, error) {
 	return strike, nil
 }
 
-func (self *Parser) parseStrikeAlt() (ast.Strike, error) {
+func (self *Parser) parseStrikeAlt() (core.Node, error) {
 	strike := ast.Strike{
 		Content: []core.Node{},
 	}
@@ -277,11 +319,11 @@ func (self *Parser) parseStrikeAlt() (ast.Strike, error) {
 	return strike, nil
 }
 
-func (self *Parser) parseBr() (ast.Br, error) {
+func (self *Parser) parseBr() (core.Node, error) {
 	return ast.Br{}, nil
 }
 
-func (self *Parser) parseCode() (ast.Code, error) {
+func (self *Parser) parseCode() (core.Node, error) {
 	code := ast.Code{
 		Content: []core.Node{},
 	}
@@ -299,7 +341,11 @@ func (self *Parser) parseCode() (ast.Code, error) {
 	return code, nil
 }
 
-func (self *Parser) parseNewLine() (ast.NewLine, error) {
+func (self *Parser) parseNewLine() (core.Node, error) {
+	if self.curr.IsWhitespace() {
+		return nil, nil
+	}
+
 	return ast.NewLine{}, nil
 }
 

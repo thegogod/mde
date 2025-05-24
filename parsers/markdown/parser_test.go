@@ -13,7 +13,10 @@ my description...
 ## Sub Title
 
 **_some more text..._**  ` +
-	"```some *inline* code...```"
+	"```some *inline* code...```" +
+	`> a
+> test
+> c`
 
 func TestParser(t *testing.T) {
 	t.Run("should parse", func(t *testing.T) {

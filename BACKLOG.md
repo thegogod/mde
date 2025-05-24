@@ -11,4 +11,4 @@
 ## Paragraph
 
 - @if: start of line and empty line above
-	@if: !heading && !list && !blockquote
+	- @if: inline element

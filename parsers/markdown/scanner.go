@@ -90,6 +90,10 @@ func (self *Scanner) scan() (*Token, error) {
 
 		return self.create(Strike), nil
 	case '>':
+		if self.peek() == ' ' {
+			self.next()
+		}
+
 		return self.create(BlockQuote), nil
 	case '`':
 		for self.peek() == '`' {

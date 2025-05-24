@@ -28,6 +28,11 @@ func (self Token) GetBytes() []byte {
 	return self.Value
 }
 
+func (self Token) IsWhitespace() bool {
+	value := self.String()
+	return value == " " || value == "\n"
+}
+
 func (self Token) String() string {
 	return string(self.Value)
 }
