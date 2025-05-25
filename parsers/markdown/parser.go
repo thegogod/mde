@@ -204,6 +204,7 @@ func (self *Parser) parseBlockQuote() (core.Node, error) {
 		}
 	}
 
+	self.blockQuoteDepth--
 	return blockQuote, nil
 }
 

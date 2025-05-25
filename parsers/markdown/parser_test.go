@@ -15,7 +15,7 @@ my description...
 **_some more text..._**  ` +
 	"```some *inline* code...```" +
 	`> a
-> test
+> > test
 > c`
 
 func TestParser(t *testing.T) {
