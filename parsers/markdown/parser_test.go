@@ -18,7 +18,9 @@ my description...
 > > test
 > c
 
-[testing123](https://www.google.com`
+[testing123](https://www.google.com)
+![an image](https://pasa.org/wp-content/uploads/2021/06/Vervet-Monkey-Foundation-credit-Kyle-.jpg)
+`
 
 func TestParser(t *testing.T) {
 	t.Run("should parse", func(t *testing.T) {

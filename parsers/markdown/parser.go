@@ -133,6 +133,8 @@ func (self *Parser) parseInline() (core.Node, error) {
 		node, err = self.parseCode()
 	} else if self.iter.Match(LeftBracket) {
 		node, err = self.parseLink()
+	} else if self.iter.Match(Bang) {
+		node, err = self.parseImage()
 	} else if self.iter.Match(NewLine) {
 		if self.iter.Match(NewLine) {
 			self.iter.Pop()
@@ -420,6 +422,25 @@ func (self *Parser) parseLink() (core.Node, error) {
 	}
 
 	return link, nil
+}
+
+func (self *Parser) parseImage() (core.Node, error) {
+	image := ast.Image{Alt: []core.Node{}, Src: []core.Node{}}
+
+	if !self.iter.Match(LeftBracket) {
+		return nil, nil
+	}
+
+	node, err := self.parseLink()
+
+	if node == nil || err != nil {
+		return image, err
+	}
+
+	link := node.(ast.Link)
+	image.Alt = link.Text
+	image.Src = link.Href
+	return image, nil
 }
 
 func (self *Parser) parseNewLine() (core.Node, error) {
