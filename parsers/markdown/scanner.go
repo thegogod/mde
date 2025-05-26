@@ -7,9 +7,8 @@ import (
 )
 
 type Scanner struct {
-	src  []byte
-	pos  core.Position
-	prev *Token
+	src []byte
+	pos core.Position
 }
 
 func NewScanner(src []byte) *Scanner {
@@ -20,9 +19,7 @@ func NewScanner(src []byte) *Scanner {
 }
 
 func (self *Scanner) Scan() (core.Token, error) {
-	token, err := self.scan()
-	self.prev = token
-	return token, err
+	return self.scan()
 }
 
 func (self *Scanner) scan() (*Token, error) {
@@ -109,30 +106,16 @@ func (self *Scanner) scan() (*Token, error) {
 		}
 
 		break
-	case '[':
-		self.pos.Save()
-		token, err := self.scanLink()
-
-		if err == nil {
-			return token, nil
-		}
-
-		self.pos.Revert()
-		break
 	case '!':
-		if self.peek() == '[' {
-			self.pos.Save()
-			self.next()
-			token, err := self.scanImage()
-
-			if err == nil {
-				return token, nil
-			}
-
-			self.pos.Revert()
-		}
-
-		break
+		return self.create(Bang), nil
+	case '[':
+		return self.create(LeftBracket), nil
+	case ']':
+		return self.create(RightBracket), nil
+	case '(':
+		return self.create(LeftParen), nil
+	case ')':
+		return self.create(RightParen), nil
 	default:
 		if unicode.IsNumber(rune(b)) && self.peek() == '.' {
 			self.next()
@@ -187,66 +170,6 @@ func (self *Scanner) scanHeading() (*Token, error) {
 	}
 
 	return self.create(TokenKind), nil
-}
-
-func (self *Scanner) scanImage() (*Token, error) {
-	self.next()
-
-	for self.peek() != 0 && self.peek() != ']' {
-		self.next()
-	}
-
-	if self.peek() == 0 {
-		return nil, self.error("eof")
-	}
-
-	self.next()
-
-	if self.peek() != '(' {
-		return nil, self.error("expected '('")
-	}
-
-	self.next()
-
-	for self.peek() != 0 && self.peek() != ')' {
-		self.next()
-	}
-
-	if self.peek() == 0 {
-		return nil, self.error("eof")
-	}
-
-	self.next()
-	return self.create(Image), nil
-}
-
-func (self *Scanner) scanLink() (*Token, error) {
-	for self.peek() != 0 && self.peek() != ']' {
-		self.next()
-	}
-
-	if self.peek() == 0 {
-		return nil, self.error("eof")
-	}
-
-	self.next()
-
-	if self.peek() != '(' {
-		return nil, self.error("expected '('")
-	}
-
-	self.next()
-
-	for self.peek() != 0 && self.peek() != ')' {
-		self.next()
-	}
-
-	if self.peek() == 0 {
-		return nil, self.error("eof")
-	}
-
-	self.next()
-	return self.create(Link), nil
 }
 
 func (self *Scanner) next() byte {

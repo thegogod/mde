@@ -7,8 +7,7 @@ type Position struct {
 	Col   int
 	Start int
 	End   int
-
-	save *Position
+	saves []Position
 }
 
 func (self Position) IsValid() bool {
@@ -16,24 +15,31 @@ func (self Position) IsValid() bool {
 }
 
 func (self *Position) Save() {
-	self.save = &Position{
+	if self.saves == nil {
+		self.saves = []Position{}
+	}
+
+	self.saves = append(self.saves, Position{
 		Ln:    self.Ln,
 		Col:   self.Col,
 		Start: self.Start,
 		End:   self.End,
-	}
+	})
 }
 
 func (self *Position) Revert() {
-	if self.save == nil {
+	if self.saves == nil || len(self.saves) == 0 {
 		return
 	}
 
-	self.Ln = self.save.Ln
-	self.Col = self.save.Col
-	self.Start = self.save.Start
-	self.End = self.save.End
-	self.save = nil
+	self.Ln = self.saves[len(self.saves)-1].Ln
+	self.Col = self.saves[len(self.saves)-1].Col
+	self.Start = self.saves[len(self.saves)-1].Start
+	self.End = self.saves[len(self.saves)-1].End
+}
+
+func (self *Position) Pop() {
+	self.saves = self.saves[:len(self.saves)-1]
 }
 
 func (self Position) String() string {

@@ -33,6 +33,13 @@ const (
 	Hr         // horizontal rule (<hr>) (---)
 	Link       // link (<a>) ([test](https://test.com))
 	Image      // image (<img>) (![test](https://test.com/image.png))
+
+	// singles
+	Bang         // !
+	LeftBracket  // [
+	RightBracket // ]
+	LeftParen    // (
+	RightParen   // )
 )
 
 func (self TokenKind) IsInline() bool {
@@ -116,6 +123,16 @@ func (self TokenKind) String() string {
 		return "link"
 	case Image:
 		return "image"
+	case Bang:
+		return "bang"
+	case LeftParen:
+		return "("
+	case RightParen:
+		return ")"
+	case LeftBracket:
+		return "["
+	case RightBracket:
+		return "]"
 	default:
 		panic("unsupported token type")
 	}

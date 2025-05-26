@@ -6,40 +6,38 @@ import (
 )
 
 type Parser struct {
-	curr            *Token
-	prev            *Token
-	scanner         *Scanner
-	blockQuoteDepth int
+	iter *Iterator
 }
 
-func Markdown() *Parser {
-	return &Parser{}
+func New() *Parser {
+	return &Parser{
+		iter: &Iterator{},
+	}
 }
 
 func (self *Parser) Parse(src []byte) (core.Node, error) {
-	self.curr = nil
-	self.prev = nil
-	self.blockQuoteDepth = 0
-	self.scanner = NewScanner(src)
+	self.iter.Reset(src)
 
-	if !self.next() {
+	if !self.iter.Next() {
 		return nil, nil
 	}
 
-	group := ast.Group{Items: []core.Node{}}
+	group := ast.Group{
+		Items: []core.Node{},
+	}
 
 	for {
-		if self.curr.Kind == Eof {
+		if self.iter.Curr.Kind == Eof {
 			break
 		}
 
-		if self.prev != nil {
+		if self.iter.Prev != nil {
 			group.Add(ast.NewLine{})
 		}
 
 		node, err := self.parseBlock()
 
-		if node == nil {
+		if node == nil && err == nil {
 			continue
 		}
 
@@ -54,73 +52,112 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 }
 
 func (self *Parser) parseBlock() (core.Node, error) {
-	for range self.blockQuoteDepth {
-		if !self.match(BlockQuote) {
+	if self.iter.Match(Eof) {
+		return nil, nil
+	}
+
+	var node core.Node = nil
+	var err error = nil
+
+	self.iter.Save()
+
+	for range self.iter.blockQuoteDepth {
+		if !self.iter.Match(BlockQuote) {
 			break
 		}
 	}
 
-	if self.match(Eof) {
-		return nil, nil
-	} else if self.match(H1) {
-		return self.parseHeading(1)
-	} else if self.match(H2) {
-		return self.parseHeading(2)
-	} else if self.match(H3) {
-		return self.parseHeading(3)
-	} else if self.match(H4) {
-		return self.parseHeading(4)
-	} else if self.match(H5) {
-		return self.parseHeading(5)
-	} else if self.match(H6) {
-		return self.parseHeading(6)
-	} else if self.match(Hr) {
-		return self.parseHr()
-	} else if self.match(CodeBlock) {
-		return self.parseCodeBlock()
-	} else if self.match(BlockQuote) {
-		return self.parseBlockQuote()
-	} else if self.match(NewLine) {
-		return self.parseBlock()
+	if self.iter.Match(H1) {
+		node, err = self.parseHeading(1)
+	} else if self.iter.Match(H2) {
+		node, err = self.parseHeading(2)
+	} else if self.iter.Match(H3) {
+		node, err = self.parseHeading(3)
+	} else if self.iter.Match(H4) {
+		node, err = self.parseHeading(4)
+	} else if self.iter.Match(H5) {
+		node, err = self.parseHeading(5)
+	} else if self.iter.Match(H6) {
+		node, err = self.parseHeading(6)
+	} else if self.iter.Match(Hr) {
+		node, err = self.parseHr()
+	} else if self.iter.Match(CodeBlock) {
+		node, err = self.parseCodeBlock()
+	} else if self.iter.Match(BlockQuote) {
+		node, err = self.parseBlockQuote()
+	} else if self.iter.Match(NewLine) {
+		node, err = self.parseBlock()
 	}
 
-	return self.parseParagraph()
+	if err != nil {
+		self.iter.Revert()
+	}
+
+	if node == nil || err != nil {
+		node, err = self.parseParagraph()
+	}
+
+	if err != nil {
+		self.iter.Revert()
+	}
+
+	self.iter.Pop()
+	return node, err
 }
 
 func (self *Parser) parseInline() (core.Node, error) {
-	if self.match(Eof) {
+	if self.iter.Match(Eof) {
 		return nil, nil
-	} else if self.match(Bold) {
-		return self.parseBold()
-	} else if self.match(BoldAlt) {
-		return self.parseBoldAlt()
-	} else if self.match(Italic) {
-		return self.parseItalic()
-	} else if self.match(ItalicAlt) {
-		return self.parseItalicAlt()
-	} else if self.match(Strike) {
-		return self.parseStrike()
-	} else if self.match(StrikeAlt) {
-		return self.parseStrikeAlt()
-	} else if self.match(Br) {
-		return self.parseBr()
-	} else if self.match(Code) {
-		return self.parseCode()
-	} else if self.match(NewLine) {
-		if self.match(NewLine) {
+	}
+
+	var node core.Node = nil
+	var err error = nil
+
+	self.iter.Save()
+
+	if self.iter.Match(Bold) {
+		node, err = self.parseBold()
+	} else if self.iter.Match(BoldAlt) {
+		node, err = self.parseBoldAlt()
+	} else if self.iter.Match(Italic) {
+		node, err = self.parseItalic()
+	} else if self.iter.Match(ItalicAlt) {
+		node, err = self.parseItalicAlt()
+	} else if self.iter.Match(Strike) {
+		node, err = self.parseStrike()
+	} else if self.iter.Match(StrikeAlt) {
+		node, err = self.parseStrikeAlt()
+	} else if self.iter.Match(Br) {
+		node, err = self.parseBr()
+	} else if self.iter.Match(Code) {
+		node, err = self.parseCode()
+	} else if self.iter.Match(LeftBracket) {
+		node, err = self.parseLink()
+	} else if self.iter.Match(NewLine) {
+		if self.iter.Match(NewLine) {
+			self.iter.Pop()
 			return nil, nil
 		}
 
-		for range self.blockQuoteDepth {
-			if !self.match(BlockQuote) {
+		for range self.iter.blockQuoteDepth {
+			if !self.iter.Match(BlockQuote) {
 				break
 			}
 		}
 
-		return self.parseNewLine()
+		node, err = self.parseNewLine()
 	}
 
-	return self.parseText()
+	if err != nil {
+		self.iter.Revert()
+	}
+
+	if node == nil || err != nil {
+		node, err = self.parseText()
+	}
+
+	self.iter.Pop()
+	return node, err
 }
 
 //
@@ -133,7 +170,7 @@ func (self *Parser) parseHeading(depth int) (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for self.curr.Kind.IsInline() {
+	for self.iter.Curr.Kind.IsInline() {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -151,7 +188,7 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for self.curr.Kind.IsInline() {
+	for self.iter.Curr.Kind.IsInline() {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -173,7 +210,7 @@ func (self *Parser) parseCodeBlock() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(CodeBlock) {
+	for !self.iter.Match(CodeBlock) {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -187,24 +224,26 @@ func (self *Parser) parseCodeBlock() (core.Node, error) {
 }
 
 func (self *Parser) parseBlockQuote() (core.Node, error) {
-	self.blockQuoteDepth++
-	blockQuote := ast.BlockQuote{Content: []core.Node{}}
+	self.iter.blockQuoteDepth++
+	blockQuote := ast.BlockQuote{
+		Content: []core.Node{},
+	}
 
 	for {
 		node, err := self.parseBlock()
 
 		if node == nil || err != nil {
-			return nil, err
+			return blockQuote, err
 		}
 
 		blockQuote.Add(node)
 
-		if self.curr.Kind != BlockQuote {
+		if self.iter.Curr.Kind != BlockQuote {
 			break
 		}
 	}
 
-	self.blockQuoteDepth--
+	self.iter.blockQuoteDepth--
 	return blockQuote, nil
 }
 
@@ -217,7 +256,7 @@ func (self *Parser) parseBold() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(Bold) {
+	for !self.iter.Match(Bold) {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -235,7 +274,7 @@ func (self *Parser) parseBoldAlt() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(BoldAlt) {
+	for !self.iter.Match(BoldAlt) {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -253,7 +292,7 @@ func (self *Parser) parseItalic() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(Italic) {
+	for !self.iter.Match(Italic) {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -271,7 +310,7 @@ func (self *Parser) parseItalicAlt() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(ItalicAlt) {
+	for !self.iter.Match(ItalicAlt) {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -289,7 +328,7 @@ func (self *Parser) parseStrike() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(Strike) {
+	for !self.iter.Match(Strike) {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -307,7 +346,7 @@ func (self *Parser) parseStrikeAlt() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(StrikeAlt) {
+	for !self.iter.Match(StrikeAlt) {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
@@ -329,7 +368,7 @@ func (self *Parser) parseCode() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	for !self.match(Code) {
+	for !self.iter.Match(Code) {
 		node, err := self.parseText()
 
 		if node == nil || err != nil {
@@ -342,8 +381,49 @@ func (self *Parser) parseCode() (core.Node, error) {
 	return code, nil
 }
 
+func (self *Parser) parseLink() (core.Node, error) {
+	link := ast.Link{
+		Text: []core.Node{},
+		Href: []core.Node{},
+	}
+
+	for self.iter.Curr.Kind.IsInline() && self.iter.Curr.Kind != RightBracket {
+		node, err := self.parseInline()
+
+		if node == nil || err != nil {
+			return link, err
+		}
+
+		link.Text = append(link.Text, node)
+	}
+
+	if _, err := self.iter.Consume(RightBracket, "expected ']'"); err != nil {
+		return link, err
+	}
+
+	if _, err := self.iter.Consume(LeftParen, "expected '('"); err != nil {
+		return link, err
+	}
+
+	for self.iter.Curr.Kind.IsInline() && self.iter.Curr.Kind != RightParen {
+		node, err := self.parseInline()
+
+		if node == nil || err != nil {
+			return link, err
+		}
+
+		link.Href = append(link.Href, node)
+	}
+
+	if _, err := self.iter.Consume(RightParen, "expected ')'"); err != nil {
+		return link, err
+	}
+
+	return link, nil
+}
+
 func (self *Parser) parseNewLine() (core.Node, error) {
-	if self.curr.IsWhitespace() {
+	if self.iter.Curr.IsWhitespace() {
 		return nil, nil
 	}
 
@@ -351,37 +431,11 @@ func (self *Parser) parseNewLine() (core.Node, error) {
 }
 
 func (self *Parser) parseText() (core.Node, error) {
-	if self.curr.Kind == Eof {
+	if self.iter.Curr.Kind == Eof {
 		return nil, nil
 	}
 
-	node := ast.Text{Content: self.curr}
-	self.next()
+	node := ast.Text{Content: self.iter.Curr}
+	self.iter.Next()
 	return node, nil
-}
-
-func (self *Parser) next() bool {
-	self.prev = self.curr
-	token, err := self.scanner.Scan()
-
-	if err != nil {
-		return self.next()
-	}
-
-	self.curr = token.(*Token)
-
-	if TokenKind(token.GetKind()) == Eof {
-		return false
-	}
-
-	return true
-}
-
-func (self *Parser) match(kind TokenKind) bool {
-	if self.curr.Kind != kind {
-		return false
-	}
-
-	self.next()
-	return true
 }

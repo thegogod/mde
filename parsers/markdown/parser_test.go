@@ -16,11 +16,13 @@ my description...
 	"```some *inline* code...```" +
 	`> a
 > > test
-> c`
+> c
+
+[testing123](https://www.google.com`
 
 func TestParser(t *testing.T) {
 	t.Run("should parse", func(t *testing.T) {
-		parser := markdown.Parser{}
+		parser := markdown.New()
 		node, err := parser.Parse([]byte(parserSrc))
 
 		if err != nil {

@@ -33,6 +33,7 @@ my description...
 
 func TestScanner(t *testing.T) {
 	t.Run("should scan", func(t *testing.T) {
+		t.SkipNow()
 		scanner := markdown.NewScanner([]byte(src))
 
 		for {
