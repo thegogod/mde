@@ -8,6 +8,7 @@ import (
 )
 
 type CodeBlock struct {
+	Lang    core.Node
 	Content []core.Node
 }
 
@@ -29,6 +30,18 @@ func (self CodeBlock) Eval() (reflect.Value, error) {
 		content = append(content, value.Bytes()...)
 	}
 
-	value := fmt.Appendf(nil, "<pre><code>%s</code></pre>", content)
+	code := fmt.Appendf(nil, "<code>%s</code>", content)
+
+	if self.Lang != nil {
+		lang, err := self.Lang.Eval()
+
+		if err != nil {
+			return reflect.Value{}, err
+		}
+
+		code = fmt.Appendf(nil, `<code class="lang-%s">%s</code>`, lang.Bytes(), content)
+	}
+
+	value := fmt.Appendf(nil, "<pre>%s</pre>", code)
 	return reflect.ValueOf(value), nil
 }

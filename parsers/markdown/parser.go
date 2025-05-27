@@ -31,10 +31,6 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 			break
 		}
 
-		if self.iter.Prev != nil {
-			group.Add(ast.NewLine{})
-		}
-
 		node, err := self.parseBlock()
 
 		if node == nil && err == nil {
@@ -204,6 +200,10 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 		paragraph.Add(node)
 	}
 
+	if len(paragraph.Content) == 0 {
+		return nil, nil
+	}
+
 	return paragraph, nil
 }
 
@@ -214,6 +214,19 @@ func (self *Parser) parseHr() (core.Node, error) {
 func (self *Parser) parseCodeBlock() (core.Node, error) {
 	code := ast.CodeBlock{
 		Content: []core.Node{},
+	}
+
+	lang := ast.Group{
+		Items: []core.Node{},
+	}
+
+	for !self.iter.Match(NewLine) {
+		node, _ := self.parseText()
+		lang.Add(node)
+	}
+
+	if len(lang.Items) > 0 {
+		code.Lang = lang
 	}
 
 	for !self.iter.Match(CodeBlock) {

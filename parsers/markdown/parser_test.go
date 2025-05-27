@@ -1,45 +1,23 @@
 package markdown_test
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/thegogod/mde/parsers/markdown"
 )
 
-var parserSrc = `# *Title*
-
-my description...
-
-## Sub Title
-
-**_some more text..._**  ` +
-	"```some *inline* code...```" +
-	`> a
-> > test
-> c
-
-[testing123](https://www.google.com)
-![an image](https://pasa.org/wp-content/uploads/2021/06/Vervet-Monkey-Foundation-credit-Kyle-.jpg)
-
-**<i>test</i>**
-
-- testing
-- a
-- list!
-
-1. testing
-2. - a
-	- nested
-	- list
-3. ordered
-4. list!
-
-`
-
 func TestParser(t *testing.T) {
-	t.Run("should parse", func(t *testing.T) {
+	t.Run("code_block", func(t *testing.T) {
+		data, err := os.ReadFile(filepath.Join("..", "..", "testcases", "code_block.md"))
+
+		if err != nil {
+			t.Fatal(err)
+		}
+
 		parser := markdown.New()
-		node, err := parser.Parse([]byte(parserSrc))
+		node, err := parser.Parse(data)
 
 		if err != nil {
 			t.Fatal(err)
