@@ -3,8 +3,9 @@ package markdown
 import "github.com/thegogod/mde/core"
 
 type Iterator struct {
-	Prev            *Token
-	Curr            *Token
+	Prev *Token
+	Curr *Token
+
 	scanner         *Scanner
 	blockQuoteDepth int
 	saves           []Iterator

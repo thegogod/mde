@@ -121,6 +121,7 @@ func (self *Scanner) scan() (*Token, error) {
 			self.next()
 
 			if self.peek() == ' ' {
+				self.next()
 				return self.create(Ol), nil
 			}
 

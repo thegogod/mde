@@ -85,6 +85,10 @@ func (self *Parser) parseBlock() (core.Node, error) {
 		node, err = self.parseCodeBlock()
 	} else if self.iter.Match(BlockQuote) {
 		node, err = self.parseBlockQuote()
+	} else if self.iter.Match(Ul) {
+		node, err = self.parseUnorderedList()
+	} else if self.iter.Match(Ol) {
+		node, err = self.parseOrderedList()
 	} else if self.iter.Match(NewLine) {
 		node, err = self.parseBlock()
 	}
@@ -247,6 +251,50 @@ func (self *Parser) parseBlockQuote() (core.Node, error) {
 
 	self.iter.blockQuoteDepth--
 	return blockQuote, nil
+}
+
+func (self *Parser) parseUnorderedList() (core.Node, error) {
+	ul := ast.Ul{
+		Content: []ast.Li{},
+	}
+
+	for {
+		node, err := self.parseListItem()
+
+		if node == nil || err != nil {
+			return ul, err
+		}
+
+		ul.Add(node.(ast.Li))
+
+		if !self.iter.Match(Ul) {
+			break
+		}
+	}
+
+	return ul, nil
+}
+
+func (self *Parser) parseOrderedList() (core.Node, error) {
+	ol := ast.Ol{
+		Content: []ast.Li{},
+	}
+
+	for {
+		node, err := self.parseListItem()
+
+		if node == nil || err != nil {
+			return ol, err
+		}
+
+		ol.Add(node.(ast.Li))
+
+		if !self.iter.Match(Ol) {
+			break
+		}
+	}
+
+	return ol, nil
 }
 
 //
@@ -441,6 +489,26 @@ func (self *Parser) parseImage() (core.Node, error) {
 	image.Alt = link.Text
 	image.Src = link.Href
 	return image, nil
+}
+
+func (self *Parser) parseListItem() (core.Node, error) {
+	li := ast.Li{
+		Content: []core.Node{},
+	}
+
+	node, err := self.parseBlock()
+
+	if node == nil || err != nil {
+		return li, err
+	}
+
+	if paragraph, ok := node.(ast.Paragraph); ok {
+		li.Add(paragraph.Content...)
+	} else {
+		li.Add(node)
+	}
+
+	return li, nil
 }
 
 func (self *Parser) parseNewLine() (core.Node, error) {
