@@ -2,7 +2,6 @@ package ast
 
 import (
 	"fmt"
-	"reflect"
 )
 
 type Ul struct {
@@ -14,19 +13,19 @@ func (self *Ul) Add(items ...Li) *Ul {
 	return self
 }
 
-func (self Ul) Render() (reflect.Value, error) {
+func (self Ul) Render() ([]byte, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		content = append(content, value.Bytes()...)
+		content = append(content, value...)
 	}
 
 	value := fmt.Appendf(nil, "<ul>%s</ul>", content)
-	return reflect.ValueOf(value), nil
+	return value, nil
 }

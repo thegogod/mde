@@ -2,7 +2,6 @@ package ast
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/thegogod/mde/core"
 )
@@ -12,17 +11,17 @@ type Image struct {
 	Src []core.Node
 }
 
-func (self Image) Render() (reflect.Value, error) {
+func (self Image) Render() ([]byte, error) {
 	alt := []byte{}
 
 	for _, item := range self.Alt {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		alt = append(alt, value.Bytes()...)
+		alt = append(alt, value...)
 	}
 
 	src := []byte{}
@@ -31,12 +30,12 @@ func (self Image) Render() (reflect.Value, error) {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		src = append(src, value.Bytes()...)
+		src = append(src, value...)
 	}
 
 	value := fmt.Appendf(nil, `<img alt="%s" src="%s" />`, alt, src)
-	return reflect.ValueOf(value), nil
+	return value, nil
 }

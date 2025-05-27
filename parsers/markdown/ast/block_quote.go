@@ -2,7 +2,6 @@ package ast
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/thegogod/mde/core"
 )
@@ -16,19 +15,19 @@ func (self *BlockQuote) Add(items ...core.Node) *BlockQuote {
 	return self
 }
 
-func (self BlockQuote) Render() (reflect.Value, error) {
+func (self BlockQuote) Render() ([]byte, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		content = append(content, value.Bytes()...)
+		content = append(content, value...)
 	}
 
 	value := fmt.Appendf(nil, "<blockquote>%s</blockquote>", content)
-	return reflect.ValueOf(value), nil
+	return value, nil
 }

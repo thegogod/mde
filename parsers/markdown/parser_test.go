@@ -29,6 +29,6 @@ func TestParser(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		t.Log(string(value.Bytes()))
+		t.Log(string(value))
 	})
 }

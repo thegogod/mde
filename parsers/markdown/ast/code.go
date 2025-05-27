@@ -2,7 +2,6 @@ package ast
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/thegogod/mde/core"
 )
@@ -16,19 +15,19 @@ func (self *Code) Add(items ...core.Node) *Code {
 	return self
 }
 
-func (self Code) Render() (reflect.Value, error) {
+func (self Code) Render() ([]byte, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		content = append(content, value.Bytes()...)
+		content = append(content, value...)
 	}
 
 	value := fmt.Appendf(nil, "<code>%s</code>", content)
-	return reflect.ValueOf(value), nil
+	return value, nil
 }

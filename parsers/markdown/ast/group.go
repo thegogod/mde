@@ -1,8 +1,6 @@
 package ast
 
 import (
-	"reflect"
-
 	"github.com/thegogod/mde/core"
 )
 
@@ -15,18 +13,18 @@ func (self *Group) Add(items ...core.Node) *Group {
 	return self
 }
 
-func (self Group) Render() (reflect.Value, error) {
+func (self Group) Render() ([]byte, error) {
 	content := []byte{}
 
 	for _, item := range self.Items {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		content = append(content, value.Bytes()...)
+		content = append(content, value...)
 	}
 
-	return reflect.ValueOf(content), nil
+	return content, nil
 }

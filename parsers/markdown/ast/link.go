@@ -2,7 +2,6 @@ package ast
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/thegogod/mde/core"
 )
@@ -12,17 +11,17 @@ type Link struct {
 	Href []core.Node
 }
 
-func (self Link) Render() (reflect.Value, error) {
+func (self Link) Render() ([]byte, error) {
 	text := []byte{}
 
 	for _, item := range self.Text {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		text = append(text, value.Bytes()...)
+		text = append(text, value...)
 	}
 
 	href := []byte{}
@@ -31,12 +30,12 @@ func (self Link) Render() (reflect.Value, error) {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		href = append(href, value.Bytes()...)
+		href = append(href, value...)
 	}
 
 	value := fmt.Appendf(nil, `<a href="%s">%s</a>`, href, text)
-	return reflect.ValueOf(value), nil
+	return value, nil
 }

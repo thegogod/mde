@@ -2,7 +2,6 @@ package ast
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/thegogod/mde/core"
 )
@@ -17,17 +16,17 @@ func (self *CodeBlock) Add(items ...core.Node) *CodeBlock {
 	return self
 }
 
-func (self CodeBlock) Render() (reflect.Value, error) {
+func (self CodeBlock) Render() ([]byte, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
 		value, err := item.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		content = append(content, value.Bytes()...)
+		content = append(content, value...)
 	}
 
 	code := fmt.Appendf(nil, "<code>%s</code>", content)
@@ -36,12 +35,12 @@ func (self CodeBlock) Render() (reflect.Value, error) {
 		lang, err := self.Lang.Render()
 
 		if err != nil {
-			return reflect.Value{}, err
+			return []byte{}, err
 		}
 
-		code = fmt.Appendf(nil, `<code class="language-%s">%s</code>`, lang.Bytes(), content)
+		code = fmt.Appendf(nil, `<code class="language-%s">%s</code>`, lang, content)
 	}
 
 	value := fmt.Appendf(nil, "<pre>%s</pre>", code)
-	return reflect.ValueOf(value), nil
+	return value, nil
 }
