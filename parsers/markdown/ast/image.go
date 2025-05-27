@@ -12,11 +12,11 @@ type Image struct {
 	Src []core.Node
 }
 
-func (self Image) Eval() (reflect.Value, error) {
+func (self Image) Render() (reflect.Value, error) {
 	alt := []byte{}
 
 	for _, item := range self.Alt {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err
@@ -28,7 +28,7 @@ func (self Image) Eval() (reflect.Value, error) {
 	src := []byte{}
 
 	for _, item := range self.Src {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

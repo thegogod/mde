@@ -12,11 +12,11 @@ type Link struct {
 	Href []core.Node
 }
 
-func (self Link) Eval() (reflect.Value, error) {
+func (self Link) Render() (reflect.Value, error) {
 	text := []byte{}
 
 	for _, item := range self.Text {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err
@@ -28,7 +28,7 @@ func (self Link) Eval() (reflect.Value, error) {
 	href := []byte{}
 
 	for _, item := range self.Href {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

@@ -16,11 +16,11 @@ func (self *Italic) Add(items ...core.Node) *Italic {
 	return self
 }
 
-func (self Italic) Eval() (reflect.Value, error) {
+func (self Italic) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

@@ -10,6 +10,6 @@ type Text struct {
 	Content core.Token
 }
 
-func (self Text) Eval() (reflect.Value, error) {
+func (self Text) Render() (reflect.Value, error) {
 	return reflect.ValueOf(self.Content.GetBytes()), nil
 }

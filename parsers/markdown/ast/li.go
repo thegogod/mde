@@ -17,11 +17,11 @@ func (self *Li) Add(items ...core.Node) *Li {
 	return self
 }
 
-func (self Li) Eval() (reflect.Value, error) {
+func (self Li) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

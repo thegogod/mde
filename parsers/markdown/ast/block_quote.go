@@ -16,11 +16,11 @@ func (self *BlockQuote) Add(items ...core.Node) *BlockQuote {
 	return self
 }
 
-func (self BlockQuote) Eval() (reflect.Value, error) {
+func (self BlockQuote) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

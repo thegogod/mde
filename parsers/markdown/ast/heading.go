@@ -17,11 +17,11 @@ func (self *Heading) Add(items ...core.Node) *Heading {
 	return self
 }
 
-func (self Heading) Eval() (reflect.Value, error) {
+func (self Heading) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

@@ -23,7 +23,7 @@ func TestParser(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		value, err := node.Eval()
+		value, err := node.Render()
 
 		if err != nil {
 			t.Fatal(err)

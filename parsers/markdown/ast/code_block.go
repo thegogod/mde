@@ -17,11 +17,11 @@ func (self *CodeBlock) Add(items ...core.Node) *CodeBlock {
 	return self
 }
 
-func (self CodeBlock) Eval() (reflect.Value, error) {
+func (self CodeBlock) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err
@@ -33,7 +33,7 @@ func (self CodeBlock) Eval() (reflect.Value, error) {
 	code := fmt.Appendf(nil, "<code>%s</code>", content)
 
 	if self.Lang != nil {
-		lang, err := self.Lang.Eval()
+		lang, err := self.Lang.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

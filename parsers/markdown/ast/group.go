@@ -15,11 +15,11 @@ func (self *Group) Add(items ...core.Node) *Group {
 	return self
 }
 
-func (self Group) Eval() (reflect.Value, error) {
+func (self Group) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Items {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

@@ -16,11 +16,11 @@ func (self *Strike) Add(items ...core.Node) *Strike {
 	return self
 }
 
-func (self Strike) Eval() (reflect.Value, error) {
+func (self Strike) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

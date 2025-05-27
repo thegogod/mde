@@ -16,11 +16,11 @@ func (self *Bold) Add(items ...core.Node) *Bold {
 	return self
 }
 
-func (self Bold) Eval() (reflect.Value, error) {
+func (self Bold) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err

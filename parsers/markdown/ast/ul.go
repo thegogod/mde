@@ -14,11 +14,11 @@ func (self *Ul) Add(items ...Li) *Ul {
 	return self
 }
 
-func (self Ul) Eval() (reflect.Value, error) {
+func (self Ul) Render() (reflect.Value, error) {
 	content := []byte{}
 
 	for _, item := range self.Content {
-		value, err := item.Eval()
+		value, err := item.Render()
 
 		if err != nil {
 			return reflect.Value{}, err
