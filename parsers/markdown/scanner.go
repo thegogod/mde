@@ -34,6 +34,7 @@ func (self *Scanner) scan() (*Token, error) {
 	switch b {
 	case ' ':
 		if self.peek() == ' ' {
+			self.next()
 			return self.create(Br), nil
 		}
 

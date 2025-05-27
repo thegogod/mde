@@ -1,6 +1,7 @@
 package ast
 
 import (
+	"bytes"
 	"fmt"
 	"reflect"
 
@@ -29,6 +30,6 @@ func (self Paragraph) Eval() (reflect.Value, error) {
 		content = append(content, value.Bytes()...)
 	}
 
-	value := fmt.Appendf(nil, "<p>%s</p>", content)
+	value := fmt.Appendf(nil, "<p>%s</p>", bytes.TrimSpace(content))
 	return reflect.ValueOf(value), nil
 }
