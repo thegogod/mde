@@ -29,6 +29,6 @@ func (self BlockQuote) Eval() (reflect.Value, error) {
 		content = append(content, value.Bytes()...)
 	}
 
-	value := fmt.Appendf(nil, "<blockquote>%s</blockquote>", string(content))
+	value := fmt.Appendf(nil, "<blockquote>%s</blockquote>", content)
 	return reflect.ValueOf(value), nil
 }

@@ -29,6 +29,6 @@ func (self Strike) Eval() (reflect.Value, error) {
 		content = append(content, value.Bytes()...)
 	}
 
-	value := fmt.Appendf(nil, "<s>%s</s>", string(content))
+	value := fmt.Appendf(nil, "<s>%s</s>", content)
 	return reflect.ValueOf(value), nil
 }

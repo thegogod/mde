@@ -30,6 +30,6 @@ func (self Li) Eval() (reflect.Value, error) {
 		content = append(content, bytes.TrimSpace(value.Bytes())...)
 	}
 
-	value := fmt.Appendf(nil, "<li>%s</li>", string(content))
+	value := fmt.Appendf(nil, "<li>%s</li>", content)
 	return reflect.ValueOf(value), nil
 }

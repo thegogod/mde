@@ -30,6 +30,6 @@ func (self Heading) Eval() (reflect.Value, error) {
 		content = append(content, value.Bytes()...)
 	}
 
-	value := fmt.Appendf(nil, "<h%d>%s</h%d>", self.Depth, string(content), self.Depth)
+	value := fmt.Appendf(nil, "<h%d>%s</h%d>", self.Depth, content, self.Depth)
 	return reflect.ValueOf(value), nil
 }

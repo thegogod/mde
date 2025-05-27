@@ -29,6 +29,6 @@ func (self Code) Eval() (reflect.Value, error) {
 		content = append(content, value.Bytes()...)
 	}
 
-	value := fmt.Appendf(nil, "<code>%s</code>", string(content))
+	value := fmt.Appendf(nil, "<code>%s</code>", content)
 	return reflect.ValueOf(value), nil
 }

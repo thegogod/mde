@@ -27,6 +27,6 @@ func (self Ol) Eval() (reflect.Value, error) {
 		content = append(content, value.Bytes()...)
 	}
 
-	value := fmt.Appendf(nil, "<ol>%s</ol>", string(content))
+	value := fmt.Appendf(nil, "<ol>%s</ol>", content)
 	return reflect.ValueOf(value), nil
 }

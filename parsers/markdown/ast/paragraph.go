@@ -29,6 +29,6 @@ func (self Paragraph) Eval() (reflect.Value, error) {
 		content = append(content, value.Bytes()...)
 	}
 
-	value := fmt.Appendf(nil, "<p>%s</p>", string(content))
+	value := fmt.Appendf(nil, "<p>%s</p>", content)
 	return reflect.ValueOf(value), nil
 }
