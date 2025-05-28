@@ -31,4 +31,27 @@ func TestParser(t *testing.T) {
 
 		t.Log(string(value))
 	})
+
+	t.Run("task_list", func(t *testing.T) {
+		data, err := os.ReadFile(filepath.Join("..", "..", "testcases", "task_list.md"))
+
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		parser := markdown.New()
+		node, err := parser.Parse(data)
+
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		value, err := node.Render()
+
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		t.Log(string(value))
+	})
 }

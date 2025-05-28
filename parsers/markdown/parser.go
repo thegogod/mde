@@ -1,6 +1,8 @@
 package markdown
 
 import (
+	"errors"
+
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/parsers/markdown/ast"
 )
@@ -509,7 +511,16 @@ func (self *Parser) parseListItem() (core.Node, error) {
 		Content: []core.Node{},
 	}
 
-	node, err := self.parseBlock()
+	self.iter.Save()
+	node, err := self.parseTask()
+
+	if err == nil && node != nil {
+		li.Add(node)
+		return li, nil
+	}
+
+	self.iter.Revert()
+	node, err = self.parseBlock()
 
 	if node == nil || err != nil {
 		return li, err
@@ -522,6 +533,61 @@ func (self *Parser) parseListItem() (core.Node, error) {
 	}
 
 	return li, nil
+}
+
+func (self *Parser) parseTask() (core.Node, error) {
+	task := ast.Task{}
+	_, err := self.iter.Consume(LeftBracket, "expected '['")
+
+	if err != nil {
+		return task, err
+	}
+
+	checked, err := self.iter.Consume(Text, "expected ' ' or 'x'")
+
+	if err != nil {
+		return task, err
+	}
+
+	if checked.String() != " " && checked.String() != "x" {
+		return task, errors.New("expected ' ' or 'x'")
+	}
+
+	if checked.String() == "x" {
+		task.Checked = true
+	}
+
+	_, err = self.iter.Consume(RightBracket, "expected ']'")
+
+	if err != nil {
+		return task, err
+	}
+
+	space, err := self.iter.Consume(Text, "expected ' '")
+
+	if err != nil {
+		return task, err
+	}
+
+	if space.String() != " " {
+		return task, errors.New("expected ' '")
+	}
+
+	label := ""
+
+	for !self.iter.Match(NewLine) {
+		node, err := self.parseText()
+
+		if err != nil || node == nil {
+			return task, err
+		}
+
+		text := node.(ast.Text)
+		label += text.Content.String()
+	}
+
+	task.Label = label
+	return task, nil
 }
 
 func (self *Parser) parseNewLine() (core.Node, error) {
