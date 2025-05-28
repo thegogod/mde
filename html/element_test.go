@@ -9,8 +9,8 @@ import (
 func TestElement(t *testing.T) {
 	t.Run("should render", func(t *testing.T) {
 		el := html.Elem("div")
-		el = el.Attr("id", "123")
-		el = el.Attr("style", "color: red;display: block;")
+		el.Attr("id", "123")
+		el.Attr("style", "color: red;display: block;")
 		html := el.String()
 
 		if html != `<div id="123" style="color: red;display: block;"></div>` {
@@ -20,8 +20,8 @@ func TestElement(t *testing.T) {
 
 	t.Run("should render pretty", func(t *testing.T) {
 		el := html.Elem("div")
-		el = el.Attr("id", "123")
-		el = el.Attr("style", "color: red;display: block;")
+		el.Attr("id", "123")
+		el.Attr("style", "color: red;display: block;")
 		html := el.PrettyString(" ")
 
 		if html != "<div id=\"123\" style=\"color: red;display: block;\">\n</div>" {
@@ -31,10 +31,10 @@ func TestElement(t *testing.T) {
 
 	t.Run("should render with children", func(t *testing.T) {
 		el := html.Elem("div")
-		el = el.Attr("id", "123")
-		el = el.Attr("class", "main")
-		el = el.Add(
-			html.Elem("p").Attr("id", "1").Add("hello world!"),
+		el.Attr("id", "123")
+		el.Attr("class", "main")
+		el.Add(
+			html.P().Attr("id", "1").Add("hello world!"),
 			html.Elem("input").Attr("value", "test").SelfClosing(),
 		)
 
@@ -47,10 +47,10 @@ func TestElement(t *testing.T) {
 
 	t.Run("should render with children pretty", func(t *testing.T) {
 		el := html.Elem("div")
-		el = el.Attr("id", "123")
-		el = el.Attr("class", "main")
-		el = el.Add(
-			html.Elem("p").Attr("id", "1").Add("hello world!"),
+		el.Attr("id", "123")
+		el.Attr("class", "main")
+		el.Add(
+			html.P().Attr("id", "1").Add("hello world!"),
 			html.Elem("input").Attr("value", "test").SelfClosing(),
 		)
 
@@ -63,10 +63,10 @@ func TestElement(t *testing.T) {
 
 	t.Run("should render with children nested pretty", func(t *testing.T) {
 		el := html.Elem("div")
-		el = el.Attr("id", "123")
-		el = el.Attr("class", "main")
-		el = el.Add(
-			html.Elem("p").Attr("id", "1").
+		el.Attr("id", "123")
+		el.Attr("class", "main")
+		el.Add(
+			html.P().Attr("id", "1").
 				Add("hello world!").
 				Add(html.Elem("span").Add("hi!")),
 			html.Elem("input").Attr("value", "test").SelfClosing(),

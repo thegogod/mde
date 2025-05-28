@@ -13,20 +13,20 @@ type Element struct {
 	children    []Node
 }
 
-func Elem(kind string) Element {
-	return Element{
+func Elem(kind string) *Element {
+	return &Element{
 		kind:       kind,
 		attributes: []Attribute{},
 		children:   []Node{},
 	}
 }
 
-func (self Element) SelfClosing() Element {
+func (self *Element) SelfClosing() *Element {
 	self.selfClosing = true
 	return self
 }
 
-func (self Element) Attr(name string, value string) Element {
+func (self *Element) Attr(name string, value string) *Element {
 	if self.attributes == nil {
 		self.attributes = []Attribute{}
 	}
@@ -47,7 +47,7 @@ func (self Element) Attr(name string, value string) Element {
 	return self
 }
 
-func (self Element) Add(children ...any) Element {
+func (self *Element) Add(children ...any) *Element {
 	if self.children == nil {
 		self.children = []Node{}
 	}
