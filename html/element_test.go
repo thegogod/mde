@@ -1,7 +1,6 @@
 package html_test
 
 import (
-	"os"
 	"testing"
 
 	"github.com/thegogod/mde/html"
@@ -78,7 +77,5 @@ func TestElement(t *testing.T) {
 		if html != "<div id=\"123\" class=\"main\">\n\t<p id=\"1\">\n\t\thello world!\n\t\t<span>hi!</span>\n\t</p>\n\t<input value=\"test\" />\n</div>" {
 			t.Error(html)
 		}
-
-		os.WriteFile("./output.html", []byte(html), 0644)
 	})
 }
