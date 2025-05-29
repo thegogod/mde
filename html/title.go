@@ -1,9 +1,5 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
-
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/title
 type TitleElement struct {
 	element *Element
@@ -12,21 +8,6 @@ type TitleElement struct {
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/title
 func Title(children ...any) *TitleElement {
 	return &TitleElement{Elem("title").Add(children...)}
-}
-
-func (self *TitleElement) Id(value string) *TitleElement {
-	self.element.Id(value)
-	return self
-}
-
-func (self *TitleElement) Style(styles ...core.KeyValue[string, string]) *TitleElement {
-	self.element.Style(styles...)
-	return self
-}
-
-func (self *TitleElement) Class(classes ...string) *TitleElement {
-	self.element.Class(classes...)
-	return self
 }
 
 func (self *TitleElement) Attr(name string, value string) *TitleElement {

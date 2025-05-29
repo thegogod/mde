@@ -14,10 +14,12 @@ func Img() *ImageElement {
 	return &ImageElement{Elem("img").Void()}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img#src
 func (self *ImageElement) Src(value string) *ImageElement {
 	return self.Attr("src", value)
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/alt#usage_notes
 func (self *ImageElement) Alt(value string) *ImageElement {
 	return self.Attr("alt", value)
 }

@@ -14,6 +14,7 @@ func BlockQuote(children ...any) *BlockQuoteElement {
 	return &BlockQuoteElement{Elem("blockquote").Add(children...)}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/blockquote#cite
 func (self *BlockQuoteElement) Cite(value string) *BlockQuoteElement {
 	return self.Attr("cite", value)
 }

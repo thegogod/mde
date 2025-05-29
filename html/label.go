@@ -14,6 +14,7 @@ func Label(children ...any) *LabelElement {
 	return &LabelElement{Elem("label").Add(children...)}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/for
 func (self *LabelElement) For(value string) *LabelElement {
 	return self.Attr("for", value)
 }

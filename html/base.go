@@ -10,10 +10,12 @@ func Base() *BaseElement {
 	return &BaseElement{Elem("base").Void()}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/base#href
 func (self *BaseElement) Href(value string) *BaseElement {
 	return self.Attr("href", value)
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/base#target
 func (self *BaseElement) Target(value string) *BaseElement {
 	return self.Attr("target", value)
 }

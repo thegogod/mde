@@ -10,18 +10,22 @@ func Script(children ...any) *ScriptElement {
 	return &ScriptElement{Elem("script").Add(children...)}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script#src
 func (self *ScriptElement) Src(value string) *ScriptElement {
 	return self.Attr("src", value)
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script/type
 func (self *ScriptElement) Type(value string) *ScriptElement {
 	return self.Attr("type", value)
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script#async
 func (self *ScriptElement) Async() *ScriptElement {
 	return self.Attr("async", "")
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script#defer
 func (self *ScriptElement) Defer() *ScriptElement {
 	return self.Attr("defer", "")
 }

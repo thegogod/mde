@@ -14,6 +14,7 @@ func Html(children ...any) *HtmlElement {
 	return &HtmlElement{Elem("html").Add(children...)}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/html#accessibility
 func (self *HtmlElement) Lang(value string) *HtmlElement {
 	return self.Attr("lang", value)
 }

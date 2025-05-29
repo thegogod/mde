@@ -14,10 +14,12 @@ func Link() *LinkElement {
 	return &LinkElement{Elem("link").Void()}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel
 func (self *LinkElement) Rel(value string) *LinkElement {
 	return self.Attr("rel", value)
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link#href
 func (self *LinkElement) Href(value string) *LinkElement {
 	return self.Attr("href", value)
 }

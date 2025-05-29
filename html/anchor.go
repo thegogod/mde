@@ -14,10 +14,12 @@ func A(children ...any) *AnchorElement {
 	return &AnchorElement{Elem("a").Add(children...)}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href
 func (self *AnchorElement) Href(value string) *AnchorElement {
 	return self.Attr("href", value)
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#target
 func (self *AnchorElement) Target(value string) *AnchorElement {
 	return self.Attr("target", value)
 }

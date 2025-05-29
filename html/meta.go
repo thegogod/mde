@@ -10,16 +10,24 @@ func Meta() *MetaElement {
 	return &MetaElement{Elem("meta").Void()}
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta#charset
 func (self *MetaElement) Charset(value string) *MetaElement {
 	return self.Attr("charset", value)
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta#name
 func (self *MetaElement) Name(value string) *MetaElement {
 	return self.Attr("name", value)
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta#content
 func (self *MetaElement) Content(value string) *MetaElement {
 	return self.Attr("content", value)
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta#media
+func (self *MetaElement) Media(value string) *MetaElement {
+	return self.Attr("media", value)
 }
 
 func (self *MetaElement) Attr(name string, value string) *MetaElement {
