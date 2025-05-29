@@ -1,11 +1,30 @@
 package html
 
+import (
+	"github.com/thegogod/mde/core"
+)
+
 type Paragraph struct {
 	element *Element
 }
 
 func P() *Paragraph {
 	return &Paragraph{Elem("p")}
+}
+
+func (self *Paragraph) Id(value string) *Paragraph {
+	self.element.Id(value)
+	return self
+}
+
+func (self *Paragraph) Style(styles ...core.KeyValue[string, string]) *Paragraph {
+	self.element.Style(styles...)
+	return self
+}
+
+func (self *Paragraph) Class(classes ...string) *Paragraph {
+	self.element.Class(classes...)
+	return self
 }
 
 func (self *Paragraph) Attr(name string, value string) *Paragraph {
