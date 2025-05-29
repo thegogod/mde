@@ -8,10 +8,10 @@ import (
 )
 
 type Element struct {
-	kind        string
-	selfClosing bool
-	attributes  core.OMap[string, string]
-	children    []Node
+	kind       string
+	void       bool // https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+	attributes core.OMap[string, string]
+	children   []Node
 }
 
 func Elem(kind string) *Element {
@@ -40,8 +40,8 @@ func (self *Element) Class(classes ...string) *Element {
 	return self.Attr("class", strings.Join(classes, " "))
 }
 
-func (self *Element) SelfClosing() *Element {
-	self.selfClosing = true
+func (self *Element) Void() *Element {
+	self.void = true
 	return self
 }
 
@@ -85,7 +85,7 @@ func (self Element) String() string {
 		html += fmt.Sprintf(` %s="%s"`, attr.Key, attr.Value)
 	}
 
-	if self.selfClosing {
+	if self.void {
 		html += " />"
 		return html
 	}
@@ -107,7 +107,7 @@ func (self Element) PrettyString(indent string) string {
 		html += fmt.Sprintf(` %s="%s"`, attr.Key, attr.Value)
 	}
 
-	if self.selfClosing {
+	if self.void {
 		html += " />"
 		return html
 	}

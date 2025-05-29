@@ -11,7 +11,7 @@ type LinkElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link
 func Link() *LinkElement {
-	return &LinkElement{Elem("link").SelfClosing()}
+	return &LinkElement{Elem("link").Void()}
 }
 
 func (self *LinkElement) Rel(value string) *LinkElement {

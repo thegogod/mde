@@ -11,7 +11,7 @@ type HorizontalRuleElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/hr
 func Hr() *HorizontalRuleElement {
-	return &HorizontalRuleElement{Elem("hr").SelfClosing()}
+	return &HorizontalRuleElement{Elem("hr").Void()}
 }
 
 func (self *HorizontalRuleElement) Id(value string) *HorizontalRuleElement {

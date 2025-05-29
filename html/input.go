@@ -11,7 +11,7 @@ type InputElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input
 func Input() *InputElement {
-	return &InputElement{Elem("input").SelfClosing()}
+	return &InputElement{Elem("input").Void()}
 }
 
 func (self *InputElement) Id(value string) *InputElement {

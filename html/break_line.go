@@ -11,7 +11,7 @@ type BreakLineElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/br
 func Br() *BreakLineElement {
-	return &BreakLineElement{Elem("br").SelfClosing()}
+	return &BreakLineElement{Elem("br").Void()}
 }
 
 func (self *BreakLineElement) Id(value string) *BreakLineElement {

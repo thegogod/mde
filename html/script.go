@@ -1,9 +1,5 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
-
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script
 type ScriptElement struct {
 	element *Element
@@ -15,33 +11,19 @@ func Script(children ...any) *ScriptElement {
 }
 
 func (self *ScriptElement) Src(value string) *ScriptElement {
-	self.Attr("src", value)
-	return self
+	return self.Attr("src", value)
+}
+
+func (self *ScriptElement) Type(value string) *ScriptElement {
+	return self.Attr("type", value)
 }
 
 func (self *ScriptElement) Async() *ScriptElement {
-	self.Attr("async", "")
-	return self
+	return self.Attr("async", "")
 }
 
 func (self *ScriptElement) Defer() *ScriptElement {
-	self.Attr("defer", "")
-	return self
-}
-
-func (self *ScriptElement) Id(value string) *ScriptElement {
-	self.element.Id(value)
-	return self
-}
-
-func (self *ScriptElement) Style(styles ...core.KeyValue[string, string]) *ScriptElement {
-	self.element.Style(styles...)
-	return self
-}
-
-func (self *ScriptElement) Class(classes ...string) *ScriptElement {
-	self.element.Class(classes...)
-	return self
+	return self.Attr("defer", "")
 }
 
 func (self *ScriptElement) Attr(name string, value string) *ScriptElement {

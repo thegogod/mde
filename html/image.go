@@ -11,7 +11,7 @@ type ImageElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img
 func Img() *ImageElement {
-	return &ImageElement{Elem("img").SelfClosing()}
+	return &ImageElement{Elem("img").Void()}
 }
 
 func (self *ImageElement) Src(value string) *ImageElement {

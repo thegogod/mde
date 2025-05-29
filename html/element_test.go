@@ -36,7 +36,7 @@ func TestElement(t *testing.T) {
 		el.Class("main")
 		el.Add(
 			html.P().Attr("id", "1").Add("hello world!"),
-			html.Elem("input").Attr("value", "test").SelfClosing(),
+			html.Elem("input").Attr("value", "test").Void(),
 		)
 
 		html := el.String()
@@ -52,7 +52,7 @@ func TestElement(t *testing.T) {
 		el.Attr("class", "main")
 		el.Add(
 			html.P().Attr("id", "1").Add("hello world!"),
-			html.Elem("input").Attr("value", "test").SelfClosing(),
+			html.Elem("input").Attr("value", "test").Void(),
 		)
 
 		html := el.PrettyString("\t")
@@ -70,7 +70,7 @@ func TestElement(t *testing.T) {
 			html.P().Attr("id", "1").
 				Add("hello world!").
 				Add(html.Elem("span").Add("hi!")),
-			html.Elem("input").Attr("value", "test").SelfClosing(),
+			html.Elem("input").Attr("value", "test").Void(),
 		)
 
 		html := el.PrettyString("\t")

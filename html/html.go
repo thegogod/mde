@@ -18,11 +18,6 @@ func (self *HtmlElement) Lang(value string) *HtmlElement {
 	return self.Attr("lang", value)
 }
 
-func (self *HtmlElement) Id(value string) *HtmlElement {
-	self.element.Id(value)
-	return self
-}
-
 func (self *HtmlElement) Style(styles ...core.KeyValue[string, string]) *HtmlElement {
 	self.element.Style(styles...)
 	return self
