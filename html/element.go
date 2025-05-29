@@ -26,7 +26,7 @@ func (self *Element) Id(value string) *Element {
 	return self.Attr("id", value)
 }
 
-func (self *Element) Styles(styles ...core.KeyValue[string, string]) *Element {
+func (self *Element) Style(styles ...core.KeyValue[string, string]) *Element {
 	values := []string{}
 
 	for _, style := range styles {
@@ -34,6 +34,10 @@ func (self *Element) Styles(styles ...core.KeyValue[string, string]) *Element {
 	}
 
 	return self.Attr("style", strings.Join(values, ""))
+}
+
+func (self *Element) Class(classes ...string) *Element {
+	return self.Attr("class", strings.Join(classes, " "))
 }
 
 func (self *Element) SelfClosing() *Element {

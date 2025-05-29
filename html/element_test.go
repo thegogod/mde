@@ -11,7 +11,7 @@ func TestElement(t *testing.T) {
 	t.Run("should render", func(t *testing.T) {
 		el := html.Elem("div")
 		el.Attr("id", "123")
-		el.Styles(core.Pair("color", "red"), core.Pair("display", "block"))
+		el.Style(core.Pair("color", "red"), core.Pair("display", "block"))
 		html := el.String()
 
 		if html != `<div id="123" style="color: red;display: block;"></div>` {
@@ -33,7 +33,7 @@ func TestElement(t *testing.T) {
 	t.Run("should render with children", func(t *testing.T) {
 		el := html.Elem("div")
 		el.Attr("id", "123")
-		el.Attr("class", "main")
+		el.Class("main")
 		el.Add(
 			html.P().Attr("id", "1").Add("hello world!"),
 			html.Elem("input").Attr("value", "test").SelfClosing(),
