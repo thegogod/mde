@@ -42,6 +42,11 @@ func (self *ImageElement) Attr(name string, value string) *ImageElement {
 	return self
 }
 
+func (self *ImageElement) DelAttr(name string) *ImageElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self ImageElement) String() string {
 	return self.element.String()
 }

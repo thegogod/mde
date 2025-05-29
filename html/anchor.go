@@ -42,6 +42,11 @@ func (self *AnchorElement) Attr(name string, value string) *AnchorElement {
 	return self
 }
 
+func (self *AnchorElement) DelAttr(name string) *AnchorElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *AnchorElement) Add(children ...any) *AnchorElement {
 	self.element.Add(children...)
 	return self

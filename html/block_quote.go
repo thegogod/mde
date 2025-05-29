@@ -38,6 +38,11 @@ func (self *BlockQuoteElement) Attr(name string, value string) *BlockQuoteElemen
 	return self
 }
 
+func (self *BlockQuoteElement) DelAttr(name string) *BlockQuoteElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *BlockQuoteElement) Add(children ...any) *BlockQuoteElement {
 	self.element.Add(children...)
 	return self

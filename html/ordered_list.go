@@ -40,6 +40,11 @@ func (self *OrderedListElement) Attr(name string, value string) *OrderedListElem
 	return self
 }
 
+func (self *OrderedListElement) DelAttr(name string) *OrderedListElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *OrderedListElement) Add(children ...*ListItemElement) *OrderedListElement {
 	for _, child := range children {
 		self.element.Add(child)

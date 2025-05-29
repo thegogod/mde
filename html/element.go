@@ -54,6 +54,11 @@ func (self *Element) Attr(name string, value string) *Element {
 	return self
 }
 
+func (self *Element) DelAttr(name string) *Element {
+	self.attributes.Del(name)
+	return self
+}
+
 func (self *Element) Add(children ...any) *Element {
 	if self.children == nil {
 		self.children = []Node{}

@@ -34,6 +34,11 @@ func (self *PreElement) Attr(name string, value string) *PreElement {
 	return self
 }
 
+func (self *PreElement) DelAttr(name string) *PreElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *PreElement) Add(children ...any) *PreElement {
 	self.element.Add(children...)
 	return self

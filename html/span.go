@@ -34,6 +34,11 @@ func (self *SpanElement) Attr(name string, value string) *SpanElement {
 	return self
 }
 
+func (self *SpanElement) DelAttr(name string) *SpanElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *SpanElement) Add(children ...any) *SpanElement {
 	self.element.Add(children...)
 	return self

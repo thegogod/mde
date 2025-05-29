@@ -42,6 +42,11 @@ func (self *LinkElement) Attr(name string, value string) *LinkElement {
 	return self
 }
 
+func (self *LinkElement) DelAttr(name string) *LinkElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self LinkElement) String() string {
 	return self.element.String()
 }

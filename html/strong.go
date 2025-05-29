@@ -34,6 +34,11 @@ func (self *StrongElement) Attr(name string, value string) *StrongElement {
 	return self
 }
 
+func (self *StrongElement) DelAttr(name string) *StrongElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *StrongElement) Add(children ...any) *StrongElement {
 	self.element.Add(children...)
 	return self

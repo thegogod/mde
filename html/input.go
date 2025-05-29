@@ -10,8 +10,36 @@ type InputElement struct {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input
-func Input() *InputElement {
-	return &InputElement{Elem("input").Void()}
+//
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types
+func Input(kind string) *InputElement {
+	self := &InputElement{Elem("input").Void()}
+	return self.Type(kind)
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types
+func (self *InputElement) Type(value string) *InputElement {
+	return self.Attr("type", value)
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#name
+func (self *InputElement) Name(value string) *InputElement {
+	return self.Attr("name", value)
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#disabled
+func (self *InputElement) Disabled() *InputElement {
+	return self.Attr("disabled", "true")
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#disabled
+func (self *InputElement) Enabled() *InputElement {
+	return self.Attr("disabled", "false")
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#form
+func (self *InputElement) Form(formId string) *InputElement {
+	return self.Attr("form", formId)
 }
 
 func (self *InputElement) Id(value string) *InputElement {
@@ -31,6 +59,11 @@ func (self *InputElement) Class(classes ...string) *InputElement {
 
 func (self *InputElement) Attr(name string, value string) *InputElement {
 	self.element.Attr(name, value)
+	return self
+}
+
+func (self *InputElement) DelAttr(name string) *InputElement {
+	self.element.DelAttr(name)
 	return self
 }
 

@@ -27,6 +27,11 @@ func (self *MetaElement) Attr(name string, value string) *MetaElement {
 	return self
 }
 
+func (self *MetaElement) DelAttr(name string) *MetaElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self MetaElement) String() string {
 	return self.element.String()
 }

@@ -34,6 +34,11 @@ func (self *ItalicElement) Attr(name string, value string) *ItalicElement {
 	return self
 }
 
+func (self *ItalicElement) DelAttr(name string) *ItalicElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *ItalicElement) Add(children ...any) *ItalicElement {
 	self.element.Add(children...)
 	return self

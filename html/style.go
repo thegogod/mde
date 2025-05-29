@@ -15,6 +15,11 @@ func (self *StyleElement) Attr(name string, value string) *StyleElement {
 	return self
 }
 
+func (self *StyleElement) DelAttr(name string) *StyleElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *StyleElement) Add(children ...any) *StyleElement {
 	self.element.Add(children...)
 	return self

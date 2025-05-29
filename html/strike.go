@@ -34,6 +34,11 @@ func (self *StrikeElement) Attr(name string, value string) *StrikeElement {
 	return self
 }
 
+func (self *StrikeElement) DelAttr(name string) *StrikeElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *StrikeElement) Add(children ...any) *StrikeElement {
 	self.element.Add(children...)
 	return self

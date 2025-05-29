@@ -31,6 +31,11 @@ func (self *ScriptElement) Attr(name string, value string) *ScriptElement {
 	return self
 }
 
+func (self *ScriptElement) DelAttr(name string) *ScriptElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *ScriptElement) Add(children ...any) *ScriptElement {
 	self.element.Add(children...)
 	return self

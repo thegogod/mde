@@ -34,6 +34,11 @@ func (self *BodyElement) Attr(name string, value string) *BodyElement {
 	return self
 }
 
+func (self *BodyElement) DelAttr(name string) *BodyElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *BodyElement) Add(children ...any) *BodyElement {
 	self.element.Add(children...)
 	return self

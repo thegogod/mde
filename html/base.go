@@ -23,6 +23,11 @@ func (self *BaseElement) Attr(name string, value string) *BaseElement {
 	return self
 }
 
+func (self *BaseElement) DelAttr(name string) *BaseElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self BaseElement) String() string {
 	return self.element.String()
 }

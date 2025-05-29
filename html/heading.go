@@ -59,6 +59,11 @@ func (self *HeadingElement) Attr(name string, value string) *HeadingElement {
 	return self
 }
 
+func (self *HeadingElement) DelAttr(name string) *HeadingElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *HeadingElement) Add(children ...any) *HeadingElement {
 	self.element.Add(children...)
 	return self

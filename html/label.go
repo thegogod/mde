@@ -38,6 +38,11 @@ func (self *LabelElement) Attr(name string, value string) *LabelElement {
 	return self
 }
 
+func (self *LabelElement) DelAttr(name string) *LabelElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *LabelElement) Add(children ...any) *LabelElement {
 	self.element.Add(children...)
 	return self

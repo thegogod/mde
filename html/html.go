@@ -33,6 +33,11 @@ func (self *HtmlElement) Attr(name string, value string) *HtmlElement {
 	return self
 }
 
+func (self *HtmlElement) DelAttr(name string) *HtmlElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *HtmlElement) Add(children ...any) *HtmlElement {
 	self.element.Add(children...)
 	return self

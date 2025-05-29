@@ -34,6 +34,11 @@ func (self *ListItemElement) Attr(name string, value string) *ListItemElement {
 	return self
 }
 
+func (self *ListItemElement) DelAttr(name string) *ListItemElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *ListItemElement) Add(children ...any) *ListItemElement {
 	self.element.Add(children...)
 	return self

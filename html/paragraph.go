@@ -34,6 +34,11 @@ func (self *ParagraphElement) Attr(name string, value string) *ParagraphElement 
 	return self
 }
 
+func (self *ParagraphElement) DelAttr(name string) *ParagraphElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *ParagraphElement) Add(children ...any) *ParagraphElement {
 	self.element.Add(children...)
 	return self

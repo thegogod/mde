@@ -40,6 +40,11 @@ func (self *UnorderedListElement) Attr(name string, value string) *UnorderedList
 	return self
 }
 
+func (self *UnorderedListElement) DelAttr(name string) *UnorderedListElement {
+	self.element.DelAttr(name)
+	return self
+}
+
 func (self *UnorderedListElement) Add(children ...*ListItemElement) *UnorderedListElement {
 	for _, child := range children {
 		self.element.Add(child)
