@@ -3,19 +3,14 @@ package markdown_test
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/thegogod/mde/parsers/markdown"
 )
 
 func TestParser(t *testing.T) {
-	t.Run("code_block", func(t *testing.T) {
-		data, err := os.ReadFile(filepath.Join("..", "..", "testcases", "code_block.md"))
-
-		if err != nil {
-			t.Fatal(err)
-		}
-
+	RunDir(t, filepath.Join("..", "..", "testcases"), func(t *testing.T, data []byte) {
 		parser := markdown.New()
 		node, err := parser.Parse(data)
 
@@ -25,21 +20,38 @@ func TestParser(t *testing.T) {
 
 		t.Log(node.PrettyString("  "))
 	})
+}
 
-	t.Run("task_list", func(t *testing.T) {
-		data, err := os.ReadFile(filepath.Join("..", "..", "testcases", "task_list.md"))
+func RunDir(t *testing.T, path string, fn func(t *testing.T, data []byte)) error {
+	entries, err := os.ReadDir(path)
 
-		if err != nil {
-			t.Fatal(err)
+	if err != nil {
+		return err
+	}
+
+	for _, entry := range entries {
+		entryPath := filepath.Join(path, entry.Name())
+
+		if entry.IsDir() {
+			RunDir(t, entryPath, fn)
+		} else if strings.HasSuffix(entry.Name(), ".md") {
+			RunFile(t, entryPath, fn)
 		}
+	}
 
-		parser := markdown.New()
-		node, err := parser.Parse(data)
+	return nil
+}
 
-		if err != nil {
-			t.Fatal(err)
-		}
+func RunFile(t *testing.T, path string, fn func(t *testing.T, data []byte)) error {
+	data, err := os.ReadFile(path)
 
-		t.Log(node.PrettyString("  "))
+	if err != nil {
+		return err
+	}
+
+	t.Run(filepath.Base(path), func(t *testing.T) {
+		fn(t, data)
 	})
+
+	return nil
 }
