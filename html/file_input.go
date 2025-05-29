@@ -12,7 +12,7 @@ type FileInputElement struct {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file
-func FileInput(children ...any) *FileInputElement {
+func FileInput() *FileInputElement {
 	return &FileInputElement{Input("file")}
 }
 

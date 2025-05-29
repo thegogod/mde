@@ -10,7 +10,7 @@ type CheckBoxInputElement struct {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/checkbox
-func CheckBoxInput(children ...any) *CheckBoxInputElement {
+func CheckBoxInput() *CheckBoxInputElement {
 	return &CheckBoxInputElement{Input("checkbox")}
 }
 
