@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ul
 type UnorderedListElement struct {
@@ -38,6 +41,10 @@ func (self *UnorderedListElement) Attr(name string, value string) *UnorderedList
 	return self
 }
 
+func (self UnorderedListElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *UnorderedListElement) DelAttr(name string) *UnorderedListElement {
 	self.element.DelAttr(name)
 	return self
@@ -49,6 +56,10 @@ func (self *UnorderedListElement) Add(children ...*ListItemElement) *UnorderedLi
 	}
 
 	return self
+}
+
+func (self UnorderedListElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self UnorderedListElement) String() string {

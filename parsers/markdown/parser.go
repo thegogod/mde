@@ -2,9 +2,11 @@ package markdown
 
 import (
 	"errors"
+	"fmt"
 
+	"github.com/google/uuid"
 	"github.com/thegogod/mde/core"
-	"github.com/thegogod/mde/parsers/markdown/ast"
+	"github.com/thegogod/mde/html"
 )
 
 type Parser struct {
@@ -24,9 +26,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 		return nil, nil
 	}
 
-	group := ast.Group{
-		Items: []core.Node{},
-	}
+	group := html.Fragment()
 
 	for {
 		if self.iter.Curr.Kind == Eof {
@@ -169,10 +169,7 @@ func (self *Parser) parseInline() (core.Node, error) {
 //
 
 func (self *Parser) parseHeading(depth int) (core.Node, error) {
-	heading := ast.Heading{
-		Depth:   depth,
-		Content: []core.Node{},
-	}
+	heading := html.Heading(depth)
 
 	for self.iter.Curr.Kind.IsInline() {
 		node, err := self.parseInline()
@@ -188,9 +185,7 @@ func (self *Parser) parseHeading(depth int) (core.Node, error) {
 }
 
 func (self *Parser) parseParagraph() (core.Node, error) {
-	paragraph := ast.Paragraph{
-		Content: []core.Node{},
-	}
+	paragraph := html.P()
 
 	for self.iter.Curr.Kind.IsInline() {
 		node, err := self.parseInline()
@@ -202,7 +197,7 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 		paragraph.Add(node)
 	}
 
-	if len(paragraph.Content) == 0 {
+	if len(paragraph.Children()) == 0 {
 		return nil, nil
 	}
 
@@ -210,45 +205,38 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 }
 
 func (self *Parser) parseHr() (core.Node, error) {
-	return ast.Hr{}, nil
+	return html.Hr(), nil
 }
 
 func (self *Parser) parseCodeBlock() (core.Node, error) {
-	code := ast.CodeBlock{
-		Content: []core.Node{},
-	}
-
-	lang := ast.Group{
-		Items: []core.Node{},
-	}
+	code := html.Code()
+	lang := ""
 
 	for !self.iter.Match(NewLine) {
 		node, _ := self.parseText()
-		lang.Add(node)
+		lang += node.String()
 	}
 
-	if len(lang.Items) > 0 {
-		code.Lang = lang
+	if len(lang) > 0 {
+		code.Class(fmt.Sprintf("language-%s", lang))
 	}
 
 	for !self.iter.Match(CodeBlock) {
 		node, err := self.parseInline()
 
 		if node == nil || err != nil {
-			return code, err
+			return html.Pre(code), err
 		}
 
 		code.Add(node)
 	}
 
-	return code, nil
+	return html.Pre(code), nil
 }
 
 func (self *Parser) parseBlockQuote() (core.Node, error) {
 	self.iter.blockQuoteDepth++
-	blockQuote := ast.BlockQuote{
-		Content: []core.Node{},
-	}
+	blockQuote := html.BlockQuote()
 
 	for {
 		node, err := self.parseBlock()
@@ -269,9 +257,7 @@ func (self *Parser) parseBlockQuote() (core.Node, error) {
 }
 
 func (self *Parser) parseUnorderedList() (core.Node, error) {
-	ul := ast.Ul{
-		Content: []ast.Li{},
-	}
+	ul := html.Ul()
 
 	for {
 		node, err := self.parseListItem()
@@ -280,7 +266,7 @@ func (self *Parser) parseUnorderedList() (core.Node, error) {
 			return ul, err
 		}
 
-		ul.Add(node.(ast.Li))
+		ul.Add(node.(*html.ListItemElement))
 
 		if !self.iter.Match(Ul) {
 			break
@@ -291,9 +277,7 @@ func (self *Parser) parseUnorderedList() (core.Node, error) {
 }
 
 func (self *Parser) parseOrderedList() (core.Node, error) {
-	ol := ast.Ol{
-		Content: []ast.Li{},
-	}
+	ol := html.Ol()
 
 	for {
 		node, err := self.parseListItem()
@@ -302,7 +286,7 @@ func (self *Parser) parseOrderedList() (core.Node, error) {
 			return ol, err
 		}
 
-		ol.Add(node.(ast.Li))
+		ol.Add(node.(*html.ListItemElement))
 
 		if !self.iter.Match(Ol) {
 			break
@@ -317,9 +301,7 @@ func (self *Parser) parseOrderedList() (core.Node, error) {
 //
 
 func (self *Parser) parseBold() (core.Node, error) {
-	bold := ast.Bold{
-		Content: []core.Node{},
-	}
+	bold := html.Strong()
 
 	for !self.iter.Match(Bold) {
 		node, err := self.parseInline()
@@ -335,9 +317,7 @@ func (self *Parser) parseBold() (core.Node, error) {
 }
 
 func (self *Parser) parseBoldAlt() (core.Node, error) {
-	bold := ast.Bold{
-		Content: []core.Node{},
-	}
+	bold := html.Strong()
 
 	for !self.iter.Match(BoldAlt) {
 		node, err := self.parseInline()
@@ -353,9 +333,7 @@ func (self *Parser) parseBoldAlt() (core.Node, error) {
 }
 
 func (self *Parser) parseItalic() (core.Node, error) {
-	italic := ast.Italic{
-		Content: []core.Node{},
-	}
+	italic := html.I()
 
 	for !self.iter.Match(Italic) {
 		node, err := self.parseInline()
@@ -371,9 +349,7 @@ func (self *Parser) parseItalic() (core.Node, error) {
 }
 
 func (self *Parser) parseItalicAlt() (core.Node, error) {
-	italic := ast.Italic{
-		Content: []core.Node{},
-	}
+	italic := html.I()
 
 	for !self.iter.Match(ItalicAlt) {
 		node, err := self.parseInline()
@@ -389,9 +365,7 @@ func (self *Parser) parseItalicAlt() (core.Node, error) {
 }
 
 func (self *Parser) parseStrike() (core.Node, error) {
-	strike := ast.Strike{
-		Content: []core.Node{},
-	}
+	strike := html.S()
 
 	for !self.iter.Match(Strike) {
 		node, err := self.parseInline()
@@ -407,9 +381,7 @@ func (self *Parser) parseStrike() (core.Node, error) {
 }
 
 func (self *Parser) parseStrikeAlt() (core.Node, error) {
-	strike := ast.Strike{
-		Content: []core.Node{},
-	}
+	strike := html.S()
 
 	for !self.iter.Match(StrikeAlt) {
 		node, err := self.parseInline()
@@ -425,13 +397,11 @@ func (self *Parser) parseStrikeAlt() (core.Node, error) {
 }
 
 func (self *Parser) parseBr() (core.Node, error) {
-	return ast.Br{}, nil
+	return html.Br(), nil
 }
 
 func (self *Parser) parseCode() (core.Node, error) {
-	code := ast.Code{
-		Content: []core.Node{},
-	}
+	code := html.Code()
 
 	for !self.iter.Match(Code) {
 		node, err := self.parseText()
@@ -447,10 +417,7 @@ func (self *Parser) parseCode() (core.Node, error) {
 }
 
 func (self *Parser) parseLink() (core.Node, error) {
-	link := ast.Link{
-		Text: []core.Node{},
-		Href: []core.Node{},
-	}
+	link := html.A()
 
 	for self.iter.Curr.Kind.IsInline() && self.iter.Curr.Kind != RightBracket {
 		node, err := self.parseInline()
@@ -459,7 +426,7 @@ func (self *Parser) parseLink() (core.Node, error) {
 			return link, err
 		}
 
-		link.Text = append(link.Text, node)
+		link.Add(node)
 	}
 
 	if _, err := self.iter.Consume(RightBracket, "expected ']'"); err != nil {
@@ -470,6 +437,8 @@ func (self *Parser) parseLink() (core.Node, error) {
 		return link, err
 	}
 
+	href := ""
+
 	for self.iter.Curr.Kind.IsInline() && self.iter.Curr.Kind != RightParen {
 		node, err := self.parseInline()
 
@@ -477,8 +446,10 @@ func (self *Parser) parseLink() (core.Node, error) {
 			return link, err
 		}
 
-		link.Href = append(link.Href, node)
+		href += node.String()
 	}
+
+	link.Href(href)
 
 	if _, err := self.iter.Consume(RightParen, "expected ')'"); err != nil {
 		return link, err
@@ -488,7 +459,7 @@ func (self *Parser) parseLink() (core.Node, error) {
 }
 
 func (self *Parser) parseImage() (core.Node, error) {
-	image := ast.Image{Alt: []core.Node{}, Src: []core.Node{}}
+	image := html.Img()
 
 	if !self.iter.Match(LeftBracket) {
 		return nil, nil
@@ -500,17 +471,14 @@ func (self *Parser) parseImage() (core.Node, error) {
 		return image, err
 	}
 
-	link := node.(ast.Link)
-	image.Alt = link.Text
-	image.Src = link.Href
+	link := node.(*html.AnchorElement)
+	image.Alt(link.GetAttr("alt"))
+	image.Src(link.GetAttr("href"))
 	return image, nil
 }
 
 func (self *Parser) parseListItem() (core.Node, error) {
-	li := ast.Li{
-		Content: []core.Node{},
-	}
-
+	li := html.Li()
 	self.iter.Save()
 	node, err := self.parseTask()
 
@@ -526,8 +494,10 @@ func (self *Parser) parseListItem() (core.Node, error) {
 		return li, err
 	}
 
-	if paragraph, ok := node.(ast.Paragraph); ok {
-		li.Add(paragraph.Content...)
+	if paragraph, ok := node.(*html.ParagraphElement); ok {
+		for _, child := range paragraph.Children() {
+			li.Add(child)
+		}
 	} else {
 		li.Add(node)
 	}
@@ -536,58 +506,60 @@ func (self *Parser) parseListItem() (core.Node, error) {
 }
 
 func (self *Parser) parseTask() (core.Node, error) {
-	task := ast.Task{}
+	id := uuid.NewString()
+	label := html.Label().For(id)
+	input := html.CheckBoxInput().Id(id)
 	_, err := self.iter.Consume(LeftBracket, "expected '['")
 
 	if err != nil {
-		return task, err
+		return label, err
 	}
 
 	checked, err := self.iter.Consume(Text, "expected ' ' or 'x'")
 
 	if err != nil {
-		return task, err
+		return label, err
 	}
 
 	if checked.String() != " " && checked.String() != "x" {
-		return task, errors.New("expected ' ' or 'x'")
+		return label, errors.New("expected ' ' or 'x'")
 	}
 
 	if checked.String() == "x" {
-		task.Checked = true
+		input.Checked(true)
 	}
 
 	_, err = self.iter.Consume(RightBracket, "expected ']'")
 
 	if err != nil {
-		return task, err
+		return label, err
 	}
 
 	space, err := self.iter.Consume(Text, "expected ' '")
 
 	if err != nil {
-		return task, err
+		return label, err
 	}
 
 	if space.String() != " " {
-		return task, errors.New("expected ' '")
+		return label, errors.New("expected ' '")
 	}
 
-	label := ""
+	text := ""
 
 	for !self.iter.Match(NewLine) {
 		node, err := self.parseText()
 
 		if err != nil || node == nil {
-			return task, err
+			return label, err
 		}
 
-		text := node.(ast.Text)
-		label += text.Content.String()
+		text += node.String()
 	}
 
-	task.Label = label
-	return task, nil
+	label.Add(input)
+	label.Add(html.Span(text))
+	return label, nil
 }
 
 func (self *Parser) parseNewLine() (core.Node, error) {
@@ -595,7 +567,7 @@ func (self *Parser) parseNewLine() (core.Node, error) {
 		return nil, nil
 	}
 
-	return ast.NewLine{}, nil
+	return html.Raw("\n"), nil
 }
 
 func (self *Parser) parseText() (core.Node, error) {
@@ -603,7 +575,7 @@ func (self *Parser) parseText() (core.Node, error) {
 		return nil, nil
 	}
 
-	node := ast.Text{Content: self.iter.Curr}
+	text := html.Raw(self.iter.Curr.Value)
 	self.iter.Next()
-	return node, nil
+	return text, nil
 }

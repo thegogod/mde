@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/blockquote
 type BlockQuoteElement struct {
@@ -37,6 +40,10 @@ func (self *BlockQuoteElement) Attr(name string, value string) *BlockQuoteElemen
 	return self
 }
 
+func (self BlockQuoteElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *BlockQuoteElement) DelAttr(name string) *BlockQuoteElement {
 	self.element.DelAttr(name)
 	return self
@@ -45,6 +52,10 @@ func (self *BlockQuoteElement) DelAttr(name string) *BlockQuoteElement {
 func (self *BlockQuoteElement) Add(children ...any) *BlockQuoteElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self BlockQuoteElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self BlockQuoteElement) String() string {

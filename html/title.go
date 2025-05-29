@@ -1,5 +1,7 @@
 package html
 
+import "github.com/thegogod/mde/core"
+
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/title
 type TitleElement struct {
 	element *Element
@@ -15,6 +17,10 @@ func (self *TitleElement) Attr(name string, value string) *TitleElement {
 	return self
 }
 
+func (self TitleElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *TitleElement) DelAttr(name string) *TitleElement {
 	self.element.DelAttr(name)
 	return self
@@ -23,6 +29,10 @@ func (self *TitleElement) DelAttr(name string) *TitleElement {
 func (self *TitleElement) Add(children ...any) *TitleElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self TitleElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self TitleElement) String() string {

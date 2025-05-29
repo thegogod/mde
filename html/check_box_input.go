@@ -66,6 +66,10 @@ func (self *CheckBoxInputElement) Attr(name string, value string) *CheckBoxInput
 	return self
 }
 
+func (self CheckBoxInputElement) GetAttr(name string) string {
+	return self.element.element.attributes.GetOrDefault(name)
+}
+
 func (self *CheckBoxInputElement) DelAttr(name string) *CheckBoxInputElement {
 	self.element.DelAttr(name)
 	return self

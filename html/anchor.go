@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a
 type AnchorElement struct {
@@ -42,6 +45,10 @@ func (self *AnchorElement) Attr(name string, value string) *AnchorElement {
 	return self
 }
 
+func (self AnchorElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *AnchorElement) DelAttr(name string) *AnchorElement {
 	self.element.DelAttr(name)
 	return self
@@ -50,6 +57,10 @@ func (self *AnchorElement) DelAttr(name string) *AnchorElement {
 func (self *AnchorElement) Add(children ...any) *AnchorElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self AnchorElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self AnchorElement) String() string {

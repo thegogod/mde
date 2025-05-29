@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label
 type LabelElement struct {
@@ -37,6 +40,10 @@ func (self *LabelElement) Attr(name string, value string) *LabelElement {
 	return self
 }
 
+func (self LabelElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *LabelElement) DelAttr(name string) *LabelElement {
 	self.element.DelAttr(name)
 	return self
@@ -45,6 +52,10 @@ func (self *LabelElement) DelAttr(name string) *LabelElement {
 func (self *LabelElement) Add(children ...any) *LabelElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self LabelElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self LabelElement) String() string {

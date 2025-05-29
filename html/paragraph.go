@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/p
 type ParagraphElement struct {
@@ -32,6 +35,10 @@ func (self *ParagraphElement) Attr(name string, value string) *ParagraphElement 
 	return self
 }
 
+func (self ParagraphElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *ParagraphElement) DelAttr(name string) *ParagraphElement {
 	self.element.DelAttr(name)
 	return self
@@ -40,6 +47,10 @@ func (self *ParagraphElement) DelAttr(name string) *ParagraphElement {
 func (self *ParagraphElement) Add(children ...any) *ParagraphElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self ParagraphElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self ParagraphElement) String() string {

@@ -2,19 +2,25 @@ package html
 
 import (
 	"strings"
+
+	"github.com/thegogod/mde/core"
 )
 
 // https://react.dev/reference/react/Fragment
-type FragmentElement []Node
+type FragmentElement []core.Node
 
 // https://react.dev/reference/react/Fragment
-func Fragment(children ...Node) *FragmentElement {
+func Fragment(children ...core.Node) *FragmentElement {
 	self := &FragmentElement{}
 	return self.Add(children...)
 }
 
-func (self *FragmentElement) Add(children ...Node) *FragmentElement {
+func (self *FragmentElement) Add(children ...core.Node) *FragmentElement {
 	*self = append(*self, children...)
+	return self
+}
+
+func (self FragmentElement) Children() []core.Node {
 	return self
 }
 

@@ -1,5 +1,7 @@
 package html
 
+import "github.com/thegogod/mde/core"
+
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script
 type ScriptElement struct {
 	element *Element
@@ -35,6 +37,10 @@ func (self *ScriptElement) Attr(name string, value string) *ScriptElement {
 	return self
 }
 
+func (self ScriptElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *ScriptElement) DelAttr(name string) *ScriptElement {
 	self.element.DelAttr(name)
 	return self
@@ -43,6 +49,10 @@ func (self *ScriptElement) DelAttr(name string) *ScriptElement {
 func (self *ScriptElement) Add(children ...any) *ScriptElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self ScriptElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self ScriptElement) String() string {

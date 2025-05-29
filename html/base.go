@@ -25,6 +25,10 @@ func (self *BaseElement) Attr(name string, value string) *BaseElement {
 	return self
 }
 
+func (self BaseElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *BaseElement) DelAttr(name string) *BaseElement {
 	self.element.DelAttr(name)
 	return self

@@ -32,6 +32,10 @@ func (self *BreakLineElement) Attr(name string, value string) *BreakLineElement 
 	return self
 }
 
+func (self BreakLineElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *BreakLineElement) DelAttr(name string) *BreakLineElement {
 	self.element.DelAttr(name)
 	return self

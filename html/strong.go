@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/strong
 type StrongElement struct {
@@ -32,6 +35,10 @@ func (self *StrongElement) Attr(name string, value string) *StrongElement {
 	return self
 }
 
+func (self StrongElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *StrongElement) DelAttr(name string) *StrongElement {
 	self.element.DelAttr(name)
 	return self
@@ -40,6 +47,10 @@ func (self *StrongElement) DelAttr(name string) *StrongElement {
 func (self *StrongElement) Add(children ...any) *StrongElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self StrongElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self StrongElement) String() string {

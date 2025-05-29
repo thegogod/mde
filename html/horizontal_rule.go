@@ -32,6 +32,10 @@ func (self *HorizontalRuleElement) Attr(name string, value string) *HorizontalRu
 	return self
 }
 
+func (self HorizontalRuleElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *HorizontalRuleElement) DelAttr(name string) *HorizontalRuleElement {
 	self.element.DelAttr(name)
 	return self

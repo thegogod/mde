@@ -23,13 +23,7 @@ func TestParser(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		value, err := node.Render()
-
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		t.Log(string(value))
+		t.Log(node.PrettyString("  "))
 	})
 
 	t.Run("task_list", func(t *testing.T) {
@@ -46,12 +40,6 @@ func TestParser(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		value, err := node.Render()
-
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		t.Log(string(value))
+		t.Log(node.PrettyString("  "))
 	})
 }

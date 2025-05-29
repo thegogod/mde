@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/body
 type BodyElement struct {
@@ -32,6 +35,10 @@ func (self *BodyElement) Attr(name string, value string) *BodyElement {
 	return self
 }
 
+func (self BodyElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *BodyElement) DelAttr(name string) *BodyElement {
 	self.element.DelAttr(name)
 	return self
@@ -40,6 +47,10 @@ func (self *BodyElement) DelAttr(name string) *BodyElement {
 func (self *BodyElement) Add(children ...any) *BodyElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self BodyElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self BodyElement) String() string {

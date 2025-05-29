@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/pre
 type PreElement struct {
@@ -32,6 +35,10 @@ func (self *PreElement) Attr(name string, value string) *PreElement {
 	return self
 }
 
+func (self PreElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *PreElement) DelAttr(name string) *PreElement {
 	self.element.DelAttr(name)
 	return self
@@ -40,6 +47,10 @@ func (self *PreElement) DelAttr(name string) *PreElement {
 func (self *PreElement) Add(children ...any) *PreElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self PreElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self PreElement) String() string {

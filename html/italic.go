@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/i
 type ItalicElement struct {
@@ -32,6 +35,10 @@ func (self *ItalicElement) Attr(name string, value string) *ItalicElement {
 	return self
 }
 
+func (self ItalicElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *ItalicElement) DelAttr(name string) *ItalicElement {
 	self.element.DelAttr(name)
 	return self
@@ -40,6 +47,10 @@ func (self *ItalicElement) DelAttr(name string) *ItalicElement {
 func (self *ItalicElement) Add(children ...any) *ItalicElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self ItalicElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self ItalicElement) String() string {

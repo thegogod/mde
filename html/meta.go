@@ -35,6 +35,10 @@ func (self *MetaElement) Attr(name string, value string) *MetaElement {
 	return self
 }
 
+func (self MetaElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *MetaElement) DelAttr(name string) *MetaElement {
 	self.element.DelAttr(name)
 	return self

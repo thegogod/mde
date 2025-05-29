@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -11,14 +12,14 @@ type Element struct {
 	kind       string
 	void       bool // https://developer.mozilla.org/en-US/docs/Glossary/Void_element
 	attributes maps.OMap[string, string]
-	children   []Node
+	children   []core.Node
 }
 
 func Elem(kind string) *Element {
 	return &Element{
 		kind:       kind,
 		attributes: maps.OMap[string, string]{},
-		children:   []Node{},
+		children:   []core.Node{},
 	}
 }
 
@@ -54,6 +55,10 @@ func (self *Element) Attr(name string, value string) *Element {
 	return self
 }
 
+func (self Element) GetAttr(name string) string {
+	return self.attributes.GetOrDefault(name)
+}
+
 func (self *Element) DelAttr(name string) *Element {
 	self.attributes.Del(name)
 	return self
@@ -61,12 +66,12 @@ func (self *Element) DelAttr(name string) *Element {
 
 func (self *Element) Add(children ...any) *Element {
 	if self.children == nil {
-		self.children = []Node{}
+		self.children = []core.Node{}
 	}
 
 	for _, child := range children {
 		switch v := child.(type) {
-		case Node:
+		case core.Node:
 			self.children = append(self.children, v)
 			break
 		case string:
@@ -81,6 +86,10 @@ func (self *Element) Add(children ...any) *Element {
 	}
 
 	return self
+}
+
+func (self Element) Children() []core.Node {
+	return self.children
 }
 
 func (self Element) String() string {

@@ -96,6 +96,10 @@ func (self *TextInputElement) Attr(name string, value string) *TextInputElement 
 	return self
 }
 
+func (self TextInputElement) GetAttr(name string) string {
+	return self.element.element.attributes.GetOrDefault(name)
+}
+
 func (self *TextInputElement) DelAttr(name string) *TextInputElement {
 	self.element.DelAttr(name)
 	return self

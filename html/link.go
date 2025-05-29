@@ -42,6 +42,10 @@ func (self *LinkElement) Attr(name string, value string) *LinkElement {
 	return self
 }
 
+func (self LinkElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *LinkElement) DelAttr(name string) *LinkElement {
 	self.element.DelAttr(name)
 	return self

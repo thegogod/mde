@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ol
 type OrderedListElement struct {
@@ -38,6 +41,10 @@ func (self *OrderedListElement) Attr(name string, value string) *OrderedListElem
 	return self
 }
 
+func (self OrderedListElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *OrderedListElement) DelAttr(name string) *OrderedListElement {
 	self.element.DelAttr(name)
 	return self
@@ -49,6 +56,10 @@ func (self *OrderedListElement) Add(children ...*ListItemElement) *OrderedListEl
 	}
 
 	return self
+}
+
+func (self OrderedListElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self OrderedListElement) String() string {

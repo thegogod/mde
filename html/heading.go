@@ -1,10 +1,33 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 type HeadingElement struct {
 	element *Element
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+func Heading(size int, children ...any) *HeadingElement {
+	switch size {
+	case 1:
+		return H1(children...)
+	case 2:
+		return H2(children...)
+	case 3:
+		return H3(children...)
+	case 4:
+		return H4(children...)
+	case 5:
+		return H5(children...)
+	case 6:
+		return H6(children...)
+	default:
+		panic("invalid heading size")
+	}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
@@ -57,6 +80,10 @@ func (self *HeadingElement) Attr(name string, value string) *HeadingElement {
 	return self
 }
 
+func (self HeadingElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *HeadingElement) DelAttr(name string) *HeadingElement {
 	self.element.DelAttr(name)
 	return self
@@ -65,6 +92,10 @@ func (self *HeadingElement) DelAttr(name string) *HeadingElement {
 func (self *HeadingElement) Add(children ...any) *HeadingElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self HeadingElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self HeadingElement) String() string {

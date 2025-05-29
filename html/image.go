@@ -42,6 +42,10 @@ func (self *ImageElement) Attr(name string, value string) *ImageElement {
 	return self
 }
 
+func (self ImageElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *ImageElement) DelAttr(name string) *ImageElement {
 	self.element.DelAttr(name)
 	return self

@@ -76,6 +76,10 @@ func (self *FileInputElement) Attr(name string, value string) *FileInputElement 
 	return self
 }
 
+func (self FileInputElement) GetAttr(name string) string {
+	return self.element.element.attributes.GetOrDefault(name)
+}
+
 func (self *FileInputElement) DelAttr(name string) *FileInputElement {
 	self.element.DelAttr(name)
 	return self

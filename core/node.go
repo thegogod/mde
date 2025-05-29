@@ -1,5 +1,9 @@
 package core
 
 type Node interface {
-	Render() ([]byte, error)
+	String() string
+	PrettyString(indent string) string
+
+	Bytes() []byte
+	PrettyBytes(indent string) []byte
 }

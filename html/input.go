@@ -60,6 +60,10 @@ func (self *InputElement) Attr(name string, value string) *InputElement {
 	return self
 }
 
+func (self InputElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *InputElement) DelAttr(name string) *InputElement {
 	self.element.DelAttr(name)
 	return self

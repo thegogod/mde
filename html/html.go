@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/html
 type HtmlElement struct {
@@ -32,6 +35,10 @@ func (self *HtmlElement) Attr(name string, value string) *HtmlElement {
 	return self
 }
 
+func (self HtmlElement) GetAttr(name string) string {
+	return self.element.attributes.GetOrDefault(name)
+}
+
 func (self *HtmlElement) DelAttr(name string) *HtmlElement {
 	self.element.DelAttr(name)
 	return self
@@ -40,6 +47,10 @@ func (self *HtmlElement) DelAttr(name string) *HtmlElement {
 func (self *HtmlElement) Add(children ...any) *HtmlElement {
 	self.element.Add(children...)
 	return self
+}
+
+func (self HtmlElement) Children() []core.Node {
+	return self.element.children
 }
 
 func (self HtmlElement) String() string {
