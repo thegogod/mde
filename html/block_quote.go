@@ -1,0 +1,54 @@
+package html
+
+import (
+	"github.com/thegogod/mde/core"
+)
+
+type BlockQuoteElement struct {
+	element *Element
+}
+
+func BlockQuote() *BlockQuoteElement {
+	return &BlockQuoteElement{Elem("blockquote")}
+}
+
+func (self *BlockQuoteElement) Id(value string) *BlockQuoteElement {
+	self.element.Id(value)
+	return self
+}
+
+func (self *BlockQuoteElement) Style(styles ...core.KeyValue[string, string]) *BlockQuoteElement {
+	self.element.Style(styles...)
+	return self
+}
+
+func (self *BlockQuoteElement) Class(classes ...string) *BlockQuoteElement {
+	self.element.Class(classes...)
+	return self
+}
+
+func (self *BlockQuoteElement) Attr(name string, value string) *BlockQuoteElement {
+	self.element.Attr(name, value)
+	return self
+}
+
+func (self *BlockQuoteElement) Add(children ...any) *BlockQuoteElement {
+	self.element.Add(children...)
+	return self
+}
+
+func (self BlockQuoteElement) String() string {
+	return self.element.String()
+}
+
+func (self BlockQuoteElement) PrettyString(indent string) string {
+	return self.element.PrettyString(indent)
+}
+
+func (self BlockQuoteElement) Bytes() []byte {
+	return []byte(self.String())
+}
+
+func (self BlockQuoteElement) PrettyBytes(indent string) []byte {
+	return []byte(self.PrettyBytes(indent))
+}
