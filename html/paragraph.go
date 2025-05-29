@@ -4,43 +4,51 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
-type Paragraph struct {
+type ParagraphElement struct {
 	element *Element
 }
 
-func P() *Paragraph {
-	return &Paragraph{Elem("p")}
+func P() *ParagraphElement {
+	return &ParagraphElement{Elem("p")}
 }
 
-func (self *Paragraph) Id(value string) *Paragraph {
+func (self *ParagraphElement) Id(value string) *ParagraphElement {
 	self.element.Id(value)
 	return self
 }
 
-func (self *Paragraph) Style(styles ...core.KeyValue[string, string]) *Paragraph {
+func (self *ParagraphElement) Style(styles ...core.KeyValue[string, string]) *ParagraphElement {
 	self.element.Style(styles...)
 	return self
 }
 
-func (self *Paragraph) Class(classes ...string) *Paragraph {
+func (self *ParagraphElement) Class(classes ...string) *ParagraphElement {
 	self.element.Class(classes...)
 	return self
 }
 
-func (self *Paragraph) Attr(name string, value string) *Paragraph {
+func (self *ParagraphElement) Attr(name string, value string) *ParagraphElement {
 	self.element.Attr(name, value)
 	return self
 }
 
-func (self *Paragraph) Add(children ...any) *Paragraph {
+func (self *ParagraphElement) Add(children ...any) *ParagraphElement {
 	self.element.Add(children...)
 	return self
 }
 
-func (self Paragraph) String() string {
+func (self ParagraphElement) String() string {
 	return self.element.String()
 }
 
-func (self Paragraph) PrettyString(indent string) string {
+func (self ParagraphElement) PrettyString(indent string) string {
 	return self.element.PrettyString(indent)
+}
+
+func (self ParagraphElement) Bytes() []byte {
+	return []byte(self.String())
+}
+
+func (self ParagraphElement) PrettyBytes(indent string) []byte {
+	return []byte(self.PrettyBytes(indent))
 }

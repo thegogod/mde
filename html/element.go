@@ -128,3 +128,11 @@ func (self Element) PrettyString(indent string) string {
 	html += fmt.Sprintf("\n</%s>", self.kind)
 	return html
 }
+
+func (self Element) Bytes() []byte {
+	return []byte(self.String())
+}
+
+func (self Element) PrettyBytes(indent string) []byte {
+	return []byte(self.PrettyBytes(indent))
+}
