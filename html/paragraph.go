@@ -5,7 +5,7 @@ type Paragraph struct {
 }
 
 func P() *Paragraph {
-	return &Paragraph{element: Elem("p")}
+	return &Paragraph{Elem("p")}
 }
 
 func (self *Paragraph) Attr(name string, value string) *Paragraph {
