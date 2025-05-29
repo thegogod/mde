@@ -8,7 +8,7 @@ type AnchorElement struct {
 	element *Element
 }
 
-func Anchor() *AnchorElement {
+func A() *AnchorElement {
 	return &AnchorElement{Elem("a")}
 }
 

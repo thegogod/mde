@@ -8,7 +8,7 @@ type ItalicElement struct {
 	element *Element
 }
 
-func Italic() *ItalicElement {
+func I() *ItalicElement {
 	return &ItalicElement{Elem("i")}
 }
 
