@@ -3,6 +3,7 @@ package html_test
 import (
 	"testing"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
 )
 
@@ -10,7 +11,7 @@ func TestElement(t *testing.T) {
 	t.Run("should render", func(t *testing.T) {
 		el := html.Elem("div")
 		el.Attr("id", "123")
-		el.Attr("style", "color: red;display: block;")
+		el.Styles(core.Pair("color", "red"), core.Pair("display", "block"))
 		html := el.String()
 
 		if html != `<div id="123" style="color: red;display: block;"></div>` {

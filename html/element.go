@@ -26,6 +26,16 @@ func (self *Element) Id(value string) *Element {
 	return self.Attr("id", value)
 }
 
+func (self *Element) Styles(styles ...core.KeyValue[string, string]) *Element {
+	values := []string{}
+
+	for _, style := range styles {
+		values = append(values, fmt.Sprintf("%s: %s;", style.Key, style.Value))
+	}
+
+	return self.Attr("style", strings.Join(values, ""))
+}
+
 func (self *Element) SelfClosing() *Element {
 	self.selfClosing = true
 	return self
