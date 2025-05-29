@@ -4,20 +4,20 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
 )
 
 type Element struct {
 	kind       string
 	void       bool // https://developer.mozilla.org/en-US/docs/Glossary/Void_element
-	attributes core.OMap[string, string]
+	attributes maps.OMap[string, string]
 	children   []Node
 }
 
 func Elem(kind string) *Element {
 	return &Element{
 		kind:       kind,
-		attributes: core.OMap[string, string]{},
+		attributes: maps.OMap[string, string]{},
 		children:   []Node{},
 	}
 }
@@ -26,7 +26,7 @@ func (self *Element) Id(value string) *Element {
 	return self.Attr("id", value)
 }
 
-func (self *Element) Style(styles ...core.KeyValue[string, string]) *Element {
+func (self *Element) Style(styles ...maps.KeyValue[string, string]) *Element {
 	values := []string{}
 
 	for _, style := range styles {
@@ -47,7 +47,7 @@ func (self *Element) Void() *Element {
 
 func (self *Element) Attr(name string, value string) *Element {
 	if self.attributes == nil {
-		self.attributes = core.OMap[string, string]{}
+		self.attributes = maps.OMap[string, string]{}
 	}
 
 	self.attributes.Set(name, value)

@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/p
 type ParagraphElement struct {
@@ -19,7 +17,7 @@ func (self *ParagraphElement) Id(value string) *ParagraphElement {
 	return self
 }
 
-func (self *ParagraphElement) Style(styles ...core.KeyValue[string, string]) *ParagraphElement {
+func (self *ParagraphElement) Style(styles ...maps.KeyValue[string, string]) *ParagraphElement {
 	self.element.Style(styles...)
 	return self
 }

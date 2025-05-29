@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/br
 type BreakLineElement struct {
@@ -19,7 +17,7 @@ func (self *BreakLineElement) Id(value string) *BreakLineElement {
 	return self
 }
 
-func (self *BreakLineElement) Style(styles ...core.KeyValue[string, string]) *BreakLineElement {
+func (self *BreakLineElement) Style(styles ...maps.KeyValue[string, string]) *BreakLineElement {
 	self.element.Style(styles...)
 	return self
 }

@@ -3,15 +3,15 @@ package html_test
 import (
 	"testing"
 
-	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
+	"github.com/thegogod/mde/maps"
 )
 
 func TestElement(t *testing.T) {
 	t.Run("should render", func(t *testing.T) {
 		el := html.Elem("div")
 		el.Attr("id", "123")
-		el.Style(core.Pair("color", "red"), core.Pair("display", "block"))
+		el.Style(maps.Pair("color", "red"), maps.Pair("display", "block"))
 		html := el.String()
 
 		if html != `<div id="123" style="color: red;display: block;"></div>` {

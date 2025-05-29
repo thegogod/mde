@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/head
 type HeadElement struct {
@@ -19,7 +17,7 @@ func (self *HeadElement) Id(value string) *HeadElement {
 	return self
 }
 
-func (self *HeadElement) Style(styles ...core.KeyValue[string, string]) *HeadElement {
+func (self *HeadElement) Style(styles ...maps.KeyValue[string, string]) *HeadElement {
 	self.element.Style(styles...)
 	return self
 }

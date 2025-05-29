@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/blockquote
 type BlockQuoteElement struct {
@@ -24,7 +22,7 @@ func (self *BlockQuoteElement) Id(value string) *BlockQuoteElement {
 	return self
 }
 
-func (self *BlockQuoteElement) Style(styles ...core.KeyValue[string, string]) *BlockQuoteElement {
+func (self *BlockQuoteElement) Style(styles ...maps.KeyValue[string, string]) *BlockQuoteElement {
 	self.element.Style(styles...)
 	return self
 }

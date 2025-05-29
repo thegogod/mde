@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link
 type LinkElement struct {
@@ -29,7 +27,7 @@ func (self *LinkElement) Id(value string) *LinkElement {
 	return self
 }
 
-func (self *LinkElement) Style(styles ...core.KeyValue[string, string]) *LinkElement {
+func (self *LinkElement) Style(styles ...maps.KeyValue[string, string]) *LinkElement {
 	self.element.Style(styles...)
 	return self
 }

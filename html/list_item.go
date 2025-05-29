@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/li
 type ListItemElement struct {
@@ -19,7 +17,7 @@ func (self *ListItemElement) Id(value string) *ListItemElement {
 	return self
 }
 
-func (self *ListItemElement) Style(styles ...core.KeyValue[string, string]) *ListItemElement {
+func (self *ListItemElement) Style(styles ...maps.KeyValue[string, string]) *ListItemElement {
 	self.element.Style(styles...)
 	return self
 }

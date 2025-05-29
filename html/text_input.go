@@ -3,7 +3,7 @@ package html
 import (
 	"strconv"
 
-	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
 )
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/text
@@ -81,7 +81,7 @@ func (self *TextInputElement) Id(value string) *TextInputElement {
 	return self
 }
 
-func (self *TextInputElement) Style(styles ...core.KeyValue[string, string]) *TextInputElement {
+func (self *TextInputElement) Style(styles ...maps.KeyValue[string, string]) *TextInputElement {
 	self.element.Style(styles...)
 	return self
 }

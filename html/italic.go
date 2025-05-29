@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/i
 type ItalicElement struct {
@@ -19,7 +17,7 @@ func (self *ItalicElement) Id(value string) *ItalicElement {
 	return self
 }
 
-func (self *ItalicElement) Style(styles ...core.KeyValue[string, string]) *ItalicElement {
+func (self *ItalicElement) Style(styles ...maps.KeyValue[string, string]) *ItalicElement {
 	self.element.Style(styles...)
 	return self
 }

@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/checkbox
 type CheckBoxInputElement struct {
@@ -53,7 +51,7 @@ func (self *CheckBoxInputElement) Id(value string) *CheckBoxInputElement {
 	return self
 }
 
-func (self *CheckBoxInputElement) Style(styles ...core.KeyValue[string, string]) *CheckBoxInputElement {
+func (self *CheckBoxInputElement) Style(styles ...maps.KeyValue[string, string]) *CheckBoxInputElement {
 	self.element.Style(styles...)
 	return self
 }

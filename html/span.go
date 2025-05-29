@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/span
 type SpanElement struct {
@@ -19,7 +17,7 @@ func (self *SpanElement) Id(value string) *SpanElement {
 	return self
 }
 
-func (self *SpanElement) Style(styles ...core.KeyValue[string, string]) *SpanElement {
+func (self *SpanElement) Style(styles ...maps.KeyValue[string, string]) *SpanElement {
 	self.element.Style(styles...)
 	return self
 }

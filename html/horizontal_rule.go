@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/hr
 type HorizontalRuleElement struct {
@@ -19,7 +17,7 @@ func (self *HorizontalRuleElement) Id(value string) *HorizontalRuleElement {
 	return self
 }
 
-func (self *HorizontalRuleElement) Style(styles ...core.KeyValue[string, string]) *HorizontalRuleElement {
+func (self *HorizontalRuleElement) Style(styles ...maps.KeyValue[string, string]) *HorizontalRuleElement {
 	self.element.Style(styles...)
 	return self
 }

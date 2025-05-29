@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input
 type InputElement struct {
@@ -47,7 +45,7 @@ func (self *InputElement) Id(value string) *InputElement {
 	return self
 }
 
-func (self *InputElement) Style(styles ...core.KeyValue[string, string]) *InputElement {
+func (self *InputElement) Style(styles ...maps.KeyValue[string, string]) *InputElement {
 	self.element.Style(styles...)
 	return self
 }

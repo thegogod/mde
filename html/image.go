@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img
 type ImageElement struct {
@@ -29,7 +27,7 @@ func (self *ImageElement) Id(value string) *ImageElement {
 	return self
 }
 
-func (self *ImageElement) Style(styles ...core.KeyValue[string, string]) *ImageElement {
+func (self *ImageElement) Style(styles ...maps.KeyValue[string, string]) *ImageElement {
 	self.element.Style(styles...)
 	return self
 }

@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a
 type AnchorElement struct {
@@ -29,7 +27,7 @@ func (self *AnchorElement) Id(value string) *AnchorElement {
 	return self
 }
 
-func (self *AnchorElement) Style(styles ...core.KeyValue[string, string]) *AnchorElement {
+func (self *AnchorElement) Style(styles ...maps.KeyValue[string, string]) *AnchorElement {
 	self.element.Style(styles...)
 	return self
 }

@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label
 type LabelElement struct {
@@ -24,7 +22,7 @@ func (self *LabelElement) Id(value string) *LabelElement {
 	return self
 }
 
-func (self *LabelElement) Style(styles ...core.KeyValue[string, string]) *LabelElement {
+func (self *LabelElement) Style(styles ...maps.KeyValue[string, string]) *LabelElement {
 	self.element.Style(styles...)
 	return self
 }

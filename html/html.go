@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/html
 type HtmlElement struct {
@@ -19,7 +17,7 @@ func (self *HtmlElement) Lang(value string) *HtmlElement {
 	return self.Attr("lang", value)
 }
 
-func (self *HtmlElement) Style(styles ...core.KeyValue[string, string]) *HtmlElement {
+func (self *HtmlElement) Style(styles ...maps.KeyValue[string, string]) *HtmlElement {
 	self.element.Style(styles...)
 	return self
 }

@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ol
 type OrderedListElement struct {
@@ -25,7 +23,7 @@ func (self *OrderedListElement) Id(value string) *OrderedListElement {
 	return self
 }
 
-func (self *OrderedListElement) Style(styles ...core.KeyValue[string, string]) *OrderedListElement {
+func (self *OrderedListElement) Style(styles ...maps.KeyValue[string, string]) *OrderedListElement {
 	self.element.Style(styles...)
 	return self
 }

@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ul
 type UnorderedListElement struct {
@@ -25,7 +23,7 @@ func (self *UnorderedListElement) Id(value string) *UnorderedListElement {
 	return self
 }
 
-func (self *UnorderedListElement) Style(styles ...core.KeyValue[string, string]) *UnorderedListElement {
+func (self *UnorderedListElement) Style(styles ...maps.KeyValue[string, string]) *UnorderedListElement {
 	self.element.Style(styles...)
 	return self
 }

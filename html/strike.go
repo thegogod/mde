@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/s
 type StrikeElement struct {
@@ -19,7 +17,7 @@ func (self *StrikeElement) Id(value string) *StrikeElement {
 	return self
 }
 
-func (self *StrikeElement) Style(styles ...core.KeyValue[string, string]) *StrikeElement {
+func (self *StrikeElement) Style(styles ...maps.KeyValue[string, string]) *StrikeElement {
 	self.element.Style(styles...)
 	return self
 }

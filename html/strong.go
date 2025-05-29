@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/strong
 type StrongElement struct {
@@ -19,7 +17,7 @@ func (self *StrongElement) Id(value string) *StrongElement {
 	return self
 }
 
-func (self *StrongElement) Style(styles ...core.KeyValue[string, string]) *StrongElement {
+func (self *StrongElement) Style(styles ...maps.KeyValue[string, string]) *StrongElement {
 	self.element.Style(styles...)
 	return self
 }

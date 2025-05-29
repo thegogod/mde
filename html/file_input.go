@@ -3,7 +3,7 @@ package html
 import (
 	"strconv"
 
-	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
 )
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file
@@ -61,7 +61,7 @@ func (self *FileInputElement) Id(value string) *FileInputElement {
 	return self
 }
 
-func (self *FileInputElement) Style(styles ...core.KeyValue[string, string]) *FileInputElement {
+func (self *FileInputElement) Style(styles ...maps.KeyValue[string, string]) *FileInputElement {
 	self.element.Style(styles...)
 	return self
 }

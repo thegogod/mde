@@ -1,8 +1,6 @@
 package html
 
-import (
-	"github.com/thegogod/mde/core"
-)
+import "github.com/thegogod/mde/maps"
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/pre
 type PreElement struct {
@@ -19,7 +17,7 @@ func (self *PreElement) Id(value string) *PreElement {
 	return self
 }
 
-func (self *PreElement) Style(styles ...core.KeyValue[string, string]) *PreElement {
+func (self *PreElement) Style(styles ...maps.KeyValue[string, string]) *PreElement {
 	self.element.Style(styles...)
 	return self
 }
