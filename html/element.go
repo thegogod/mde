@@ -2,23 +2,28 @@ package html
 
 import (
 	"fmt"
-	"slices"
 	"strings"
+
+	"github.com/thegogod/mde/core"
 )
 
 type Element struct {
 	kind        string
 	selfClosing bool
-	attributes  []Attribute
+	attributes  core.OMap[string, string]
 	children    []Node
 }
 
 func Elem(kind string) *Element {
 	return &Element{
 		kind:       kind,
-		attributes: []Attribute{},
+		attributes: core.OMap[string, string]{},
 		children:   []Node{},
 	}
+}
+
+func (self *Element) Id(value string) *Element {
+	return self.Attr("id", value)
 }
 
 func (self *Element) SelfClosing() *Element {
@@ -28,22 +33,10 @@ func (self *Element) SelfClosing() *Element {
 
 func (self *Element) Attr(name string, value string) *Element {
 	if self.attributes == nil {
-		self.attributes = []Attribute{}
+		self.attributes = core.OMap[string, string]{}
 	}
 
-	i := slices.IndexFunc(self.attributes, func(attr Attribute) bool {
-		return attr.Name == name
-	})
-
-	if i > -1 {
-		self.attributes[i].Value = value
-	} else {
-		self.attributes = append(self.attributes, Attribute{
-			Name:  name,
-			Value: value,
-		})
-	}
-
+	self.attributes.Set(name, value)
 	return self
 }
 
@@ -75,7 +68,7 @@ func (self Element) String() string {
 	html := "<" + self.kind
 
 	for _, attr := range self.attributes {
-		html += fmt.Sprintf(` %s="%s"`, attr.Name, attr.Value)
+		html += fmt.Sprintf(` %s="%s"`, attr.Key, attr.Value)
 	}
 
 	if self.selfClosing {
@@ -97,7 +90,7 @@ func (self Element) PrettyString(indent string) string {
 	html := "<" + self.kind
 
 	for _, attr := range self.attributes {
-		html += fmt.Sprintf(` %s="%s"`, attr.Name, attr.Value)
+		html += fmt.Sprintf(` %s="%s"`, attr.Key, attr.Value)
 	}
 
 	if self.selfClosing {
