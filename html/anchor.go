@@ -4,12 +4,22 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a
 type AnchorElement struct {
 	element *Element
 }
 
-func A() *AnchorElement {
-	return &AnchorElement{Elem("a")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a
+func A(children ...any) *AnchorElement {
+	return &AnchorElement{Elem("a").Add(children...)}
+}
+
+func (self *AnchorElement) Href(value string) *AnchorElement {
+	return self.Attr("href", value)
+}
+
+func (self *AnchorElement) Target(value string) *AnchorElement {
+	return self.Attr("target", value)
 }
 
 func (self *AnchorElement) Id(value string) *AnchorElement {

@@ -4,12 +4,14 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/span
 type SpanElement struct {
 	element *Element
 }
 
-func Span() *SpanElement {
-	return &SpanElement{Elem("span")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/span
+func Span(children ...any) *SpanElement {
+	return &SpanElement{Elem("span").Add(children...)}
 }
 
 func (self *SpanElement) Id(value string) *SpanElement {

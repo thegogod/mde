@@ -4,12 +4,22 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img
 type ImageElement struct {
 	element *Element
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img
 func Img() *ImageElement {
 	return &ImageElement{Elem("img").SelfClosing()}
+}
+
+func (self *ImageElement) Src(value string) *ImageElement {
+	return self.Attr("src", value)
+}
+
+func (self *ImageElement) Alt(value string) *ImageElement {
+	return self.Attr("alt", value)
 }
 
 func (self *ImageElement) Id(value string) *ImageElement {

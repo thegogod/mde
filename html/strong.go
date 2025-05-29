@@ -4,12 +4,14 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/strong
 type StrongElement struct {
 	element *Element
 }
 
-func Strong() *StrongElement {
-	return &StrongElement{Elem("strong")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/strong
+func Strong(children ...any) *StrongElement {
+	return &StrongElement{Elem("strong").Add(children...)}
 }
 
 func (self *StrongElement) Id(value string) *StrongElement {

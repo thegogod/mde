@@ -10,8 +10,8 @@ type HeadElement struct {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/head
-func Head() *HeadElement {
-	return &HeadElement{Elem("head")}
+func Head(children ...any) *HeadElement {
+	return &HeadElement{Elem("head").Add(children...)}
 }
 
 func (self *HeadElement) Id(value string) *HeadElement {

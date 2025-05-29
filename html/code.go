@@ -4,12 +4,14 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/code
 type CodeElement struct {
 	element *Element
 }
 
-func Code() *CodeElement {
-	return &CodeElement{Elem("code")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/code
+func Code(children ...any) *CodeElement {
+	return &CodeElement{Elem("code").Add(children...)}
 }
 
 func (self *CodeElement) Id(value string) *CodeElement {

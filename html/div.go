@@ -4,12 +4,14 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/div
 type DivElement struct {
 	element *Element
 }
 
-func Div() *DivElement {
-	return &DivElement{Elem("div")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/div
+func Div(children ...any) *DivElement {
+	return &DivElement{Elem("div").Add(children...)}
 }
 
 func (self *DivElement) Id(value string) *DivElement {

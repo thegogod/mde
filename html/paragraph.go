@@ -4,12 +4,14 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/p
 type ParagraphElement struct {
 	element *Element
 }
 
-func P() *ParagraphElement {
-	return &ParagraphElement{Elem("p")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/p
+func P(children ...any) *ParagraphElement {
+	return &ParagraphElement{Elem("p").Add(children...)}
 }
 
 func (self *ParagraphElement) Id(value string) *ParagraphElement {

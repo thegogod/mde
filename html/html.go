@@ -4,12 +4,18 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/html
 type HtmlElement struct {
 	element *Element
 }
 
-func Html() *HtmlElement {
-	return &HtmlElement{Elem("html")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/html
+func Html(children ...any) *HtmlElement {
+	return &HtmlElement{Elem("html").Add(children...)}
+}
+
+func (self *HtmlElement) Lang(value string) *HtmlElement {
+	return self.Attr("lang", value)
 }
 
 func (self *HtmlElement) Id(value string) *HtmlElement {

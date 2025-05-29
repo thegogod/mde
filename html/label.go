@@ -4,12 +4,18 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label
 type LabelElement struct {
 	element *Element
 }
 
-func Label() *LabelElement {
-	return &LabelElement{Elem("label")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label
+func Label(children ...any) *LabelElement {
+	return &LabelElement{Elem("label").Add(children...)}
+}
+
+func (self *LabelElement) For(value string) *LabelElement {
+	return self.Attr("for", value)
 }
 
 func (self *LabelElement) Id(value string) *LabelElement {

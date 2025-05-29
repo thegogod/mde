@@ -4,10 +4,12 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/br
 type BreakLineElement struct {
 	element *Element
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/br
 func Br() *BreakLineElement {
 	return &BreakLineElement{Elem("br").SelfClosing()}
 }

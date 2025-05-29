@@ -4,12 +4,14 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/pre
 type PreElement struct {
 	element *Element
 }
 
-func Pre() *PreElement {
-	return &PreElement{Elem("pre")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/pre
+func Pre(children ...any) *PreElement {
+	return &PreElement{Elem("pre").Add(children...)}
 }
 
 func (self *PreElement) Id(value string) *PreElement {

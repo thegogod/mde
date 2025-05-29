@@ -4,12 +4,14 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/body
 type BodyElement struct {
 	element *Element
 }
 
-func Body() *BodyElement {
-	return &BodyElement{Elem("body")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/body
+func Body(children ...any) *BodyElement {
+	return &BodyElement{Elem("body").Add(children...)}
 }
 
 func (self *BodyElement) Id(value string) *BodyElement {

@@ -4,10 +4,12 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/hr
 type HorizontalRuleElement struct {
 	element *Element
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/hr
 func Hr() *HorizontalRuleElement {
 	return &HorizontalRuleElement{Elem("hr").SelfClosing()}
 }

@@ -4,12 +4,18 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/blockquote
 type BlockQuoteElement struct {
 	element *Element
 }
 
-func BlockQuote() *BlockQuoteElement {
-	return &BlockQuoteElement{Elem("blockquote")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/blockquote
+func BlockQuote(children ...any) *BlockQuoteElement {
+	return &BlockQuoteElement{Elem("blockquote").Add(children...)}
+}
+
+func (self *BlockQuoteElement) Cite(value string) *BlockQuoteElement {
+	return self.Attr("cite", value)
 }
 
 func (self *BlockQuoteElement) Id(value string) *BlockQuoteElement {

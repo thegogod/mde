@@ -4,32 +4,39 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 type HeadingElement struct {
 	element *Element
 }
 
-func H1() *HeadingElement {
-	return &HeadingElement{Elem("h1")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+func H1(children ...any) *HeadingElement {
+	return &HeadingElement{Elem("h1").Add(children...)}
 }
 
-func H2() *HeadingElement {
-	return &HeadingElement{Elem("h2")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+func H2(children ...any) *HeadingElement {
+	return &HeadingElement{Elem("h2").Add(children...)}
 }
 
-func H3() *HeadingElement {
-	return &HeadingElement{Elem("h3")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+func H3(children ...any) *HeadingElement {
+	return &HeadingElement{Elem("h3").Add(children...)}
 }
 
-func H4() *HeadingElement {
-	return &HeadingElement{Elem("h4")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+func H4(children ...any) *HeadingElement {
+	return &HeadingElement{Elem("h4").Add(children...)}
 }
 
-func H5() *HeadingElement {
-	return &HeadingElement{Elem("h5")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+func H5(children ...any) *HeadingElement {
+	return &HeadingElement{Elem("h5").Add(children...)}
 }
 
-func H6() *HeadingElement {
-	return &HeadingElement{Elem("h6")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+func H6(children ...any) *HeadingElement {
+	return &HeadingElement{Elem("h6").Add(children...)}
 }
 
 func (self *HeadingElement) Id(value string) *HeadingElement {

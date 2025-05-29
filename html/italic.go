@@ -4,12 +4,14 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/i
 type ItalicElement struct {
 	element *Element
 }
 
-func I() *ItalicElement {
-	return &ItalicElement{Elem("i")}
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/i
+func I(children ...any) *ItalicElement {
+	return &ItalicElement{Elem("i").Add(children...)}
 }
 
 func (self *ItalicElement) Id(value string) *ItalicElement {

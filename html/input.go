@@ -4,10 +4,12 @@ import (
 	"github.com/thegogod/mde/core"
 )
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input
 type InputElement struct {
 	element *Element
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input
 func Input() *InputElement {
 	return &InputElement{Elem("input").SelfClosing()}
 }
