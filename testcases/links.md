@@ -2,7 +2,7 @@
 
 ![an image](https://go.dev/images/gophers/ladder.svg)
 
-an example of an [inline link!](https://www.google.com)  
+an example of an [_inline link!_](https://www.google.com)  
 
 - [A](#section-a)
 - [B](#section-b)

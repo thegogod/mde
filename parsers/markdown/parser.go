@@ -3,6 +3,7 @@ package markdown
 import (
 	"errors"
 	"fmt"
+	"slices"
 
 	"github.com/google/uuid"
 	"github.com/thegogod/mde/core"
@@ -107,7 +108,7 @@ func (self *Parser) parseBlock() (core.Node, error) {
 	return node, err
 }
 
-func (self *Parser) parseInline() (core.Node, error) {
+func (self *Parser) parseInline(until ...TokenKind) (core.Node, error) {
 	if self.iter.Match(Eof) {
 		return nil, nil
 	}
@@ -166,6 +167,10 @@ func (self *Parser) parseInline() (core.Node, error) {
 		buff := []html.Raw{}
 
 		for self.iter.Curr.Kind.IsInline() {
+			if slices.Contains(until, self.iter.Curr.Kind) {
+				break
+			}
+
 			self.iter.Save()
 			inline, err := self.parseInline()
 
@@ -468,19 +473,22 @@ func (self *Parser) parseCode() (core.Node, error) {
 
 func (self *Parser) parseLink() (core.Node, error) {
 	link := html.A()
-	node, err := self.parseTextUntil(RightBracket)
 
-	if node == nil || err != nil {
-		return link, err
+	for !self.iter.Match(RightBracket) {
+		node, err := self.parseInline(RightBracket)
+
+		if node == nil || err != nil {
+			return link, err
+		}
+
+		link.Push(node)
 	}
-
-	link.Push(node)
 
 	if _, err := self.iter.Consume(LeftParen, "expected '('"); err != nil {
 		return link, err
 	}
 
-	node, err = self.parseTextUntil(RightParen)
+	node, err := self.parseTextUntil(RightParen)
 
 	if node == nil || err != nil {
 		return link, err
