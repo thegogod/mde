@@ -186,7 +186,7 @@ func (self *Parser) parseInline() (core.Node, error) {
 		}
 
 		node = text
-		err = texterr
+		err = nil
 	}
 
 	self.iter.Pop()
