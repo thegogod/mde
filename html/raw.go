@@ -5,11 +5,23 @@ import "strings"
 type Raw []byte
 
 func (self Raw) String() string {
-	return string(self)
+	value := string(self)
+
+	for strings.HasSuffix(value, "\n") {
+		value = strings.TrimSuffix(value, "\n")
+	}
+
+	return value
 }
 
 func (self Raw) PrettyString(indent string) string {
-	lines := strings.Split(string(self), "\n")
+	value := string(self)
+
+	for strings.HasSuffix(value, "\n") {
+		value = strings.TrimSuffix(value, "\n")
+	}
+
+	lines := strings.Split(value, "\n")
 	return strings.Join(lines, "\n"+indent)
 }
 

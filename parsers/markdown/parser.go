@@ -261,7 +261,7 @@ func (self *Parser) parseCodeBlock() (core.Node, error) {
 		return html.Pre(code), err
 	}
 
-	code.Add(node)
+	code.Add(node[:len(node)-1])
 	return html.Pre(code), nil
 }
 
@@ -515,6 +515,7 @@ func (self *Parser) parseListItem() (core.Node, error) {
 
 	if err == nil && node != nil {
 		li.Add(node)
+		self.iter.Pop()
 		return li, nil
 	}
 
@@ -522,6 +523,8 @@ func (self *Parser) parseListItem() (core.Node, error) {
 	node, err = self.parseBlock()
 
 	if node == nil || err != nil {
+		self.iter.Revert()
+		self.iter.Pop()
 		return li, err
 	}
 
@@ -533,6 +536,7 @@ func (self *Parser) parseListItem() (core.Node, error) {
 		li.Add(node)
 	}
 
+	self.iter.Pop()
 	return li, nil
 }
 
@@ -611,7 +615,7 @@ func (self *Parser) parseText() (html.Raw, error) {
 	return text, nil
 }
 
-func (self *Parser) parseTextUntil(kind TokenKind) (core.Node, error) {
+func (self *Parser) parseTextUntil(kind TokenKind) (html.Raw, error) {
 	if self.iter.Curr.Kind == Eof {
 		return nil, nil
 	}
