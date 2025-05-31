@@ -15,7 +15,7 @@ doc:
 
 test:
 	go clean -testcache
-	go test ./... -cover -coverprofile=coverage.out
+	go test ./... -cover -coverprofile=coverage.out -timeout 5s
 
 test.v:
 	go clean -testcache

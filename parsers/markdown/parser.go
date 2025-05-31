@@ -164,7 +164,7 @@ func (self *Parser) parseInline(until ...TokenKind) (core.Node, error) {
 			return text, texterr
 		}
 
-		buff := []html.Raw{}
+		buff := html.Raw{}
 
 		for self.iter.Curr.Kind.IsInline() {
 			if slices.Contains(until, self.iter.Curr.Kind) {
@@ -191,15 +191,12 @@ func (self *Parser) parseInline(until ...TokenKind) (core.Node, error) {
 			self.iter.Pop()
 
 			if subtext.String() == "\n" {
-				buff = append(buff, subtext)
+				buff = append(buff, subtext...)
 				continue
 			}
 
-			for _, item := range buff {
-				text = append(text, item...)
-			}
-
-			buff = []html.Raw{}
+			text = append(text, buff...)
+			buff = html.Raw{}
 			text = append(text, subtext...)
 		}
 
@@ -233,30 +230,30 @@ func (self *Parser) parseHeading(depth int) (core.Node, error) {
 
 func (self *Parser) parseParagraph() (core.Node, error) {
 	paragraph := html.P()
-	buff := []core.Node{}
+	buff := html.Raw{}
 
 	for self.iter.Curr.Kind.IsInline() {
 		node, err := self.parseInline()
 
-		if node == nil || err != nil {
+		if err != nil {
 			return paragraph, err
 		}
 
-		if node.String() == "" {
-			continue
+		if node == nil {
+			break
 		}
 
 		if node.String() == "\n" {
-			buff = append(buff, node)
+			buff = append(buff, node.Bytes()...)
 			continue
 		}
 
-		for _, item := range buff {
-			paragraph.Push(item)
+		if len(buff) > 0 {
+			paragraph.Push(buff)
+			buff = html.Raw{}
 		}
 
 		paragraph.Push(node)
-		buff = []core.Node{}
 	}
 
 	if len(paragraph.Children()) == 0 {
