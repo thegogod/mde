@@ -492,21 +492,30 @@ func (self *Parser) parseLink() (core.Node, error) {
 
 func (self *Parser) parseImage() (core.Node, error) {
 	image := html.Img()
-	_, err := self.iter.Consume(LeftBracket, "expected '['")
 
-	if err != nil {
+	if _, err := self.iter.Consume(LeftBracket, "expected '['"); err != nil {
 		return image, err
 	}
 
-	node, err := self.parseLink()
+	node, err := self.parseTextUntil(RightBracket)
 
 	if node == nil || err != nil {
 		return image, err
 	}
 
-	link := node.(*html.AnchorElement)
-	image.Alt(link.GetAttr("alt"))
-	image.Src(link.GetAttr("href"))
+	image.Alt(node.String())
+
+	if _, err := self.iter.Consume(LeftParen, "expected '('"); err != nil {
+		return image, err
+	}
+
+	node, err = self.parseTextUntil(RightParen)
+
+	if node == nil || err != nil {
+		return image, err
+	}
+
+	image.Src(node.String())
 	return image, nil
 }
 
