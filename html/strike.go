@@ -49,6 +49,11 @@ func (self *StrikeElement) Add(children ...any) *StrikeElement {
 	return self
 }
 
+func (self *StrikeElement) Pop() *StrikeElement {
+	self.element.Pop()
+	return self
+}
+
 func (self StrikeElement) Children() []core.Node {
 	return self.element.children
 }

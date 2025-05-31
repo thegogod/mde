@@ -49,6 +49,11 @@ func (self *ItalicElement) Add(children ...any) *ItalicElement {
 	return self
 }
 
+func (self *ItalicElement) Pop() *ItalicElement {
+	self.element.Pop()
+	return self
+}
+
 func (self ItalicElement) Children() []core.Node {
 	return self.element.children
 }

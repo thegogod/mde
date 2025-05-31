@@ -54,6 +54,11 @@ func (self *LabelElement) Add(children ...any) *LabelElement {
 	return self
 }
 
+func (self *LabelElement) Pop() *LabelElement {
+	self.element.Pop()
+	return self
+}
+
 func (self LabelElement) Children() []core.Node {
 	return self.element.children
 }

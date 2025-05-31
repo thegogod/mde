@@ -31,6 +31,11 @@ func (self *StyleElement) Add(children ...any) *StyleElement {
 	return self
 }
 
+func (self *StyleElement) Pop() *StyleElement {
+	self.element.Pop()
+	return self
+}
+
 func (self StyleElement) Children() []core.Node {
 	return self.element.children
 }

@@ -49,6 +49,11 @@ func (self *PreElement) Add(children ...any) *PreElement {
 	return self
 }
 
+func (self *PreElement) Pop() *PreElement {
+	self.element.Pop()
+	return self
+}
+
 func (self PreElement) Children() []core.Node {
 	return self.element.children
 }

@@ -49,6 +49,11 @@ func (self *CodeElement) Add(children ...any) *CodeElement {
 	return self
 }
 
+func (self *CodeElement) Pop() *CodeElement {
+	self.element.Pop()
+	return self
+}
+
 func (self CodeElement) Children() []core.Node {
 	return self.element.children
 }

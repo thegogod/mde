@@ -49,6 +49,11 @@ func (self *StrongElement) Add(children ...any) *StrongElement {
 	return self
 }
 
+func (self *StrongElement) Pop() *StrongElement {
+	self.element.Pop()
+	return self
+}
+
 func (self StrongElement) Children() []core.Node {
 	return self.element.children
 }

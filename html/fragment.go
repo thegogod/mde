@@ -20,6 +20,13 @@ func (self *FragmentElement) Add(children ...core.Node) *FragmentElement {
 	return self
 }
 
+func (self *FragmentElement) Pop() *FragmentElement {
+	arr := *self
+	arr = arr[:len(arr)-1]
+	*self = arr
+	return self
+}
+
 func (self FragmentElement) Children() []core.Node {
 	return self
 }

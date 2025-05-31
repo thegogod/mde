@@ -49,6 +49,11 @@ func (self *ListItemElement) Add(children ...any) *ListItemElement {
 	return self
 }
 
+func (self *ListItemElement) Pop() *ListItemElement {
+	self.element.Pop()
+	return self
+}
+
 func (self ListItemElement) Children() []core.Node {
 	return self.element.children
 }

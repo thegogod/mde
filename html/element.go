@@ -88,6 +88,11 @@ func (self *Element) Add(children ...any) *Element {
 	return self
 }
 
+func (self *Element) Pop() *Element {
+	self.children = self.children[:len(self.children)-1]
+	return self
+}
+
 func (self Element) Children() []core.Node {
 	return self.children
 }

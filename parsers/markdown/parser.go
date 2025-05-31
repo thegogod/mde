@@ -157,7 +157,36 @@ func (self *Parser) parseInline() (core.Node, error) {
 	}
 
 	if node == nil || err != nil {
-		node, err = self.parseText()
+		text, texterr := self.parseText()
+
+		if text == nil || texterr != nil {
+			return text, texterr
+		}
+
+		for self.iter.Curr.Kind.IsInline() {
+			self.iter.Save()
+			inline, err := self.parseInline()
+
+			if inline == nil || err != nil {
+				self.iter.Revert()
+				self.iter.Pop()
+				break
+			}
+
+			subtext, ok := inline.(html.Raw)
+
+			if !ok {
+				self.iter.Revert()
+				self.iter.Pop()
+				break
+			}
+
+			text = append(text, subtext...)
+			self.iter.Pop()
+		}
+
+		node = text
+		err = texterr
 	}
 
 	self.iter.Pop()
@@ -213,7 +242,12 @@ func (self *Parser) parseCodeBlock() (core.Node, error) {
 	lang := ""
 
 	for !self.iter.Match(NewLine) {
-		node, _ := self.parseText()
+		node, err := self.parseText()
+
+		if node == nil || err != nil {
+			return html.Pre(code), err
+		}
+
 		lang += node.String()
 	}
 
@@ -221,16 +255,13 @@ func (self *Parser) parseCodeBlock() (core.Node, error) {
 		code.Class(fmt.Sprintf("language-%s", lang))
 	}
 
-	for !self.iter.Match(CodeBlock) {
-		node, err := self.parseInline()
+	node, err := self.parseTextUntil(CodeBlock)
 
-		if node == nil || err != nil {
-			return html.Pre(code), err
-		}
-
-		code.Add(node)
+	if node == nil || err != nil {
+		return html.Pre(code), err
 	}
 
+	code.Add(node)
 	return html.Pre(code), nil
 }
 
@@ -562,7 +593,7 @@ func (self *Parser) parseTask() (core.Node, error) {
 	return label, nil
 }
 
-func (self *Parser) parseNewLine() (core.Node, error) {
+func (self *Parser) parseNewLine() (html.Raw, error) {
 	if self.iter.Curr.IsWhitespace() {
 		return nil, nil
 	}
@@ -570,12 +601,32 @@ func (self *Parser) parseNewLine() (core.Node, error) {
 	return html.Raw("\n"), nil
 }
 
-func (self *Parser) parseText() (core.Node, error) {
+func (self *Parser) parseText() (html.Raw, error) {
 	if self.iter.Curr.Kind == Eof {
 		return nil, nil
 	}
 
 	text := html.Raw(self.iter.Curr.Value)
 	self.iter.Next()
+	return text, nil
+}
+
+func (self *Parser) parseTextUntil(kind TokenKind) (core.Node, error) {
+	if self.iter.Curr.Kind == Eof {
+		return nil, nil
+	}
+
+	text := html.Raw{}
+
+	for !self.iter.Match(kind) {
+		node, err := self.parseText()
+
+		if node == nil || err != nil {
+			return text, err
+		}
+
+		text = append(text, node...)
+	}
+
 	return text, nil
 }

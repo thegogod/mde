@@ -58,6 +58,11 @@ func (self *OrderedListElement) Add(children ...*ListItemElement) *OrderedListEl
 	return self
 }
 
+func (self *OrderedListElement) Pop() *OrderedListElement {
+	self.element.Pop()
+	return self
+}
+
 func (self OrderedListElement) Children() []core.Node {
 	return self.element.children
 }

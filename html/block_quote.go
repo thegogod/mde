@@ -54,6 +54,11 @@ func (self *BlockQuoteElement) Add(children ...any) *BlockQuoteElement {
 	return self
 }
 
+func (self *BlockQuoteElement) Pop() *BlockQuoteElement {
+	self.element.Pop()
+	return self
+}
+
 func (self BlockQuoteElement) Children() []core.Node {
 	return self.element.children
 }

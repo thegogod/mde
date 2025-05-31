@@ -59,6 +59,11 @@ func (self *AnchorElement) Add(children ...any) *AnchorElement {
 	return self
 }
 
+func (self *AnchorElement) Pop() *AnchorElement {
+	self.element.Pop()
+	return self
+}
+
 func (self AnchorElement) Children() []core.Node {
 	return self.element.children
 }

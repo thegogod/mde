@@ -49,6 +49,11 @@ func (self *SpanElement) Add(children ...any) *SpanElement {
 	return self
 }
 
+func (self *SpanElement) Pop() *SpanElement {
+	self.element.Pop()
+	return self
+}
+
 func (self SpanElement) Children() []core.Node {
 	return self.element.children
 }

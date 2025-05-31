@@ -49,6 +49,11 @@ func (self *HtmlElement) Add(children ...any) *HtmlElement {
 	return self
 }
 
+func (self *HtmlElement) Pop() *HtmlElement {
+	self.element.Pop()
+	return self
+}
+
 func (self HtmlElement) Children() []core.Node {
 	return self.element.children
 }

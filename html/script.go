@@ -51,6 +51,11 @@ func (self *ScriptElement) Add(children ...any) *ScriptElement {
 	return self
 }
 
+func (self *ScriptElement) Pop() *ScriptElement {
+	self.element.Pop()
+	return self
+}
+
 func (self ScriptElement) Children() []core.Node {
 	return self.element.children
 }

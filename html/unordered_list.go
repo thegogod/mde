@@ -58,6 +58,11 @@ func (self *UnorderedListElement) Add(children ...*ListItemElement) *UnorderedLi
 	return self
 }
 
+func (self *UnorderedListElement) Pop() *UnorderedListElement {
+	self.element.Pop()
+	return self
+}
+
 func (self UnorderedListElement) Children() []core.Node {
 	return self.element.children
 }

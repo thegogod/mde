@@ -49,6 +49,11 @@ func (self *ParagraphElement) Add(children ...any) *ParagraphElement {
 	return self
 }
 
+func (self *ParagraphElement) Pop() *ParagraphElement {
+	self.element.Pop()
+	return self
+}
+
 func (self ParagraphElement) Children() []core.Node {
 	return self.element.children
 }
