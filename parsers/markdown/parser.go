@@ -604,8 +604,12 @@ func (self *Parser) parseTask() (core.Node, error) {
 	for !self.iter.Match(NewLine) {
 		node, err := self.parseText()
 
-		if err != nil || node == nil {
+		if err != nil {
 			return label, err
+		}
+
+		if node == nil {
+			break
 		}
 
 		text += node.String()
