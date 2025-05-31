@@ -433,6 +433,7 @@ func (self *Parser) parseBr() (core.Node, error) {
 
 func (self *Parser) parseCode() (core.Node, error) {
 	code := html.Code()
+	text := html.Raw{}
 
 	for !self.iter.Match(Code) {
 		node, err := self.parseText()
@@ -441,9 +442,10 @@ func (self *Parser) parseCode() (core.Node, error) {
 			return code, err
 		}
 
-		code.Add(node)
+		text = append(text, node...)
 	}
 
+	code.Add(text)
 	return code, nil
 }
 
