@@ -1,6 +1,9 @@
 package html
 
 import (
+	"bytes"
+	"unicode"
+
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
@@ -104,10 +107,50 @@ func (self HeadingElement) Children() []core.Node {
 }
 
 func (self HeadingElement) String() string {
+	if !self.element.attributes.Exists("id") {
+		id := []byte{}
+
+		for _, child := range self.element.children {
+			value := child.Bytes()
+
+			for _, b := range value {
+				if unicode.IsSpace(rune(b)) {
+					id = append(id, '-')
+				} else if unicode.IsNumber(rune(b)) {
+					id = append(id, b)
+				} else if unicode.IsLetter(rune(b)) {
+					id = append(id, bytes.ToLower([]byte{b})...)
+				}
+			}
+		}
+
+		self.Attr("id", string(id))
+	}
+
 	return self.element.String()
 }
 
 func (self HeadingElement) PrettyString(indent string) string {
+	if !self.element.attributes.Exists("id") {
+		id := []byte{}
+
+		for _, child := range self.element.children {
+			value := child.Bytes()
+
+			for _, b := range value {
+				if unicode.IsSpace(rune(b)) {
+					id = append(id, '-')
+				} else if unicode.IsNumber(rune(b)) {
+					id = append(id, b)
+				} else if unicode.IsLetter(rune(b)) {
+					id = append(id, bytes.ToLower([]byte{b})...)
+				}
+			}
+		}
+
+		self.Attr("id", string(id))
+	}
+
 	return self.element.PrettyString(indent)
 }
 
