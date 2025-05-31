@@ -27,7 +27,7 @@ const (
 	Br         // line break (<br>) (two spaces)
 	Ol         // ordered list (<ol>) (1. test)
 	Ul         // unordered list (<ul>) (- test)
-	BlockQuote // >
+	BlockQuote // '>'
 	Code       // `test`
 	CodeBlock  // ```test```
 	Hr         // horizontal rule (<hr>) (---)

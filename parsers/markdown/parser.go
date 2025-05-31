@@ -59,7 +59,7 @@ func (self *Parser) parseBlock() (core.Node, error) {
 
 	self.iter.Save()
 
-	for range self.iter.blockQuoteDepth {
+	for range self.iter.blockQuoteDepth - 1 {
 		if !self.iter.Match(BlockQuote) {
 			break
 		}
@@ -273,6 +273,7 @@ func (self *Parser) parseBlockQuote() (core.Node, error) {
 		node, err := self.parseBlock()
 
 		if node == nil || err != nil {
+			self.iter.blockQuoteDepth--
 			return blockQuote, err
 		}
 
