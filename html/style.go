@@ -9,7 +9,7 @@ type StyleElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/style
 func Style(children ...any) *StyleElement {
-	return &StyleElement{Elem("style").Attr("type", "text/css").Add(children...)}
+	return &StyleElement{Elem("style").Attr("type", "text/css").Push(children...)}
 }
 
 func (self *StyleElement) Attr(name string, value string) *StyleElement {
@@ -26,8 +26,8 @@ func (self *StyleElement) DelAttr(name string) *StyleElement {
 	return self
 }
 
-func (self *StyleElement) Add(children ...any) *StyleElement {
-	self.element.Add(children...)
+func (self *StyleElement) Push(children ...any) *StyleElement {
+	self.element.Push(children...)
 	return self
 }
 

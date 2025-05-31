@@ -12,7 +12,7 @@ type DivElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/div
 func Div(children ...any) *DivElement {
-	return &DivElement{Elem("div").Add(children...)}
+	return &DivElement{Elem("div").Push(children...)}
 }
 
 func (self *DivElement) Id(value string) *DivElement {
@@ -44,8 +44,8 @@ func (self *DivElement) DelAttr(name string) *DivElement {
 	return self
 }
 
-func (self *DivElement) Add(children ...any) *DivElement {
-	self.element.Add(children...)
+func (self *DivElement) Push(children ...any) *DivElement {
+	self.element.Push(children...)
 	return self
 }
 

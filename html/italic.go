@@ -12,7 +12,7 @@ type ItalicElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/i
 func I(children ...any) *ItalicElement {
-	return &ItalicElement{Elem("i").Add(children...)}
+	return &ItalicElement{Elem("i").Push(children...)}
 }
 
 func (self *ItalicElement) Id(value string) *ItalicElement {
@@ -44,8 +44,8 @@ func (self *ItalicElement) DelAttr(name string) *ItalicElement {
 	return self
 }
 
-func (self *ItalicElement) Add(children ...any) *ItalicElement {
-	self.element.Add(children...)
+func (self *ItalicElement) Push(children ...any) *ItalicElement {
+	self.element.Push(children...)
 	return self
 }
 

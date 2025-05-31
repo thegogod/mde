@@ -43,7 +43,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 			return nil, err
 		}
 
-		group.Add(node)
+		group.Push(node)
 	}
 
 	return group, nil
@@ -220,7 +220,7 @@ func (self *Parser) parseHeading(depth int) (core.Node, error) {
 			return heading, err
 		}
 
-		heading.Add(node)
+		heading.Push(node)
 	}
 
 	return heading, nil
@@ -243,10 +243,10 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 		}
 
 		for _, item := range buff {
-			paragraph.Add(item)
+			paragraph.Push(item)
 		}
 
-		paragraph.Add(node)
+		paragraph.Push(node)
 		buff = []core.Node{}
 	}
 
@@ -285,7 +285,7 @@ func (self *Parser) parseCodeBlock() (core.Node, error) {
 		return html.Pre(code), err
 	}
 
-	code.Add(node[:len(node)-1])
+	code.Push(node[:len(node)-1])
 	return html.Pre(code), nil
 }
 
@@ -301,7 +301,7 @@ func (self *Parser) parseBlockQuote() (core.Node, error) {
 			return blockQuote, err
 		}
 
-		blockQuote.Add(node)
+		blockQuote.Push(node)
 
 		if self.iter.Curr.Kind != BlockQuote {
 			break
@@ -322,7 +322,7 @@ func (self *Parser) parseUnorderedList() (core.Node, error) {
 			return ul, err
 		}
 
-		ul.Add(node.(*html.ListItemElement))
+		ul.Push(node.(*html.ListItemElement))
 
 		if !self.iter.Match(Ul) {
 			break
@@ -342,7 +342,7 @@ func (self *Parser) parseOrderedList() (core.Node, error) {
 			return ol, err
 		}
 
-		ol.Add(node.(*html.ListItemElement))
+		ol.Push(node.(*html.ListItemElement))
 
 		if !self.iter.Match(Ol) {
 			break
@@ -366,7 +366,7 @@ func (self *Parser) parseBold() (core.Node, error) {
 			return bold, err
 		}
 
-		bold.Add(node)
+		bold.Push(node)
 	}
 
 	return bold, nil
@@ -382,7 +382,7 @@ func (self *Parser) parseBoldAlt() (core.Node, error) {
 			return bold, err
 		}
 
-		bold.Add(node)
+		bold.Push(node)
 	}
 
 	return bold, nil
@@ -398,7 +398,7 @@ func (self *Parser) parseItalic() (core.Node, error) {
 			return italic, err
 		}
 
-		italic.Add(node)
+		italic.Push(node)
 	}
 
 	return italic, nil
@@ -414,7 +414,7 @@ func (self *Parser) parseItalicAlt() (core.Node, error) {
 			return italic, err
 		}
 
-		italic.Add(node)
+		italic.Push(node)
 	}
 
 	return italic, nil
@@ -430,7 +430,7 @@ func (self *Parser) parseStrike() (core.Node, error) {
 			return strike, err
 		}
 
-		strike.Add(node)
+		strike.Push(node)
 	}
 
 	return strike, nil
@@ -446,7 +446,7 @@ func (self *Parser) parseStrikeAlt() (core.Node, error) {
 			return strike, err
 		}
 
-		strike.Add(node)
+		strike.Push(node)
 	}
 
 	return strike, nil
@@ -470,7 +470,7 @@ func (self *Parser) parseCode() (core.Node, error) {
 		text = append(text, node...)
 	}
 
-	code.Add(text)
+	code.Push(text)
 	return code, nil
 }
 
@@ -484,7 +484,7 @@ func (self *Parser) parseLink() (core.Node, error) {
 			return link, err
 		}
 
-		link.Add(node)
+		link.Push(node)
 	}
 
 	if _, err := self.iter.Consume(RightBracket, "expected ']'"); err != nil {
@@ -541,7 +541,7 @@ func (self *Parser) parseListItem() (core.Node, error) {
 	node, err := self.parseTask()
 
 	if err == nil && node != nil {
-		li.Add(node)
+		li.Push(node)
 		self.iter.Pop()
 		return li, nil
 	}
@@ -557,10 +557,10 @@ func (self *Parser) parseListItem() (core.Node, error) {
 
 	if paragraph, ok := node.(*html.ParagraphElement); ok {
 		for _, child := range paragraph.Children() {
-			li.Add(child)
+			li.Push(child)
 		}
 	} else {
-		li.Add(node)
+		li.Push(node)
 	}
 
 	self.iter.Pop()
@@ -619,8 +619,8 @@ func (self *Parser) parseTask() (core.Node, error) {
 		text += node.String()
 	}
 
-	label.Add(input)
-	label.Add(html.Span(text))
+	label.Push(input)
+	label.Push(html.Span(text))
 	return label, nil
 }
 

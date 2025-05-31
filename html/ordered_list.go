@@ -15,7 +15,7 @@ func Ol(children ...*ListItemElement) *OrderedListElement {
 	el := Elem("ol")
 
 	for _, child := range children {
-		el.Add(child)
+		el.Push(child)
 	}
 
 	return &OrderedListElement{el}
@@ -50,9 +50,9 @@ func (self *OrderedListElement) DelAttr(name string) *OrderedListElement {
 	return self
 }
 
-func (self *OrderedListElement) Add(children ...*ListItemElement) *OrderedListElement {
+func (self *OrderedListElement) Push(children ...*ListItemElement) *OrderedListElement {
 	for _, child := range children {
-		self.element.Add(child)
+		self.element.Push(child)
 	}
 
 	return self

@@ -12,7 +12,7 @@ type StrongElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/strong
 func Strong(children ...any) *StrongElement {
-	return &StrongElement{Elem("strong").Add(children...)}
+	return &StrongElement{Elem("strong").Push(children...)}
 }
 
 func (self *StrongElement) Id(value string) *StrongElement {
@@ -44,8 +44,8 @@ func (self *StrongElement) DelAttr(name string) *StrongElement {
 	return self
 }
 
-func (self *StrongElement) Add(children ...any) *StrongElement {
-	self.element.Add(children...)
+func (self *StrongElement) Push(children ...any) *StrongElement {
+	self.element.Push(children...)
 	return self
 }
 

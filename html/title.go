@@ -9,7 +9,7 @@ type TitleElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/title
 func Title(children ...any) *TitleElement {
-	return &TitleElement{Elem("title").Add(children...)}
+	return &TitleElement{Elem("title").Push(children...)}
 }
 
 func (self *TitleElement) Attr(name string, value string) *TitleElement {
@@ -26,8 +26,8 @@ func (self *TitleElement) DelAttr(name string) *TitleElement {
 	return self
 }
 
-func (self *TitleElement) Add(children ...any) *TitleElement {
-	self.element.Add(children...)
+func (self *TitleElement) Push(children ...any) *TitleElement {
+	self.element.Push(children...)
 	return self
 }
 

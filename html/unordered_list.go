@@ -15,7 +15,7 @@ func Ul(children ...*ListItemElement) *UnorderedListElement {
 	el := Elem("ul")
 
 	for _, child := range children {
-		el.Add(child)
+		el.Push(child)
 	}
 
 	return &UnorderedListElement{el}
@@ -50,9 +50,9 @@ func (self *UnorderedListElement) DelAttr(name string) *UnorderedListElement {
 	return self
 }
 
-func (self *UnorderedListElement) Add(children ...*ListItemElement) *UnorderedListElement {
+func (self *UnorderedListElement) Push(children ...*ListItemElement) *UnorderedListElement {
 	for _, child := range children {
-		self.element.Add(child)
+		self.element.Push(child)
 	}
 
 	return self

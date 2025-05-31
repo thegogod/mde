@@ -64,7 +64,7 @@ func (self *Element) DelAttr(name string) *Element {
 	return self
 }
 
-func (self *Element) Add(children ...any) *Element {
+func (self *Element) Push(children ...any) *Element {
 	if self.children == nil {
 		self.children = []core.Node{}
 	}

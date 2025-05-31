@@ -12,7 +12,7 @@ type BlockQuoteElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/blockquote
 func BlockQuote(children ...any) *BlockQuoteElement {
-	return &BlockQuoteElement{Elem("blockquote").Add(children...)}
+	return &BlockQuoteElement{Elem("blockquote").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/blockquote#cite
@@ -49,8 +49,8 @@ func (self *BlockQuoteElement) DelAttr(name string) *BlockQuoteElement {
 	return self
 }
 
-func (self *BlockQuoteElement) Add(children ...any) *BlockQuoteElement {
-	self.element.Add(children...)
+func (self *BlockQuoteElement) Push(children ...any) *BlockQuoteElement {
+	self.element.Push(children...)
 	return self
 }
 

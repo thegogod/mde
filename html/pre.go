@@ -12,7 +12,7 @@ type PreElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/pre
 func Pre(children ...any) *PreElement {
-	return &PreElement{Elem("pre").Add(children...)}
+	return &PreElement{Elem("pre").Push(children...)}
 }
 
 func (self *PreElement) Id(value string) *PreElement {
@@ -44,8 +44,8 @@ func (self *PreElement) DelAttr(name string) *PreElement {
 	return self
 }
 
-func (self *PreElement) Add(children ...any) *PreElement {
-	self.element.Add(children...)
+func (self *PreElement) Push(children ...any) *PreElement {
+	self.element.Push(children...)
 	return self
 }
 

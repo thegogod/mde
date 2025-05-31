@@ -12,7 +12,7 @@ type ParagraphElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/p
 func P(children ...any) *ParagraphElement {
-	return &ParagraphElement{Elem("p").Add(children...)}
+	return &ParagraphElement{Elem("p").Push(children...)}
 }
 
 func (self *ParagraphElement) Id(value string) *ParagraphElement {
@@ -44,8 +44,8 @@ func (self *ParagraphElement) DelAttr(name string) *ParagraphElement {
 	return self
 }
 
-func (self *ParagraphElement) Add(children ...any) *ParagraphElement {
-	self.element.Add(children...)
+func (self *ParagraphElement) Push(children ...any) *ParagraphElement {
+	self.element.Push(children...)
 	return self
 }
 

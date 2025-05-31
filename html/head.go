@@ -12,7 +12,7 @@ type HeadElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/head
 func Head(children ...any) *HeadElement {
-	return &HeadElement{Elem("head").Add(children...)}
+	return &HeadElement{Elem("head").Push(children...)}
 }
 
 func (self *HeadElement) Id(value string) *HeadElement {
@@ -44,8 +44,8 @@ func (self *HeadElement) DelAttr(name string) *HeadElement {
 	return self
 }
 
-func (self *HeadElement) Add(children ...any) *HeadElement {
-	self.element.Add(children...)
+func (self *HeadElement) Push(children ...any) *HeadElement {
+	self.element.Push(children...)
 	return self
 }
 

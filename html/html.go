@@ -12,7 +12,7 @@ type HtmlElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/html
 func Html(children ...any) *HtmlElement {
-	return &HtmlElement{Elem("html").Add(children...)}
+	return &HtmlElement{Elem("html").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/html#accessibility
@@ -44,8 +44,8 @@ func (self *HtmlElement) DelAttr(name string) *HtmlElement {
 	return self
 }
 
-func (self *HtmlElement) Add(children ...any) *HtmlElement {
-	self.element.Add(children...)
+func (self *HtmlElement) Push(children ...any) *HtmlElement {
+	self.element.Push(children...)
 	return self
 }
 

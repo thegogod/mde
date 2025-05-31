@@ -12,10 +12,10 @@ type FragmentElement []core.Node
 // https://react.dev/reference/react/Fragment
 func Fragment(children ...core.Node) *FragmentElement {
 	self := &FragmentElement{}
-	return self.Add(children...)
+	return self.Push(children...)
 }
 
-func (self *FragmentElement) Add(children ...core.Node) *FragmentElement {
+func (self *FragmentElement) Push(children ...core.Node) *FragmentElement {
 	*self = append(*self, children...)
 	return self
 }

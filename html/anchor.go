@@ -12,7 +12,7 @@ type AnchorElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a
 func A(children ...any) *AnchorElement {
-	return &AnchorElement{Elem("a").Add(children...)}
+	return &AnchorElement{Elem("a").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href
@@ -54,8 +54,8 @@ func (self *AnchorElement) DelAttr(name string) *AnchorElement {
 	return self
 }
 
-func (self *AnchorElement) Add(children ...any) *AnchorElement {
-	self.element.Add(children...)
+func (self *AnchorElement) Push(children ...any) *AnchorElement {
+	self.element.Push(children...)
 	return self
 }
 

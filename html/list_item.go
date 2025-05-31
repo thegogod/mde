@@ -12,7 +12,7 @@ type ListItemElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/li
 func Li(children ...any) *ListItemElement {
-	return &ListItemElement{Elem("li").Add(children...)}
+	return &ListItemElement{Elem("li").Push(children...)}
 }
 
 func (self *ListItemElement) Id(value string) *ListItemElement {
@@ -44,8 +44,8 @@ func (self *ListItemElement) DelAttr(name string) *ListItemElement {
 	return self
 }
 
-func (self *ListItemElement) Add(children ...any) *ListItemElement {
-	self.element.Add(children...)
+func (self *ListItemElement) Push(children ...any) *ListItemElement {
+	self.element.Push(children...)
 	return self
 }
 

@@ -12,7 +12,7 @@ type LabelElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/label
 func Label(children ...any) *LabelElement {
-	return &LabelElement{Elem("label").Add(children...)}
+	return &LabelElement{Elem("label").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/for
@@ -49,8 +49,8 @@ func (self *LabelElement) DelAttr(name string) *LabelElement {
 	return self
 }
 
-func (self *LabelElement) Add(children ...any) *LabelElement {
-	self.element.Add(children...)
+func (self *LabelElement) Push(children ...any) *LabelElement {
+	self.element.Push(children...)
 	return self
 }
 

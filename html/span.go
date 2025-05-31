@@ -12,7 +12,7 @@ type SpanElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/span
 func Span(children ...any) *SpanElement {
-	return &SpanElement{Elem("span").Add(children...)}
+	return &SpanElement{Elem("span").Push(children...)}
 }
 
 func (self *SpanElement) Id(value string) *SpanElement {
@@ -44,8 +44,8 @@ func (self *SpanElement) DelAttr(name string) *SpanElement {
 	return self
 }
 
-func (self *SpanElement) Add(children ...any) *SpanElement {
-	self.element.Add(children...)
+func (self *SpanElement) Push(children ...any) *SpanElement {
+	self.element.Push(children...)
 	return self
 }
 

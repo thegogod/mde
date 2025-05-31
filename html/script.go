@@ -9,7 +9,7 @@ type ScriptElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script
 func Script(children ...any) *ScriptElement {
-	return &ScriptElement{Elem("script").Add(children...)}
+	return &ScriptElement{Elem("script").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script#src
@@ -46,8 +46,8 @@ func (self *ScriptElement) DelAttr(name string) *ScriptElement {
 	return self
 }
 
-func (self *ScriptElement) Add(children ...any) *ScriptElement {
-	self.element.Add(children...)
+func (self *ScriptElement) Push(children ...any) *ScriptElement {
+	self.element.Push(children...)
 	return self
 }
 

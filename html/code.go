@@ -12,7 +12,7 @@ type CodeElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/code
 func Code(children ...any) *CodeElement {
-	return &CodeElement{Elem("code").Add(children...)}
+	return &CodeElement{Elem("code").Push(children...)}
 }
 
 func (self *CodeElement) Id(value string) *CodeElement {
@@ -44,8 +44,8 @@ func (self *CodeElement) DelAttr(name string) *CodeElement {
 	return self
 }
 
-func (self *CodeElement) Add(children ...any) *CodeElement {
-	self.element.Add(children...)
+func (self *CodeElement) Push(children ...any) *CodeElement {
+	self.element.Push(children...)
 	return self
 }
 

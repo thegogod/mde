@@ -12,7 +12,7 @@ type StrikeElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/s
 func S(children ...any) *StrikeElement {
-	return &StrikeElement{Elem("s").Add(children...)}
+	return &StrikeElement{Elem("s").Push(children...)}
 }
 
 func (self *StrikeElement) Id(value string) *StrikeElement {
@@ -44,8 +44,8 @@ func (self *StrikeElement) DelAttr(name string) *StrikeElement {
 	return self
 }
 
-func (self *StrikeElement) Add(children ...any) *StrikeElement {
-	self.element.Add(children...)
+func (self *StrikeElement) Push(children ...any) *StrikeElement {
+	self.element.Push(children...)
 	return self
 }
 

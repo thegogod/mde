@@ -35,32 +35,32 @@ func Heading(size int, children ...any) *HeadingElement {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 func H1(children ...any) *HeadingElement {
-	return &HeadingElement{Elem("h1").Add(children...)}
+	return &HeadingElement{Elem("h1").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 func H2(children ...any) *HeadingElement {
-	return &HeadingElement{Elem("h2").Add(children...)}
+	return &HeadingElement{Elem("h2").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 func H3(children ...any) *HeadingElement {
-	return &HeadingElement{Elem("h3").Add(children...)}
+	return &HeadingElement{Elem("h3").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 func H4(children ...any) *HeadingElement {
-	return &HeadingElement{Elem("h4").Add(children...)}
+	return &HeadingElement{Elem("h4").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 func H5(children ...any) *HeadingElement {
-	return &HeadingElement{Elem("h5").Add(children...)}
+	return &HeadingElement{Elem("h5").Push(children...)}
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 func H6(children ...any) *HeadingElement {
-	return &HeadingElement{Elem("h6").Add(children...)}
+	return &HeadingElement{Elem("h6").Push(children...)}
 }
 
 func (self *HeadingElement) Id(value string) *HeadingElement {
@@ -92,8 +92,8 @@ func (self *HeadingElement) DelAttr(name string) *HeadingElement {
 	return self
 }
 
-func (self *HeadingElement) Add(children ...any) *HeadingElement {
-	self.element.Add(children...)
+func (self *HeadingElement) Push(children ...any) *HeadingElement {
+	self.element.Push(children...)
 	return self
 }
 

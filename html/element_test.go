@@ -34,8 +34,8 @@ func TestElement(t *testing.T) {
 		el := html.Elem("div")
 		el.Attr("id", "123")
 		el.Class("main")
-		el.Add(
-			html.P().Attr("id", "1").Add("hello world!"),
+		el.Push(
+			html.P().Attr("id", "1").Push("hello world!"),
 			html.Elem("input").Attr("value", "test").Void(),
 		)
 
@@ -50,8 +50,8 @@ func TestElement(t *testing.T) {
 		el := html.Elem("div")
 		el.Attr("id", "123")
 		el.Attr("class", "main")
-		el.Add(
-			html.P().Attr("id", "1").Add("hello world!"),
+		el.Push(
+			html.P().Attr("id", "1").Push("hello world!"),
 			html.Elem("input").Attr("value", "test").Void(),
 		)
 
@@ -66,10 +66,10 @@ func TestElement(t *testing.T) {
 		el := html.Elem("div")
 		el.Attr("id", "123")
 		el.Attr("class", "main")
-		el.Add(
+		el.Push(
 			html.P().Attr("id", "1").
-				Add("hello world!").
-				Add(html.Elem("span").Add("hi!")),
+				Push("hello world!").
+				Push(html.Elem("span").Push("hi!")),
 			html.Elem("input").Attr("value", "test").Void(),
 		)
 

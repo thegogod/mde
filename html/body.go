@@ -12,7 +12,7 @@ type BodyElement struct {
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/body
 func Body(children ...any) *BodyElement {
-	return &BodyElement{Elem("body").Add(children...)}
+	return &BodyElement{Elem("body").Push(children...)}
 }
 
 func (self *BodyElement) Id(value string) *BodyElement {
@@ -44,8 +44,8 @@ func (self *BodyElement) DelAttr(name string) *BodyElement {
 	return self
 }
 
-func (self *BodyElement) Add(children ...any) *BodyElement {
-	self.element.Add(children...)
+func (self *BodyElement) Push(children ...any) *BodyElement {
+	self.element.Push(children...)
 	return self
 }
 
