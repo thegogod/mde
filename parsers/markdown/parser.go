@@ -237,6 +237,10 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 			return paragraph, err
 		}
 
+		if node.String() == "" {
+			continue
+		}
+
 		if node.String() == "\n" {
 			buff = append(buff, node)
 			continue
@@ -263,16 +267,10 @@ func (self *Parser) parseHr() (core.Node, error) {
 
 func (self *Parser) parseCodeBlock() (core.Node, error) {
 	code := html.Code()
-	lang := ""
+	lang, err := self.parseTextUntil(NewLine)
 
-	for !self.iter.Match(NewLine) {
-		node, err := self.parseText()
-
-		if node == nil || err != nil {
-			return html.Pre(code), err
-		}
-
-		lang += node.String()
+	if lang == nil || err != nil {
+		return html.Pre(code), err
 	}
 
 	if len(lang) > 0 {
@@ -458,16 +456,10 @@ func (self *Parser) parseBr() (core.Node, error) {
 
 func (self *Parser) parseCode() (core.Node, error) {
 	code := html.Code()
-	text := html.Raw{}
+	text, err := self.parseTextUntil(Code)
 
-	for !self.iter.Match(Code) {
-		node, err := self.parseText()
-
-		if node == nil || err != nil {
-			return code, err
-		}
-
-		text = append(text, node...)
+	if text == nil || err != nil {
+		return code, err
 	}
 
 	code.Push(text)
@@ -476,51 +468,34 @@ func (self *Parser) parseCode() (core.Node, error) {
 
 func (self *Parser) parseLink() (core.Node, error) {
 	link := html.A()
+	node, err := self.parseTextUntil(RightBracket)
 
-	for self.iter.Curr.Kind != RightBracket {
-		node, err := self.parseText()
-
-		if node == nil || err != nil {
-			return link, err
-		}
-
-		link.Push(node)
-	}
-
-	if _, err := self.iter.Consume(RightBracket, "expected ']'"); err != nil {
+	if node == nil || err != nil {
 		return link, err
 	}
+
+	link.Push(node)
 
 	if _, err := self.iter.Consume(LeftParen, "expected '('"); err != nil {
 		return link, err
 	}
 
-	href := ""
+	node, err = self.parseTextUntil(RightParen)
 
-	for self.iter.Curr.Kind.IsInline() && self.iter.Curr.Kind != RightParen {
-		node, err := self.parseText()
-
-		if node == nil || err != nil {
-			return link, err
-		}
-
-		href += node.String()
-	}
-
-	link.Href(href)
-
-	if _, err := self.iter.Consume(RightParen, "expected ')'"); err != nil {
+	if node == nil || err != nil {
 		return link, err
 	}
 
+	link.Href(node.String())
 	return link, nil
 }
 
 func (self *Parser) parseImage() (core.Node, error) {
 	image := html.Img()
+	_, err := self.iter.Consume(LeftBracket, "expected '['")
 
-	if !self.iter.Match(LeftBracket) {
-		return nil, nil
+	if err != nil {
+		return image, err
 	}
 
 	node, err := self.parseLink()
