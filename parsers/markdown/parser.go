@@ -3,7 +3,6 @@ package markdown
 import (
 	"errors"
 	"fmt"
-	"slices"
 
 	"github.com/google/uuid"
 	"github.com/thegogod/mde/core"
@@ -108,7 +107,7 @@ func (self *Parser) parseBlock() (core.Node, error) {
 	return node, err
 }
 
-func (self *Parser) parseInline(until ...TokenKind) (core.Node, error) {
+func (self *Parser) parseInline() (core.Node, error) {
 	if self.iter.Match(Eof) {
 		return nil, nil
 	}
@@ -164,40 +163,14 @@ func (self *Parser) parseInline(until ...TokenKind) (core.Node, error) {
 			return text, texterr
 		}
 
-		buff := html.Raw{}
+		for self.iter.Curr.Kind == Text {
+			node, err := self.parseText()
 
-		for self.iter.Curr.Kind.IsInline() {
-			if slices.Contains(until, self.iter.Curr.Kind) {
-				break
+			if node == nil || err != nil {
+				return text, err
 			}
 
-			self.iter.Save()
-			inline, err := self.parseInline()
-
-			if inline == nil || err != nil {
-				self.iter.Revert()
-				self.iter.Pop()
-				break
-			}
-
-			subtext, ok := inline.(html.Raw)
-
-			if !ok {
-				self.iter.Revert()
-				self.iter.Pop()
-				break
-			}
-
-			self.iter.Pop()
-
-			if subtext.String() == "\n" {
-				buff = append(buff, subtext...)
-				continue
-			}
-
-			text = append(text, buff...)
-			buff = html.Raw{}
-			text = append(text, subtext...)
+			text = append(text, node...)
 		}
 
 		node = text
@@ -472,7 +445,7 @@ func (self *Parser) parseLink() (core.Node, error) {
 	link := html.A()
 
 	for !self.iter.Match(RightBracket) {
-		node, err := self.parseInline(RightBracket)
+		node, err := self.parseInline()
 
 		if node == nil || err != nil {
 			return link, err

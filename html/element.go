@@ -85,6 +85,17 @@ func (self *Element) Push(children ...any) *Element {
 		}
 	}
 
+	if len(self.children) > 1 {
+		curr, isCurrRaw := self.children[len(self.children)-1].(Raw)
+		prev, isPrevRaw := self.children[len(self.children)-2].(Raw)
+
+		if isCurrRaw && isPrevRaw {
+			prev = append(prev, curr...)
+			self.Pop()
+			self.children[len(self.children)-1] = prev
+		}
+	}
+
 	return self
 }
 
