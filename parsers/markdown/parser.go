@@ -163,6 +163,8 @@ func (self *Parser) parseInline() (core.Node, error) {
 			return text, texterr
 		}
 
+		buff := []html.Raw{}
+
 		for self.iter.Curr.Kind.IsInline() {
 			self.iter.Save()
 			inline, err := self.parseInline()
@@ -181,8 +183,19 @@ func (self *Parser) parseInline() (core.Node, error) {
 				break
 			}
 
-			text = append(text, subtext...)
 			self.iter.Pop()
+
+			if subtext.String() == "\n" {
+				buff = append(buff, subtext)
+				continue
+			}
+
+			for _, item := range buff {
+				text = append(text, item...)
+			}
+
+			buff = []html.Raw{}
+			text = append(text, subtext...)
 		}
 
 		node = text
@@ -215,6 +228,7 @@ func (self *Parser) parseHeading(depth int) (core.Node, error) {
 
 func (self *Parser) parseParagraph() (core.Node, error) {
 	paragraph := html.P()
+	buff := []core.Node{}
 
 	for self.iter.Curr.Kind.IsInline() {
 		node, err := self.parseInline()
@@ -223,7 +237,17 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 			return paragraph, err
 		}
 
+		if node.String() == "\n" {
+			buff = append(buff, node)
+			continue
+		}
+
+		for _, item := range buff {
+			paragraph.Add(item)
+		}
+
 		paragraph.Add(node)
+		buff = []core.Node{}
 	}
 
 	if len(paragraph.Children()) == 0 {
@@ -453,8 +477,8 @@ func (self *Parser) parseCode() (core.Node, error) {
 func (self *Parser) parseLink() (core.Node, error) {
 	link := html.A()
 
-	for self.iter.Curr.Kind.IsInline() && self.iter.Curr.Kind != RightBracket {
-		node, err := self.parseInline()
+	for self.iter.Curr.Kind != RightBracket {
+		node, err := self.parseText()
 
 		if node == nil || err != nil {
 			return link, err
@@ -474,7 +498,7 @@ func (self *Parser) parseLink() (core.Node, error) {
 	href := ""
 
 	for self.iter.Curr.Kind.IsInline() && self.iter.Curr.Kind != RightParen {
-		node, err := self.parseInline()
+		node, err := self.parseText()
 
 		if node == nil || err != nil {
 			return link, err
