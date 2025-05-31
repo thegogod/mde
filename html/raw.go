@@ -30,5 +30,5 @@ func (self Raw) Bytes() []byte {
 }
 
 func (self Raw) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

@@ -71,5 +71,5 @@ func (self ItalicElement) Bytes() []byte {
 }
 
 func (self ItalicElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

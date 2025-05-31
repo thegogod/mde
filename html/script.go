@@ -73,5 +73,5 @@ func (self ScriptElement) Bytes() []byte {
 }
 
 func (self ScriptElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

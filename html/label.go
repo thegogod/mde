@@ -76,5 +76,5 @@ func (self LabelElement) Bytes() []byte {
 }
 
 func (self LabelElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

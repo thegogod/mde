@@ -57,5 +57,5 @@ func (self MetaElement) Bytes() []byte {
 }
 
 func (self MetaElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

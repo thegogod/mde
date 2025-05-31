@@ -54,5 +54,5 @@ func (self BreakLineElement) Bytes() []byte {
 }
 
 func (self BreakLineElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

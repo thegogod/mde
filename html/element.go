@@ -153,5 +153,5 @@ func (self Element) Bytes() []byte {
 }
 
 func (self Element) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

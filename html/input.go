@@ -82,5 +82,5 @@ func (self InputElement) Bytes() []byte {
 }
 
 func (self InputElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

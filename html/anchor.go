@@ -81,5 +81,5 @@ func (self AnchorElement) Bytes() []byte {
 }
 
 func (self AnchorElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

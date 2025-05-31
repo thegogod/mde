@@ -54,5 +54,5 @@ func (self HorizontalRuleElement) Bytes() []byte {
 }
 
 func (self HorizontalRuleElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

@@ -71,5 +71,5 @@ func (self ListItemElement) Bytes() []byte {
 }
 
 func (self ListItemElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

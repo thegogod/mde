@@ -1,6 +1,7 @@
 package markdown_test
 
 import (
+	"bytes"
 	"os"
 	"path/filepath"
 	"strings"
@@ -10,19 +11,28 @@ import (
 )
 
 func TestParser(t *testing.T) {
-	RunDir(t, filepath.Join("..", "..", "testcases"), func(t *testing.T, data []byte) {
+	RunDir(t, filepath.Join("..", "..", "testcases"), func(t *testing.T, md []byte, html []byte) {
 		parser := markdown.New()
-		node, err := parser.Parse(data)
+		node, err := parser.Parse(md)
 
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		t.Log(node.PrettyString("  "))
+		pretty := node.PrettyBytes("  ")
+
+		if html == nil {
+			t.Log(string(pretty))
+			return
+		}
+
+		if !bytes.Equal(pretty, html) {
+			t.Error(string(pretty))
+		}
 	})
 }
 
-func RunDir(t *testing.T, path string, fn func(t *testing.T, data []byte)) error {
+func RunDir(t *testing.T, path string, fn func(t *testing.T, md []byte, html []byte)) error {
 	entries, err := os.ReadDir(path)
 
 	if err != nil {
@@ -42,15 +52,16 @@ func RunDir(t *testing.T, path string, fn func(t *testing.T, data []byte)) error
 	return nil
 }
 
-func RunFile(t *testing.T, path string, fn func(t *testing.T, data []byte)) error {
-	data, err := os.ReadFile(path)
+func RunFile(t *testing.T, path string, fn func(t *testing.T, md []byte, html []byte)) error {
+	html, _ := os.ReadFile(strings.Replace(path, ".md", ".html", 1))
+	md, err := os.ReadFile(path)
 
 	if err != nil {
 		return err
 	}
 
 	t.Run(filepath.Base(path), func(t *testing.T) {
-		fn(t, data)
+		fn(t, md, html)
 	})
 
 	return nil

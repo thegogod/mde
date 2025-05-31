@@ -64,5 +64,5 @@ func (self LinkElement) Bytes() []byte {
 }
 
 func (self LinkElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

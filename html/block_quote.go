@@ -76,5 +76,5 @@ func (self BlockQuoteElement) Bytes() []byte {
 }
 
 func (self BlockQuoteElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

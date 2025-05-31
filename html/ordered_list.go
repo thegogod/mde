@@ -80,5 +80,5 @@ func (self OrderedListElement) Bytes() []byte {
 }
 
 func (self OrderedListElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

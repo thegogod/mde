@@ -53,5 +53,5 @@ func (self TitleElement) Bytes() []byte {
 }
 
 func (self TitleElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }

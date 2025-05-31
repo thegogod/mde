@@ -71,5 +71,5 @@ func (self SpanElement) Bytes() []byte {
 }
 
 func (self SpanElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyBytes(indent))
+	return []byte(self.PrettyString(indent))
 }
