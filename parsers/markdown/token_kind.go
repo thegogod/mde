@@ -36,6 +36,8 @@ const (
 	Image      // image (<img>) (![test](https://test.com/image.png))
 
 	// singles
+
+	Colon        // :
 	Bang         // !
 	LeftBracket  // [
 	RightBracket // ]
@@ -126,6 +128,8 @@ func (self TokenKind) String() string {
 		return "link"
 	case Image:
 		return "image"
+	case Colon:
+		return "colon"
 	case Bang:
 		return "bang"
 	case LeftParen:

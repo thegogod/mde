@@ -109,6 +109,8 @@ func (self *Scanner) scan() (*Token, error) {
 		}
 
 		break
+	case ':':
+		return self.create(Colon), nil
 	case '!':
 		return self.create(Bang), nil
 	case '[':

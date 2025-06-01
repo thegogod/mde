@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/emojis"
 	"github.com/thegogod/mde/html"
 )
 
@@ -137,6 +138,8 @@ func (self *Parser) parseInline() (core.Node, error) {
 		node, err = self.parseLink()
 	} else if self.iter.Match(Bang) {
 		node, err = self.parseImage()
+	} else if self.iter.Match(Colon) {
+		node, err = self.parseEmoji()
 	} else if self.iter.Match(NewLine) {
 		if self.iter.Match(NewLine) {
 			self.iter.Pop()
@@ -627,6 +630,32 @@ func (self *Parser) parseTask() (core.Node, error) {
 	label.Push(input)
 	label.Push(html.Span(text))
 	return label, nil
+}
+
+func (self *Parser) parseEmoji() (html.Raw, error) {
+	alias := html.Raw{}
+
+	for !self.iter.Match(Colon) {
+		node, err := self.parseText()
+
+		if node == nil {
+			return alias, errors.New("expected closing ':'")
+		}
+
+		if err != nil {
+			return alias, err
+		}
+
+		alias = append(alias, node...)
+	}
+
+	emoji, exists := emojis.Get(alias.String())
+
+	if !exists {
+		return alias, errors.New("emoji alias not found")
+	}
+
+	return html.Raw(emoji.Emoji), nil
 }
 
 func (self *Parser) parseNewLine() (html.Raw, error) {
