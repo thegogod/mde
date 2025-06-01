@@ -4,9 +4,9 @@
 
 an example of an [_inline link!_](https://www.google.com)  
 
-- [A](#section-a)
-- [B](#section-b)
-- [C](#section-c)
+- [`A`](#section-a)
+- [*B*](#section-b)
+- [__C__](#section-c)
 
 ## Section: A
 
