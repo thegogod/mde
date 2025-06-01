@@ -257,7 +257,11 @@ func (self *Parser) parseCodeBlock() (core.Node, error) {
 
 	node, err := self.parseTextUntil(CodeBlock)
 
-	if node == nil || err != nil {
+	if node == nil {
+		return html.Pre(code), errors.New("expected closing '```'")
+	}
+
+	if err != nil {
 		return html.Pre(code), err
 	}
 
@@ -352,7 +356,11 @@ func (self *Parser) parseBold() (core.Node, error) {
 	for !self.iter.Match(Bold) {
 		node, err := self.parseInline()
 
-		if node == nil || err != nil {
+		if node == nil {
+			return bold, errors.New("expected closing '**'")
+		}
+
+		if err != nil {
 			return bold, err
 		}
 
@@ -368,7 +376,11 @@ func (self *Parser) parseBoldAlt() (core.Node, error) {
 	for !self.iter.Match(BoldAlt) {
 		node, err := self.parseInline()
 
-		if node == nil || err != nil {
+		if node == nil {
+			return bold, errors.New("expected closing '__'")
+		}
+
+		if err != nil {
 			return bold, err
 		}
 
@@ -384,7 +396,11 @@ func (self *Parser) parseItalic() (core.Node, error) {
 	for !self.iter.Match(Italic) {
 		node, err := self.parseInline()
 
-		if node == nil || err != nil {
+		if node == nil {
+			return italic, errors.New("expected closing '*'")
+		}
+
+		if err != nil {
 			return italic, err
 		}
 
@@ -400,7 +416,11 @@ func (self *Parser) parseItalicAlt() (core.Node, error) {
 	for !self.iter.Match(ItalicAlt) {
 		node, err := self.parseInline()
 
-		if node == nil || err != nil {
+		if node == nil {
+			return italic, errors.New("expected closing '_'")
+		}
+
+		if err != nil {
 			return italic, err
 		}
 
@@ -416,7 +436,11 @@ func (self *Parser) parseStrike() (core.Node, error) {
 	for !self.iter.Match(Strike) {
 		node, err := self.parseInline()
 
-		if node == nil || err != nil {
+		if node == nil {
+			return strike, errors.New("expected closing '~'")
+		}
+
+		if err != nil {
 			return strike, err
 		}
 
@@ -432,7 +456,11 @@ func (self *Parser) parseStrikeAlt() (core.Node, error) {
 	for !self.iter.Match(StrikeAlt) {
 		node, err := self.parseInline()
 
-		if node == nil || err != nil {
+		if node == nil {
+			return strike, errors.New("expected closing '~~'")
+		}
+
+		if err != nil {
 			return strike, err
 		}
 
@@ -450,7 +478,11 @@ func (self *Parser) parseCode() (core.Node, error) {
 	code := html.Code()
 	text, err := self.parseTextUntil(Code)
 
-	if text == nil || err != nil {
+	if text == nil {
+		return code, errors.New("expected closing '`'")
+	}
+
+	if err != nil {
 		return code, err
 	}
 

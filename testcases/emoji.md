@@ -4,3 +4,4 @@
 - :smiley:
 - :test
 - :mute:
+- :not_found:
