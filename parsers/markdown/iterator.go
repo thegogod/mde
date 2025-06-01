@@ -8,6 +8,7 @@ type Iterator struct {
 
 	scanner         *Scanner
 	blockQuoteDepth int
+	listDepth       int
 	saves           []Iterator
 }
 
@@ -15,6 +16,7 @@ func (self *Iterator) Reset(src []byte) {
 	self.Prev = nil
 	self.Curr = nil
 	self.blockQuoteDepth = 0
+	self.listDepth = 0
 	self.scanner = NewScanner(src)
 	self.saves = []Iterator{}
 }
@@ -45,6 +47,21 @@ func (self *Iterator) Match(kind TokenKind) bool {
 	return true
 }
 
+func (self *Iterator) MatchCount(kind TokenKind, count int) bool {
+	self.Save()
+
+	for range count {
+		if !self.Match(kind) {
+			self.Revert()
+			self.Pop()
+			return false
+		}
+	}
+
+	self.Pop()
+	return true
+}
+
 func (self *Iterator) Consume(kind TokenKind, message string) (core.Token, error) {
 	if self.Curr.Kind == kind {
 		self.Next()
@@ -64,6 +81,7 @@ func (self *Iterator) Save() {
 		Prev:            self.Prev,
 		Curr:            self.Curr,
 		blockQuoteDepth: self.blockQuoteDepth,
+		listDepth:       self.listDepth,
 		scanner:         self.scanner,
 	})
 }
@@ -73,9 +91,11 @@ func (self *Iterator) Revert() {
 		return
 	}
 
-	self.Prev = self.saves[len(self.saves)-1].Prev
-	self.Curr = self.saves[len(self.saves)-1].Curr
-	self.blockQuoteDepth = self.saves[len(self.saves)-1].blockQuoteDepth
+	i := len(self.saves) - 1
+	self.Prev = self.saves[i].Prev
+	self.Curr = self.saves[i].Curr
+	self.blockQuoteDepth = self.saves[i].blockQuoteDepth
+	self.listDepth = self.saves[i].listDepth
 	self.scanner.pos.Revert()
 }
 

@@ -41,6 +41,8 @@ func (self *Scanner) scan() (*Token, error) {
 		break
 	case '\n':
 		return self.create(NewLine), nil
+	case '\t':
+		return self.create(Tab), nil
 	case '#':
 		token, err := self.scanHeading()
 

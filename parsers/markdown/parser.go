@@ -286,42 +286,56 @@ func (self *Parser) parseBlockQuote() (core.Node, error) {
 }
 
 func (self *Parser) parseUnorderedList() (core.Node, error) {
+	self.iter.listDepth++
 	ul := html.Ul()
 
 	for {
 		node, err := self.parseListItem()
 
 		if node == nil || err != nil {
+			self.iter.listDepth--
 			return ul, err
 		}
 
-		ul.Push(node.(*html.ListItemElement))
+		ul.Push(node)
+
+		if !self.iter.MatchCount(Tab, self.iter.listDepth-1) {
+			break
+		}
 
 		if !self.iter.Match(Ul) {
 			break
 		}
 	}
 
+	self.iter.listDepth--
 	return ul, nil
 }
 
 func (self *Parser) parseOrderedList() (core.Node, error) {
+	self.iter.listDepth++
 	ol := html.Ol()
 
 	for {
 		node, err := self.parseListItem()
 
 		if node == nil || err != nil {
+			self.iter.listDepth--
 			return ol, err
 		}
 
-		ol.Push(node.(*html.ListItemElement))
+		ol.Push(node)
+
+		if !self.iter.MatchCount(Tab, self.iter.listDepth-1) {
+			break
+		}
 
 		if !self.iter.Match(Ol) {
 			break
 		}
 	}
 
+	self.iter.listDepth--
 	return ol, nil
 }
 
@@ -497,7 +511,7 @@ func (self *Parser) parseImage() (core.Node, error) {
 	return image, nil
 }
 
-func (self *Parser) parseListItem() (core.Node, error) {
+func (self *Parser) parseListItem() (*html.ListItemElement, error) {
 	li := html.Li()
 	self.iter.Save()
 	node, err := self.parseTask()
@@ -509,19 +523,44 @@ func (self *Parser) parseListItem() (core.Node, error) {
 	}
 
 	self.iter.Revert()
-	node, err = self.parseBlock()
 
-	if node == nil || err != nil {
-		self.iter.Revert()
-		self.iter.Pop()
-		return li, err
-	}
+	for self.iter.Curr.Kind.IsInline() {
+		node, err := self.parseInline()
 
-	if paragraph, ok := node.(*html.ParagraphElement); ok {
-		for _, child := range paragraph.Children() {
-			li.Push(child)
+		if err != nil {
+			self.iter.Revert()
+			self.iter.Pop()
+			return li, err
 		}
-	} else {
+
+		if node == nil {
+			break
+		}
+
+		if node.String() == "\n" {
+			if !self.iter.MatchCount(Tab, self.iter.listDepth) {
+				break
+			}
+
+			node, err = nil, nil
+			self.iter.Save()
+
+			if self.iter.Match(Ol) {
+				node, err = self.parseOrderedList()
+			} else if self.iter.Match(Ul) {
+				node, err = self.parseUnorderedList()
+			}
+
+			if node != nil && err == nil {
+				li.Push(node)
+			} else {
+				self.iter.Revert()
+			}
+
+			self.iter.Pop()
+			break
+		}
+
 		li.Push(node)
 	}
 
