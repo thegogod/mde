@@ -1,6 +1,8 @@
 package markdown
 
-type TokenKind uint8
+import "github.com/thegogod/mde/core"
+
+type TokenKind core.TokenKind
 
 const (
 	Eof TokenKind = iota
@@ -10,6 +12,15 @@ const (
 
 	NewLine
 	Tab
+
+	// singles
+
+	Colon        // :
+	Bang         // !
+	LeftBracket  // [
+	RightBracket // ]
+	LeftParen    // (
+	RightParen   // )
 
 	// elements
 
@@ -34,15 +45,6 @@ const (
 	Hr         // horizontal rule (<hr>) (---)
 	Link       // link (<a>) ([test](https://test.com))
 	Image      // image (<img>) (![test](https://test.com/image.png))
-
-	// singles
-
-	Colon        // :
-	Bang         // !
-	LeftBracket  // [
-	RightBracket // ]
-	LeftParen    // (
-	RightParen   // )
 )
 
 func (self TokenKind) IsInline() bool {

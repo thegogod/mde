@@ -86,6 +86,11 @@ func (self *Iterator) Save() {
 	})
 }
 
+func (self *Iterator) Pop() {
+	self.saves = self.saves[:len(self.saves)-1]
+	self.scanner.pos.Pop()
+}
+
 func (self *Iterator) Revert() {
 	if self.saves == nil || len(self.saves) == 0 {
 		return
@@ -97,9 +102,4 @@ func (self *Iterator) Revert() {
 	self.blockQuoteDepth = self.saves[i].blockQuoteDepth
 	self.listDepth = self.saves[i].listDepth
 	self.scanner.pos.Revert()
-}
-
-func (self *Iterator) Pop() {
-	self.saves = self.saves[:len(self.saves)-1]
-	self.scanner.pos.Pop()
 }

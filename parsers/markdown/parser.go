@@ -34,7 +34,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 			break
 		}
 
-		node, err := self.parseBlock()
+		node, err := self.ParseBlock()
 
 		if node == nil && err == nil {
 			continue
@@ -50,7 +50,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 	return group, nil
 }
 
-func (self *Parser) parseBlock() (core.Node, error) {
+func (self *Parser) ParseBlock() (core.Node, error) {
 	if self.iter.Match(Eof) {
 		return nil, nil
 	}
@@ -89,7 +89,7 @@ func (self *Parser) parseBlock() (core.Node, error) {
 	} else if self.iter.Match(Ol) {
 		node, err = self.parseOrderedList()
 	} else if self.iter.Match(NewLine) {
-		node, err = self.parseBlock()
+		node, err = self.ParseBlock()
 	}
 
 	if err != nil {
@@ -108,7 +108,7 @@ func (self *Parser) parseBlock() (core.Node, error) {
 	return node, err
 }
 
-func (self *Parser) parseInline() (core.Node, error) {
+func (self *Parser) ParseInline() (core.Node, error) {
 	if self.iter.Match(Eof) {
 		return nil, nil
 	}
@@ -192,7 +192,7 @@ func (self *Parser) parseHeading(depth int) (core.Node, error) {
 	heading := html.Heading(depth)
 
 	for self.iter.Curr.Kind.IsInline() {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if node == nil || err != nil {
 			return heading, err
@@ -209,7 +209,7 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 	buff := html.Raw{}
 
 	for self.iter.Curr.Kind.IsInline() {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if err != nil {
 			return paragraph, err
@@ -274,7 +274,7 @@ func (self *Parser) parseBlockQuote() (core.Node, error) {
 	blockQuote := html.BlockQuote()
 
 	for {
-		node, err := self.parseBlock()
+		node, err := self.ParseBlock()
 
 		if node == nil || err != nil {
 			self.iter.blockQuoteDepth--
@@ -354,7 +354,7 @@ func (self *Parser) parseBold() (core.Node, error) {
 	bold := html.Strong()
 
 	for !self.iter.Match(Bold) {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if node == nil {
 			return bold, errors.New("expected closing '**'")
@@ -374,7 +374,7 @@ func (self *Parser) parseBoldAlt() (core.Node, error) {
 	bold := html.Strong()
 
 	for !self.iter.Match(BoldAlt) {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if node == nil {
 			return bold, errors.New("expected closing '__'")
@@ -394,7 +394,7 @@ func (self *Parser) parseItalic() (core.Node, error) {
 	italic := html.I()
 
 	for !self.iter.Match(Italic) {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if node == nil {
 			return italic, errors.New("expected closing '*'")
@@ -414,7 +414,7 @@ func (self *Parser) parseItalicAlt() (core.Node, error) {
 	italic := html.I()
 
 	for !self.iter.Match(ItalicAlt) {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if node == nil {
 			return italic, errors.New("expected closing '_'")
@@ -434,7 +434,7 @@ func (self *Parser) parseStrike() (core.Node, error) {
 	strike := html.S()
 
 	for !self.iter.Match(Strike) {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if node == nil {
 			return strike, errors.New("expected closing '~'")
@@ -454,7 +454,7 @@ func (self *Parser) parseStrikeAlt() (core.Node, error) {
 	strike := html.S()
 
 	for !self.iter.Match(StrikeAlt) {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if node == nil {
 			return strike, errors.New("expected closing '~~'")
@@ -494,7 +494,7 @@ func (self *Parser) parseLink() (core.Node, error) {
 	link := html.A()
 
 	for !self.iter.Match(RightBracket) {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if node == nil || err != nil {
 			return link, err
@@ -560,7 +560,7 @@ func (self *Parser) parseListItem() (*html.ListItemElement, error) {
 	self.iter.Revert()
 
 	for self.iter.Curr.Kind.IsInline() {
-		node, err := self.parseInline()
+		node, err := self.ParseInline()
 
 		if err != nil {
 			self.iter.Revert()

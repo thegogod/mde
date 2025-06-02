@@ -2,11 +2,13 @@ package core
 
 import "fmt"
 
+// Represents a 2D location
 type Position struct {
 	Ln    int
 	Col   int
 	Start int
 	End   int
+
 	saves []Position
 }
 
@@ -27,6 +29,14 @@ func (self *Position) Save() {
 	})
 }
 
+func (self *Position) Pop() {
+	if len(self.saves) == 0 {
+		return
+	}
+
+	self.saves = self.saves[:len(self.saves)-1]
+}
+
 func (self *Position) Revert() {
 	if self.saves == nil || len(self.saves) == 0 {
 		return
@@ -38,8 +48,9 @@ func (self *Position) Revert() {
 	self.End = self.saves[len(self.saves)-1].End
 }
 
-func (self *Position) Pop() {
-	self.saves = self.saves[:len(self.saves)-1]
+func (self *Position) RevertAndPop() {
+	self.Revert()
+	self.Pop()
 }
 
 func (self Position) String() string {
