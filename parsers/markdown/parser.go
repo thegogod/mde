@@ -160,28 +160,58 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 	}
 
 	if node == nil || err != nil {
-		text, texterr := self.parseText(iter)
+		text, texterr := self.ParseText(iter)
 
 		if text == nil || texterr != nil {
-			return text, texterr
+			return html.Raw(text), texterr
 		}
 
 		for iter.Curr().Kind() == tokens.Text {
-			node, err := self.parseText(iter)
+			node, err := self.ParseText(iter)
 
 			if node == nil || err != nil {
-				return text, err
+				return html.Raw(text), err
 			}
 
 			text = append(text, node...)
 		}
 
-		node = text
+		node = html.Raw(text)
 		err = nil
 	}
 
 	iter.Pop()
 	return node, err
+}
+
+func (self *Parser) ParseText(iter core.Iterator) ([]byte, error) {
+	if iter.Curr().Kind() == tokens.Eof {
+		return nil, nil
+	}
+
+	text := html.Raw(iter.Curr().Bytes())
+	iter.Next()
+	return text, nil
+}
+
+func (self *Parser) ParseTextUntil(iter core.Iterator, kind tokens.TokenKind) ([]byte, error) {
+	if iter.Curr().Kind() == tokens.Eof {
+		return nil, nil
+	}
+
+	text := html.Raw{}
+
+	for !iter.Match(kind) {
+		node, err := self.ParseText(iter)
+
+		if node == nil || err != nil {
+			return text, err
+		}
+
+		text = append(text, node...)
+	}
+
+	return text, nil
 }
 
 //
@@ -245,7 +275,7 @@ func (self *Parser) parseHr() (core.Node, error) {
 
 func (self *Parser) parseCodeBlock(iter *Iterator) (core.Node, error) {
 	code := html.Code()
-	lang, err := self.parseTextUntil(tokens.NewLine, iter)
+	lang, err := self.ParseTextUntil(iter, tokens.NewLine)
 
 	if lang == nil || err != nil {
 		return html.Pre(code), err
@@ -255,7 +285,7 @@ func (self *Parser) parseCodeBlock(iter *Iterator) (core.Node, error) {
 		code.Class(fmt.Sprintf("language-%s", lang))
 	}
 
-	node, err := self.parseTextUntil(tokens.CodeBlock, iter)
+	node, err := self.ParseTextUntil(iter, tokens.CodeBlock)
 
 	if node == nil {
 		return html.Pre(code), errors.New("expected closing '```'")
@@ -476,7 +506,7 @@ func (self *Parser) parseBr() (core.Node, error) {
 
 func (self *Parser) parseCode(iter *Iterator) (core.Node, error) {
 	code := html.Code()
-	text, err := self.parseTextUntil(tokens.Code, iter)
+	text, err := self.ParseTextUntil(iter, tokens.Code)
 
 	if text == nil {
 		return code, errors.New("expected closing '`'")
@@ -507,13 +537,13 @@ func (self *Parser) parseLink(iter *Iterator) (core.Node, error) {
 		return link, err
 	}
 
-	node, err := self.parseTextUntil(tokens.RightParen, iter)
+	node, err := self.ParseTextUntil(iter, tokens.RightParen)
 
 	if node == nil || err != nil {
 		return link, err
 	}
 
-	link.Href(node.String())
+	link.Href(string(node))
 	return link, nil
 }
 
@@ -524,25 +554,25 @@ func (self *Parser) parseImage(iter *Iterator) (core.Node, error) {
 		return image, err
 	}
 
-	node, err := self.parseTextUntil(tokens.RightBracket, iter)
+	node, err := self.ParseTextUntil(iter, tokens.RightBracket)
 
 	if node == nil || err != nil {
 		return image, err
 	}
 
-	image.Alt(node.String())
+	image.Alt(string(node))
 
 	if _, err := iter.Consume(tokens.LeftParen, "expected '('"); err != nil {
 		return image, err
 	}
 
-	node, err = self.parseTextUntil(tokens.RightParen, iter)
+	node, err = self.ParseTextUntil(iter, tokens.RightParen)
 
 	if node == nil || err != nil {
 		return image, err
 	}
 
-	image.Src(node.String())
+	image.Src(string(node))
 	return image, nil
 }
 
@@ -646,7 +676,7 @@ func (self *Parser) parseTask(iter *Iterator) (core.Node, error) {
 	text := ""
 
 	for !iter.Match(tokens.NewLine) {
-		node, err := self.parseText(iter)
+		node, err := self.ParseText(iter)
 
 		if err != nil {
 			return label, err
@@ -656,7 +686,7 @@ func (self *Parser) parseTask(iter *Iterator) (core.Node, error) {
 			break
 		}
 
-		text += node.String()
+		text += string(node)
 	}
 
 	label.Push(input)
@@ -668,7 +698,7 @@ func (self *Parser) parseEmoji(iter *Iterator) (html.Raw, error) {
 	alias := html.Raw{}
 
 	for !iter.Match(tokens.Colon) {
-		node, err := self.parseText(iter)
+		node, err := self.ParseText(iter)
 
 		if node == nil {
 			return alias, errors.New("expected closing ':'")
@@ -698,34 +728,4 @@ func (self *Parser) parseNewLine(iter *Iterator) (html.Raw, error) {
 	}
 
 	return html.Raw("\n"), nil
-}
-
-func (self *Parser) parseText(iter *Iterator) (html.Raw, error) {
-	if iter.Curr().Kind() == tokens.Eof {
-		return nil, nil
-	}
-
-	text := html.Raw(iter.Curr().Bytes())
-	iter.Next()
-	return text, nil
-}
-
-func (self *Parser) parseTextUntil(kind tokens.TokenKind, iter *Iterator) (html.Raw, error) {
-	if iter.Curr().Kind() == tokens.Eof {
-		return nil, nil
-	}
-
-	text := html.Raw{}
-
-	for !iter.Match(kind) {
-		node, err := self.parseText(iter)
-
-		if node == nil || err != nil {
-			return text, err
-		}
-
-		text = append(text, node...)
-	}
-
-	return text, nil
 }

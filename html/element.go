@@ -80,6 +80,9 @@ func (self *Element) Push(children ...any) *Element {
 		case *string:
 			self.children = append(self.children, Raw(*v))
 			break
+		case []byte:
+			self.children = append(self.children, Raw(v))
+			break
 		default:
 			panic("invalid type")
 		}
