@@ -23,7 +23,7 @@ func (self *Parser) parseLink(iter *tokens.Iterator) (core.Node, error) {
 		return link, err
 	}
 
-	node, err := self.ParseTextUntil(iter, tokens.RightParen)
+	node, err := self.parseTextUntil(iter, tokens.RightParen)
 
 	if node == nil || err != nil {
 		return link, err

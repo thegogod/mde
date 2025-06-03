@@ -155,14 +155,14 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 	}
 
 	if node == nil || err != nil {
-		text, texterr := self.ParseText(iter)
+		text, texterr := self.parseText(iter)
 
 		if text == nil || texterr != nil {
 			return html.Raw(text), texterr
 		}
 
 		for iter.Curr().Kind() == tokens.Text {
-			node, err := self.ParseText(iter)
+			node, err := self.parseText(iter)
 
 			if node == nil || err != nil {
 				return html.Raw(text), err
@@ -179,7 +179,7 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 	return node, err
 }
 
-func (self *Parser) ParseText(iter core.Iterator) ([]byte, error) {
+func (self *Parser) parseText(iter core.Iterator) ([]byte, error) {
 	if iter.Curr().Kind() == tokens.Eof {
 		return nil, nil
 	}
@@ -189,7 +189,7 @@ func (self *Parser) ParseText(iter core.Iterator) ([]byte, error) {
 	return text, nil
 }
 
-func (self *Parser) ParseTextUntil(iter core.Iterator, kind tokens.TokenKind) ([]byte, error) {
+func (self *Parser) parseTextUntil(iter core.Iterator, kind tokens.TokenKind) ([]byte, error) {
 	if iter.Curr().Kind() == tokens.Eof {
 		return nil, nil
 	}
@@ -197,7 +197,7 @@ func (self *Parser) ParseTextUntil(iter core.Iterator, kind tokens.TokenKind) ([
 	text := html.Raw{}
 
 	for !iter.Match(kind) {
-		node, err := self.ParseText(iter)
+		node, err := self.parseText(iter)
 
 		if node == nil || err != nil {
 			return text, err

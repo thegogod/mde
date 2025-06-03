@@ -13,7 +13,7 @@ func (self *Parser) parseImage(iter *tokens.Iterator) (core.Node, error) {
 		return image, err
 	}
 
-	node, err := self.ParseTextUntil(iter, tokens.RightBracket)
+	node, err := self.parseTextUntil(iter, tokens.RightBracket)
 
 	if node == nil || err != nil {
 		return image, err
@@ -25,7 +25,7 @@ func (self *Parser) parseImage(iter *tokens.Iterator) (core.Node, error) {
 		return image, err
 	}
 
-	node, err = self.ParseTextUntil(iter, tokens.RightParen)
+	node, err = self.parseTextUntil(iter, tokens.RightParen)
 
 	if node == nil || err != nil {
 		return image, err

@@ -50,7 +50,7 @@ func (self *Parser) parseTask(iter *tokens.Iterator) (core.Node, error) {
 	text := ""
 
 	for !iter.Match(tokens.NewLine) {
-		node, err := self.ParseText(iter)
+		node, err := self.parseText(iter)
 
 		if err != nil {
 			return label, err

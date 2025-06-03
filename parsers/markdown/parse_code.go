@@ -8,7 +8,7 @@ import (
 
 func (self *Parser) parseCode(iter *tokens.Iterator) (core.Node, error) {
 	code := html.Code()
-	text, err := self.ParseTextUntil(iter, tokens.Code)
+	text, err := self.parseTextUntil(iter, tokens.Code)
 
 	if text == nil {
 		return code, iter.Curr().Error("expected closing '`'")
