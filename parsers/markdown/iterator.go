@@ -6,7 +6,7 @@ import (
 )
 
 type Iterator struct {
-	scanner         core.Scanner
+	scanner         *tokens.Scanner
 	prev            core.Token
 	curr            core.Token
 	blockQuoteDepth int
