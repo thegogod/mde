@@ -44,7 +44,7 @@ func (self *Heading) Parse(parser core.Parser, iter core.Iterator) (core.Node, e
 	}
 
 	for iter.Curr().IsInline() {
-		node, err := parser.ParseInline()
+		node, err := parser.ParseInline(iter)
 
 		if node == nil || err != nil {
 			return heading, err
