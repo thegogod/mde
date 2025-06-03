@@ -1,4 +1,4 @@
-package markdown
+package syntax
 
 import (
 	"github.com/thegogod/mde/core"
@@ -6,11 +6,29 @@ import (
 	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
-func (self *Parser) parseLink(iter *tokens.Iterator) (core.Node, error) {
+type Link struct{}
+
+func (self Link) IsBlock() bool {
+	return false
+}
+
+func (self Link) IsInline() bool {
+	return true
+}
+
+func (self Link) Name() string {
+	return "link"
+}
+
+func (self Link) Select(iter core.Iterator) bool {
+	return iter.Match(tokens.Link)
+}
+
+func (self Link) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	link := html.A()
 
 	for !iter.Match(tokens.RightBracket) {
-		node, err := self.ParseInline(iter)
+		node, err := parser.ParseInline(iter)
 
 		if node == nil || err != nil {
 			return link, err
@@ -23,7 +41,7 @@ func (self *Parser) parseLink(iter *tokens.Iterator) (core.Node, error) {
 		return link, err
 	}
 
-	node, err := self.ParseTextUntil(iter, tokens.RightParen)
+	node, err := parser.ParseTextUntil(iter, tokens.RightParen)
 
 	if node == nil || err != nil {
 		return link, err

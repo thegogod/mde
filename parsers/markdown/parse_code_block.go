@@ -10,7 +10,7 @@ import (
 
 func (self *Parser) parseCodeBlock(iter *tokens.Iterator) (core.Node, error) {
 	code := html.Code()
-	lang, err := self.parseTextUntil(iter, tokens.NewLine)
+	lang, err := self.ParseTextUntil(iter, tokens.NewLine)
 
 	if lang == nil || err != nil {
 		return html.Pre(code), err
@@ -20,7 +20,7 @@ func (self *Parser) parseCodeBlock(iter *tokens.Iterator) (core.Node, error) {
 		code.Class(fmt.Sprintf("language-%s", lang))
 	}
 
-	node, err := self.parseTextUntil(iter, tokens.CodeBlock)
+	node, err := self.ParseTextUntil(iter, tokens.CodeBlock)
 
 	if node == nil {
 		return html.Pre(code), iter.Curr().Error("expected closing '```'")

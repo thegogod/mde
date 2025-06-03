@@ -1,16 +1,35 @@
-package markdown
+package syntax
 
 import (
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/emojis"
 	"github.com/thegogod/mde/html"
 	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
-func (self *Parser) parseEmoji(iter *tokens.Iterator) (html.Raw, error) {
+type Emoji struct{}
+
+func (self Emoji) IsBlock() bool {
+	return false
+}
+
+func (self Emoji) IsInline() bool {
+	return true
+}
+
+func (self Emoji) Name() string {
+	return "emoji"
+}
+
+func (self Emoji) Select(iter core.Iterator) bool {
+	return iter.Match(tokens.Colon)
+}
+
+func (self Emoji) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	alias := html.Raw{}
 
 	for !iter.Match(tokens.Colon) {
-		node, err := self.ParseText(iter)
+		node, err := parser.ParseText(iter)
 
 		if node == nil {
 			return alias, iter.Curr().Error("expected closing ':'")

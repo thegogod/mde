@@ -1,15 +1,21 @@
 package markdown
 
 import (
+	"slices"
+
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
 	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
-type Parser struct{}
+type Parser struct {
+	syntax []core.Syntax
+}
 
 func New() *Parser {
-	return &Parser{}
+	return &Parser{
+		syntax: []core.Syntax{},
+	}
 }
 
 func (self *Parser) Parse(src []byte) (core.Node, error) {
@@ -155,14 +161,14 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 	}
 
 	if node == nil || err != nil {
-		text, texterr := self.parseText(iter)
+		text, texterr := self.ParseText(iter)
 
 		if text == nil || texterr != nil {
 			return html.Raw(text), texterr
 		}
 
 		for iter.Curr().Kind() == tokens.Text {
-			node, err := self.parseText(iter)
+			node, err := self.ParseText(iter)
 
 			if node == nil || err != nil {
 				return html.Raw(text), err
@@ -179,7 +185,19 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 	return node, err
 }
 
-func (self *Parser) parseText(iter core.Iterator) ([]byte, error) {
+func (self *Parser) ParseSyntax(name string, iter core.Iterator) (core.Node, error) {
+	i := slices.IndexFunc(self.syntax, func(s core.Syntax) bool {
+		return s.Name() == name
+	})
+
+	if i < 0 {
+		return nil, nil
+	}
+
+	return self.syntax[i].Parse(self, iter)
+}
+
+func (self *Parser) ParseText(iter core.Iterator) ([]byte, error) {
 	if iter.Curr().Kind() == tokens.Eof {
 		return nil, nil
 	}
@@ -189,7 +207,7 @@ func (self *Parser) parseText(iter core.Iterator) ([]byte, error) {
 	return text, nil
 }
 
-func (self *Parser) parseTextUntil(iter core.Iterator, kind tokens.TokenKind) ([]byte, error) {
+func (self *Parser) ParseTextUntil(iter core.Iterator, kind tokens.TokenKind) ([]byte, error) {
 	if iter.Curr().Kind() == tokens.Eof {
 		return nil, nil
 	}
@@ -197,7 +215,7 @@ func (self *Parser) parseTextUntil(iter core.Iterator, kind tokens.TokenKind) ([
 	text := html.Raw{}
 
 	for !iter.Match(kind) {
-		node, err := self.parseText(iter)
+		node, err := self.ParseText(iter)
 
 		if node == nil || err != nil {
 			return text, err
