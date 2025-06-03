@@ -1,11 +1,11 @@
-package markdown_test
+package tokens_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/thegogod/mde/parsers/markdown"
+	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 func TestScanner(t *testing.T) {
@@ -17,12 +17,12 @@ func TestScanner(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		scanner := markdown.NewScanner(data)
+		scanner := tokens.NewScanner(data)
 
 		for {
 			token, err := scanner.Scan()
 
-			if token == nil || markdown.TokenKind(token.GetKind()) == markdown.Eof {
+			if token == nil || token.Kind() == tokens.Eof {
 				break
 			}
 
@@ -30,7 +30,7 @@ func TestScanner(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			t.Logf("%s => %s", markdown.TokenKind(token.GetKind()), token.String())
+			t.Logf("%d => %s", token.Kind(), token.String())
 		}
 	})
 }

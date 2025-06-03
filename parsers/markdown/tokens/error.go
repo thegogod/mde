@@ -1,8 +1,9 @@
-package markdown
+package tokens
 
 import (
+	"strings"
+
 	"github.com/thegogod/mde/core"
-	"github.com/thegogod/mde/strings"
 )
 
 type Error struct {
@@ -22,9 +23,5 @@ func (self Error) Error() string {
 }
 
 func (self Error) String() string {
-	builder := strings.Builder().
-		AddLine(self.Position.String()).
-		AddLine(self.Message)
-
-	return builder.String()
+	return strings.Join([]string{self.Position.String(), self.Message}, "\n")
 }

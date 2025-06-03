@@ -1,4 +1,4 @@
-package markdown
+package tokens
 
 import (
 	"unicode"
@@ -18,11 +18,23 @@ func NewScanner(src []byte) *Scanner {
 	}
 }
 
-func (self *Scanner) Scan() (core.Token, error) {
-	return self.scan()
+func (self *Scanner) Save() {
+	self.pos.Save()
 }
 
-func (self *Scanner) scan() (*Token, error) {
+func (self *Scanner) Pop() {
+	self.pos.Pop()
+}
+
+func (self *Scanner) Revert() {
+	self.pos.Revert()
+}
+
+func (self *Scanner) RevertAndPop() {
+	self.pos.RevertAndPop()
+}
+
+func (self *Scanner) Scan() (core.Token, error) {
 	if self.pos.End >= len(self.src) {
 		return self.create(Eof), nil
 	}
