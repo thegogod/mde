@@ -1,54 +1,43 @@
-package markdown
+package tokens
 
 import "github.com/thegogod/mde/core"
 
-type TokenKind core.TokenKind
+type Token struct {
+	kind     TokenKind
+	position core.Position
+	value    []byte
+}
 
-const (
-	Eof TokenKind = iota
-	Text
+func NewToken(kind TokenKind, position core.Position, value []byte) *Token {
+	return &Token{
+		kind:     kind,
+		position: position,
+		value:    value,
+	}
+}
 
-	// whitespace
+func (self Token) Kind() byte {
+	return self.kind
+}
 
-	NewLine
-	Tab
+func (self Token) Position() core.Position {
+	return self.position
+}
 
-	// singles
+func (self Token) Bytes() []byte {
+	return self.value
+}
 
-	Colon        // :
-	Bang         // !
-	LeftBracket  // [
-	RightBracket // ]
-	LeftParen    // (
-	RightParen   // )
+func (self Token) String() string {
+	return string(self.value)
+}
 
-	// elements
+func (self Token) Error(message string) error {
+	return NewError(self.position, message)
+}
 
-	H1         // # test
-	H2         // ## test
-	H3         // ### test
-	H4         // #### test
-	H5         // ##### test
-	H6         // ###### test
-	Bold       // **
-	BoldAlt    // __
-	Italic     // *
-	ItalicAlt  // _
-	Strike     // ~
-	StrikeAlt  // ~~
-	Br         // line break (<br>) (two spaces)
-	Ol         // ordered list (<ol>) (1. test)
-	Ul         // unordered list (<ul>) (- test)
-	BlockQuote // '>'
-	Code       // `test`
-	CodeBlock  // ```test```
-	Hr         // horizontal rule (<hr>) (---)
-	Link       // link (<a>) ([test](https://test.com))
-	Image      // image (<img>) (![test](https://test.com/image.png))
-)
-
-func (self TokenKind) IsInline() bool {
-	switch self {
+func (self Token) IsInline() bool {
+	switch self.kind {
 	case H1:
 		fallthrough
 	case H2:
@@ -78,8 +67,8 @@ func (self TokenKind) IsInline() bool {
 	}
 }
 
-func (self TokenKind) String() string {
-	switch self {
+func (self Token) KindString() string {
+	switch self.kind {
 	case Eof:
 		return "eof"
 	case Text:

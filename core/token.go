@@ -1,8 +1,10 @@
 package core
 
 type Token interface {
-	GetKind() TokenKind
-	GetPosition() Position
-	GetBytes() []byte
+	Kind() byte
+	Position() Position
+	Bytes() []byte
 	String() string
+	Error(message string) error
+	IsInline() bool
 }

@@ -1,4 +1,4 @@
-package markdown
+package tokens
 
 import (
 	"github.com/thegogod/mde/core"

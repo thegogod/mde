@@ -8,6 +8,7 @@ import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/emojis"
 	"github.com/thegogod/mde/html"
+	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Parser struct {
@@ -30,7 +31,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 	group := html.Fragment()
 
 	for {
-		if self.iter.Curr.Kind == Eof {
+		if self.iter.Curr().Kind() == tokens.Eof {
 			break
 		}
 
@@ -51,7 +52,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 }
 
 func (self *Parser) ParseBlock() (core.Node, error) {
-	if self.iter.Match(Eof) {
+	if self.iter.Match(tokens.Eof) {
 		return nil, nil
 	}
 
@@ -61,34 +62,34 @@ func (self *Parser) ParseBlock() (core.Node, error) {
 	self.iter.Save()
 
 	for range self.iter.blockQuoteDepth - 1 {
-		if !self.iter.Match(BlockQuote) {
+		if !self.iter.Match(tokens.BlockQuote) {
 			break
 		}
 	}
 
-	if self.iter.Match(H1) {
+	if self.iter.Match(tokens.H1) {
 		node, err = self.parseHeading(1)
-	} else if self.iter.Match(H2) {
+	} else if self.iter.Match(tokens.H2) {
 		node, err = self.parseHeading(2)
-	} else if self.iter.Match(H3) {
+	} else if self.iter.Match(tokens.H3) {
 		node, err = self.parseHeading(3)
-	} else if self.iter.Match(H4) {
+	} else if self.iter.Match(tokens.H4) {
 		node, err = self.parseHeading(4)
-	} else if self.iter.Match(H5) {
+	} else if self.iter.Match(tokens.H5) {
 		node, err = self.parseHeading(5)
-	} else if self.iter.Match(H6) {
+	} else if self.iter.Match(tokens.H6) {
 		node, err = self.parseHeading(6)
-	} else if self.iter.Match(Hr) {
+	} else if self.iter.Match(tokens.Hr) {
 		node, err = self.parseHr()
-	} else if self.iter.Match(CodeBlock) {
+	} else if self.iter.Match(tokens.CodeBlock) {
 		node, err = self.parseCodeBlock()
-	} else if self.iter.Match(BlockQuote) {
+	} else if self.iter.Match(tokens.BlockQuote) {
 		node, err = self.parseBlockQuote()
-	} else if self.iter.Match(Ul) {
+	} else if self.iter.Match(tokens.Ul) {
 		node, err = self.parseUnorderedList()
-	} else if self.iter.Match(Ol) {
+	} else if self.iter.Match(tokens.Ol) {
 		node, err = self.parseOrderedList()
-	} else if self.iter.Match(NewLine) {
+	} else if self.iter.Match(tokens.NewLine) {
 		node, err = self.ParseBlock()
 	}
 
@@ -109,7 +110,7 @@ func (self *Parser) ParseBlock() (core.Node, error) {
 }
 
 func (self *Parser) ParseInline() (core.Node, error) {
-	if self.iter.Match(Eof) {
+	if self.iter.Match(tokens.Eof) {
 		return nil, nil
 	}
 
@@ -118,36 +119,36 @@ func (self *Parser) ParseInline() (core.Node, error) {
 
 	self.iter.Save()
 
-	if self.iter.Match(Bold) {
+	if self.iter.Match(tokens.Bold) {
 		node, err = self.parseBold()
-	} else if self.iter.Match(BoldAlt) {
+	} else if self.iter.Match(tokens.BoldAlt) {
 		node, err = self.parseBoldAlt()
-	} else if self.iter.Match(Italic) {
+	} else if self.iter.Match(tokens.Italic) {
 		node, err = self.parseItalic()
-	} else if self.iter.Match(ItalicAlt) {
+	} else if self.iter.Match(tokens.ItalicAlt) {
 		node, err = self.parseItalicAlt()
-	} else if self.iter.Match(Strike) {
+	} else if self.iter.Match(tokens.Strike) {
 		node, err = self.parseStrike()
-	} else if self.iter.Match(StrikeAlt) {
+	} else if self.iter.Match(tokens.StrikeAlt) {
 		node, err = self.parseStrikeAlt()
-	} else if self.iter.Match(Br) {
+	} else if self.iter.Match(tokens.Br) {
 		node, err = self.parseBr()
-	} else if self.iter.Match(Code) {
+	} else if self.iter.Match(tokens.Code) {
 		node, err = self.parseCode()
-	} else if self.iter.Match(LeftBracket) {
+	} else if self.iter.Match(tokens.LeftBracket) {
 		node, err = self.parseLink()
-	} else if self.iter.Match(Bang) {
+	} else if self.iter.Match(tokens.Bang) {
 		node, err = self.parseImage()
-	} else if self.iter.Match(Colon) {
+	} else if self.iter.Match(tokens.Colon) {
 		node, err = self.parseEmoji()
-	} else if self.iter.Match(NewLine) {
-		if self.iter.Match(NewLine) {
+	} else if self.iter.Match(tokens.NewLine) {
+		if self.iter.Match(tokens.NewLine) {
 			self.iter.Pop()
 			return nil, nil
 		}
 
 		for range self.iter.blockQuoteDepth {
-			if !self.iter.Match(BlockQuote) {
+			if !self.iter.Match(tokens.BlockQuote) {
 				break
 			}
 		}
@@ -166,7 +167,7 @@ func (self *Parser) ParseInline() (core.Node, error) {
 			return text, texterr
 		}
 
-		for self.iter.Curr.Kind == Text {
+		for self.iter.Curr().Kind() == tokens.Text {
 			node, err := self.parseText()
 
 			if node == nil || err != nil {
@@ -191,7 +192,7 @@ func (self *Parser) ParseInline() (core.Node, error) {
 func (self *Parser) parseHeading(depth int) (core.Node, error) {
 	heading := html.Heading(depth)
 
-	for self.iter.Curr.Kind.IsInline() {
+	for self.iter.Curr().IsInline() {
 		node, err := self.ParseInline()
 
 		if node == nil || err != nil {
@@ -208,7 +209,7 @@ func (self *Parser) parseParagraph() (core.Node, error) {
 	paragraph := html.P()
 	buff := html.Raw{}
 
-	for self.iter.Curr.Kind.IsInline() {
+	for self.iter.Curr().IsInline() {
 		node, err := self.ParseInline()
 
 		if err != nil {
@@ -245,7 +246,7 @@ func (self *Parser) parseHr() (core.Node, error) {
 
 func (self *Parser) parseCodeBlock() (core.Node, error) {
 	code := html.Code()
-	lang, err := self.parseTextUntil(NewLine)
+	lang, err := self.parseTextUntil(tokens.NewLine)
 
 	if lang == nil || err != nil {
 		return html.Pre(code), err
@@ -255,7 +256,7 @@ func (self *Parser) parseCodeBlock() (core.Node, error) {
 		code.Class(fmt.Sprintf("language-%s", lang))
 	}
 
-	node, err := self.parseTextUntil(CodeBlock)
+	node, err := self.parseTextUntil(tokens.CodeBlock)
 
 	if node == nil {
 		return html.Pre(code), errors.New("expected closing '```'")
@@ -283,7 +284,7 @@ func (self *Parser) parseBlockQuote() (core.Node, error) {
 
 		blockQuote.Push(node)
 
-		if self.iter.Curr.Kind != BlockQuote {
+		if self.iter.Curr().Kind() != tokens.BlockQuote {
 			break
 		}
 	}
@@ -306,11 +307,11 @@ func (self *Parser) parseUnorderedList() (core.Node, error) {
 
 		ul.Push(node)
 
-		if !self.iter.MatchCount(Tab, self.iter.listDepth-1) {
+		if !self.iter.MatchCount(tokens.Tab, self.iter.listDepth-1) {
 			break
 		}
 
-		if !self.iter.Match(Ul) {
+		if !self.iter.Match(tokens.Ul) {
 			break
 		}
 	}
@@ -333,11 +334,11 @@ func (self *Parser) parseOrderedList() (core.Node, error) {
 
 		ol.Push(node)
 
-		if !self.iter.MatchCount(Tab, self.iter.listDepth-1) {
+		if !self.iter.MatchCount(tokens.Tab, self.iter.listDepth-1) {
 			break
 		}
 
-		if !self.iter.Match(Ol) {
+		if !self.iter.Match(tokens.Ol) {
 			break
 		}
 	}
@@ -353,7 +354,7 @@ func (self *Parser) parseOrderedList() (core.Node, error) {
 func (self *Parser) parseBold() (core.Node, error) {
 	bold := html.Strong()
 
-	for !self.iter.Match(Bold) {
+	for !self.iter.Match(tokens.Bold) {
 		node, err := self.ParseInline()
 
 		if node == nil {
@@ -373,7 +374,7 @@ func (self *Parser) parseBold() (core.Node, error) {
 func (self *Parser) parseBoldAlt() (core.Node, error) {
 	bold := html.Strong()
 
-	for !self.iter.Match(BoldAlt) {
+	for !self.iter.Match(tokens.BoldAlt) {
 		node, err := self.ParseInline()
 
 		if node == nil {
@@ -393,7 +394,7 @@ func (self *Parser) parseBoldAlt() (core.Node, error) {
 func (self *Parser) parseItalic() (core.Node, error) {
 	italic := html.I()
 
-	for !self.iter.Match(Italic) {
+	for !self.iter.Match(tokens.Italic) {
 		node, err := self.ParseInline()
 
 		if node == nil {
@@ -413,7 +414,7 @@ func (self *Parser) parseItalic() (core.Node, error) {
 func (self *Parser) parseItalicAlt() (core.Node, error) {
 	italic := html.I()
 
-	for !self.iter.Match(ItalicAlt) {
+	for !self.iter.Match(tokens.ItalicAlt) {
 		node, err := self.ParseInline()
 
 		if node == nil {
@@ -433,7 +434,7 @@ func (self *Parser) parseItalicAlt() (core.Node, error) {
 func (self *Parser) parseStrike() (core.Node, error) {
 	strike := html.S()
 
-	for !self.iter.Match(Strike) {
+	for !self.iter.Match(tokens.Strike) {
 		node, err := self.ParseInline()
 
 		if node == nil {
@@ -453,7 +454,7 @@ func (self *Parser) parseStrike() (core.Node, error) {
 func (self *Parser) parseStrikeAlt() (core.Node, error) {
 	strike := html.S()
 
-	for !self.iter.Match(StrikeAlt) {
+	for !self.iter.Match(tokens.StrikeAlt) {
 		node, err := self.ParseInline()
 
 		if node == nil {
@@ -476,7 +477,7 @@ func (self *Parser) parseBr() (core.Node, error) {
 
 func (self *Parser) parseCode() (core.Node, error) {
 	code := html.Code()
-	text, err := self.parseTextUntil(Code)
+	text, err := self.parseTextUntil(tokens.Code)
 
 	if text == nil {
 		return code, errors.New("expected closing '`'")
@@ -493,7 +494,7 @@ func (self *Parser) parseCode() (core.Node, error) {
 func (self *Parser) parseLink() (core.Node, error) {
 	link := html.A()
 
-	for !self.iter.Match(RightBracket) {
+	for !self.iter.Match(tokens.RightBracket) {
 		node, err := self.ParseInline()
 
 		if node == nil || err != nil {
@@ -503,11 +504,11 @@ func (self *Parser) parseLink() (core.Node, error) {
 		link.Push(node)
 	}
 
-	if _, err := self.iter.Consume(LeftParen, "expected '('"); err != nil {
+	if _, err := self.iter.Consume(tokens.LeftParen, "expected '('"); err != nil {
 		return link, err
 	}
 
-	node, err := self.parseTextUntil(RightParen)
+	node, err := self.parseTextUntil(tokens.RightParen)
 
 	if node == nil || err != nil {
 		return link, err
@@ -520,11 +521,11 @@ func (self *Parser) parseLink() (core.Node, error) {
 func (self *Parser) parseImage() (core.Node, error) {
 	image := html.Img()
 
-	if _, err := self.iter.Consume(LeftBracket, "expected '['"); err != nil {
+	if _, err := self.iter.Consume(tokens.LeftBracket, "expected '['"); err != nil {
 		return image, err
 	}
 
-	node, err := self.parseTextUntil(RightBracket)
+	node, err := self.parseTextUntil(tokens.RightBracket)
 
 	if node == nil || err != nil {
 		return image, err
@@ -532,11 +533,11 @@ func (self *Parser) parseImage() (core.Node, error) {
 
 	image.Alt(node.String())
 
-	if _, err := self.iter.Consume(LeftParen, "expected '('"); err != nil {
+	if _, err := self.iter.Consume(tokens.LeftParen, "expected '('"); err != nil {
 		return image, err
 	}
 
-	node, err = self.parseTextUntil(RightParen)
+	node, err = self.parseTextUntil(tokens.RightParen)
 
 	if node == nil || err != nil {
 		return image, err
@@ -559,7 +560,7 @@ func (self *Parser) parseListItem() (*html.ListItemElement, error) {
 
 	self.iter.Revert()
 
-	for self.iter.Curr.Kind.IsInline() {
+	for self.iter.Curr().IsInline() {
 		node, err := self.ParseInline()
 
 		if err != nil {
@@ -573,16 +574,16 @@ func (self *Parser) parseListItem() (*html.ListItemElement, error) {
 		}
 
 		if node.String() == "\n" {
-			if !self.iter.MatchCount(Tab, self.iter.listDepth) {
+			if !self.iter.MatchCount(tokens.Tab, self.iter.listDepth) {
 				break
 			}
 
 			node, err = nil, nil
 			self.iter.Save()
 
-			if self.iter.Match(Ol) {
+			if self.iter.Match(tokens.Ol) {
 				node, err = self.parseOrderedList()
-			} else if self.iter.Match(Ul) {
+			} else if self.iter.Match(tokens.Ul) {
 				node, err = self.parseUnorderedList()
 			}
 
@@ -607,13 +608,13 @@ func (self *Parser) parseTask() (core.Node, error) {
 	id := uuid.NewString()
 	label := html.Label().For(id)
 	input := html.CheckBoxInput().Id(id)
-	_, err := self.iter.Consume(LeftBracket, "expected '['")
+	_, err := self.iter.Consume(tokens.LeftBracket, "expected '['")
 
 	if err != nil {
 		return label, err
 	}
 
-	checked, err := self.iter.Consume(Text, "expected ' ' or 'x'")
+	checked, err := self.iter.Consume(tokens.Text, "expected ' ' or 'x'")
 
 	if err != nil {
 		return label, err
@@ -627,13 +628,13 @@ func (self *Parser) parseTask() (core.Node, error) {
 		input.Checked(true)
 	}
 
-	_, err = self.iter.Consume(RightBracket, "expected ']'")
+	_, err = self.iter.Consume(tokens.RightBracket, "expected ']'")
 
 	if err != nil {
 		return label, err
 	}
 
-	space, err := self.iter.Consume(Text, "expected ' '")
+	space, err := self.iter.Consume(tokens.Text, "expected ' '")
 
 	if err != nil {
 		return label, err
@@ -645,7 +646,7 @@ func (self *Parser) parseTask() (core.Node, error) {
 
 	text := ""
 
-	for !self.iter.Match(NewLine) {
+	for !self.iter.Match(tokens.NewLine) {
 		node, err := self.parseText()
 
 		if err != nil {
@@ -667,7 +668,7 @@ func (self *Parser) parseTask() (core.Node, error) {
 func (self *Parser) parseEmoji() (html.Raw, error) {
 	alias := html.Raw{}
 
-	for !self.iter.Match(Colon) {
+	for !self.iter.Match(tokens.Colon) {
 		node, err := self.parseText()
 
 		if node == nil {
@@ -691,7 +692,9 @@ func (self *Parser) parseEmoji() (html.Raw, error) {
 }
 
 func (self *Parser) parseNewLine() (html.Raw, error) {
-	if self.iter.Curr.IsWhitespace() {
+	curr := self.iter.Curr().String()
+
+	if curr == " " || curr == "\n" {
 		return nil, nil
 	}
 
@@ -699,17 +702,17 @@ func (self *Parser) parseNewLine() (html.Raw, error) {
 }
 
 func (self *Parser) parseText() (html.Raw, error) {
-	if self.iter.Curr.Kind == Eof {
+	if self.iter.Curr().Kind() == tokens.Eof {
 		return nil, nil
 	}
 
-	text := html.Raw(self.iter.Curr.Value)
+	text := html.Raw(self.iter.Curr().Bytes())
 	self.iter.Next()
 	return text, nil
 }
 
-func (self *Parser) parseTextUntil(kind TokenKind) (html.Raw, error) {
-	if self.iter.Curr.Kind == Eof {
+func (self *Parser) parseTextUntil(kind tokens.TokenKind) (html.Raw, error) {
+	if self.iter.Curr().Kind() == tokens.Eof {
 		return nil, nil
 	}
 

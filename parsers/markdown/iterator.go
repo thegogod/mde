@@ -1,45 +1,55 @@
 package markdown
 
-import "github.com/thegogod/mde/core"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/parsers/markdown/tokens"
+)
 
 type Iterator struct {
-	Prev *Token
-	Curr *Token
-
-	scanner         *Scanner
+	scanner         core.Scanner
+	prev            core.Token
+	curr            core.Token
 	blockQuoteDepth int
 	listDepth       int
 	saves           []Iterator
 }
 
+func (self Iterator) Curr() core.Token {
+	return self.curr
+}
+
+func (self Iterator) Prev() core.Token {
+	return self.prev
+}
+
 func (self *Iterator) Reset(src []byte) {
-	self.Prev = nil
-	self.Curr = nil
 	self.blockQuoteDepth = 0
+	self.prev = nil
+	self.curr = nil
 	self.listDepth = 0
-	self.scanner = NewScanner(src)
+	self.scanner = tokens.NewScanner(src)
 	self.saves = []Iterator{}
 }
 
 func (self *Iterator) Next() bool {
-	self.Prev = self.Curr
+	self.prev = self.curr
 	token, err := self.scanner.Scan()
 
 	if err != nil {
 		return self.Next()
 	}
 
-	self.Curr = token.(*Token)
+	self.curr = token
 
-	if TokenKind(token.GetKind()) == Eof {
+	if token.Kind() == tokens.Eof {
 		return false
 	}
 
 	return true
 }
 
-func (self *Iterator) Match(kind TokenKind) bool {
-	if self.Curr.Kind != kind {
+func (self *Iterator) Match(kind byte) bool {
+	if self.curr.Kind() != kind {
 		return false
 	}
 
@@ -47,7 +57,7 @@ func (self *Iterator) Match(kind TokenKind) bool {
 	return true
 }
 
-func (self *Iterator) MatchCount(kind TokenKind, count int) bool {
+func (self *Iterator) MatchCount(kind byte, count int) bool {
 	self.Save()
 
 	for range count {
@@ -62,13 +72,13 @@ func (self *Iterator) MatchCount(kind TokenKind, count int) bool {
 	return true
 }
 
-func (self *Iterator) Consume(kind TokenKind, message string) (core.Token, error) {
-	if self.Curr.Kind == kind {
+func (self *Iterator) Consume(kind byte, message string) (core.Token, error) {
+	if self.curr.Kind() == kind {
 		self.Next()
-		return self.Prev, nil
+		return self.prev, nil
 	}
 
-	return nil, NewError(self.Curr.Position, message)
+	return nil, self.curr.Error(message)
 }
 
 func (self *Iterator) Save() {
@@ -76,10 +86,10 @@ func (self *Iterator) Save() {
 		self.saves = []Iterator{}
 	}
 
-	self.scanner.pos.Save()
+	self.scanner.Save()
 	self.saves = append(self.saves, Iterator{
-		Prev:            self.Prev,
-		Curr:            self.Curr,
+		prev:            self.prev,
+		curr:            self.curr,
 		blockQuoteDepth: self.blockQuoteDepth,
 		listDepth:       self.listDepth,
 		scanner:         self.scanner,
@@ -88,7 +98,7 @@ func (self *Iterator) Save() {
 
 func (self *Iterator) Pop() {
 	self.saves = self.saves[:len(self.saves)-1]
-	self.scanner.pos.Pop()
+	self.scanner.Pop()
 }
 
 func (self *Iterator) Revert() {
@@ -97,9 +107,14 @@ func (self *Iterator) Revert() {
 	}
 
 	i := len(self.saves) - 1
-	self.Prev = self.saves[i].Prev
-	self.Curr = self.saves[i].Curr
+	self.prev = self.saves[i].prev
+	self.curr = self.saves[i].curr
 	self.blockQuoteDepth = self.saves[i].blockQuoteDepth
 	self.listDepth = self.saves[i].listDepth
-	self.scanner.pos.Revert()
+	self.scanner.Revert()
+}
+
+func (self *Iterator) RevertAndPop() {
+	self.Revert()
+	self.Pop()
 }
