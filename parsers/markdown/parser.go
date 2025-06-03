@@ -18,7 +18,7 @@ func New() *Parser {
 }
 
 func (self *Parser) Parse(src []byte) (core.Node, error) {
-	iter := &Iterator{}
+	iter := &tokens.Iterator{}
 	iter.Reset(src)
 
 	if !iter.Next() {
@@ -53,13 +53,13 @@ func (self *Parser) ParseBlock(iterator core.Iterator) (core.Node, error) {
 		return nil, nil
 	}
 
-	iter := iterator.(*Iterator)
+	iter := iterator.(*tokens.Iterator)
 	var node core.Node = nil
 	var err error = nil
 
 	iter.Save()
 
-	for range iter.blockQuoteDepth - 1 {
+	for range iter.BlockQuoteDepth - 1 {
 		if !iter.Match(tokens.BlockQuote) {
 			break
 		}
@@ -112,7 +112,7 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 		return nil, nil
 	}
 
-	iter := iterator.(*Iterator)
+	iter := iterator.(*tokens.Iterator)
 	var node core.Node = nil
 	var err error = nil
 
@@ -146,7 +146,7 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 			return nil, nil
 		}
 
-		for range iter.blockQuoteDepth {
+		for range iter.BlockQuoteDepth {
 			if !iter.Match(tokens.BlockQuote) {
 				break
 			}
@@ -218,7 +218,7 @@ func (self *Parser) ParseTextUntil(iter core.Iterator, kind tokens.TokenKind) ([
 // Blocks
 //
 
-func (self *Parser) parseHeading(depth int, iter *Iterator) (core.Node, error) {
+func (self *Parser) parseHeading(depth int, iter *tokens.Iterator) (core.Node, error) {
 	heading := html.Heading(depth)
 
 	for iter.Curr().IsInline() {
@@ -234,7 +234,7 @@ func (self *Parser) parseHeading(depth int, iter *Iterator) (core.Node, error) {
 	return heading, nil
 }
 
-func (self *Parser) parseParagraph(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseParagraph(iter *tokens.Iterator) (core.Node, error) {
 	paragraph := html.P()
 	buff := html.Raw{}
 
@@ -273,7 +273,7 @@ func (self *Parser) parseHr() (core.Node, error) {
 	return html.Hr(), nil
 }
 
-func (self *Parser) parseCodeBlock(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseCodeBlock(iter *tokens.Iterator) (core.Node, error) {
 	code := html.Code()
 	lang, err := self.ParseTextUntil(iter, tokens.NewLine)
 
@@ -299,15 +299,15 @@ func (self *Parser) parseCodeBlock(iter *Iterator) (core.Node, error) {
 	return html.Pre(code), nil
 }
 
-func (self *Parser) parseBlockQuote(iter *Iterator) (core.Node, error) {
-	iter.blockQuoteDepth++
+func (self *Parser) parseBlockQuote(iter *tokens.Iterator) (core.Node, error) {
+	iter.BlockQuoteDepth++
 	blockQuote := html.BlockQuote()
 
 	for {
 		node, err := self.ParseBlock(iter)
 
 		if node == nil || err != nil {
-			iter.blockQuoteDepth--
+			iter.BlockQuoteDepth--
 			return blockQuote, err
 		}
 
@@ -318,25 +318,25 @@ func (self *Parser) parseBlockQuote(iter *Iterator) (core.Node, error) {
 		}
 	}
 
-	iter.blockQuoteDepth--
+	iter.BlockQuoteDepth--
 	return blockQuote, nil
 }
 
-func (self *Parser) parseUnorderedList(iter *Iterator) (core.Node, error) {
-	iter.listDepth++
+func (self *Parser) parseUnorderedList(iter *tokens.Iterator) (core.Node, error) {
+	iter.ListDepth++
 	ul := html.Ul()
 
 	for {
 		node, err := self.parseListItem(iter)
 
 		if node == nil || err != nil {
-			iter.listDepth--
+			iter.ListDepth--
 			return ul, err
 		}
 
 		ul.Push(node)
 
-		if !iter.MatchCount(tokens.Tab, iter.listDepth-1) {
+		if !iter.MatchCount(tokens.Tab, iter.ListDepth-1) {
 			break
 		}
 
@@ -345,25 +345,25 @@ func (self *Parser) parseUnorderedList(iter *Iterator) (core.Node, error) {
 		}
 	}
 
-	iter.listDepth--
+	iter.ListDepth--
 	return ul, nil
 }
 
-func (self *Parser) parseOrderedList(iter *Iterator) (core.Node, error) {
-	iter.listDepth++
+func (self *Parser) parseOrderedList(iter *tokens.Iterator) (core.Node, error) {
+	iter.ListDepth++
 	ol := html.Ol()
 
 	for {
 		node, err := self.parseListItem(iter)
 
 		if node == nil || err != nil {
-			iter.listDepth--
+			iter.ListDepth--
 			return ol, err
 		}
 
 		ol.Push(node)
 
-		if !iter.MatchCount(tokens.Tab, iter.listDepth-1) {
+		if !iter.MatchCount(tokens.Tab, iter.ListDepth-1) {
 			break
 		}
 
@@ -372,7 +372,7 @@ func (self *Parser) parseOrderedList(iter *Iterator) (core.Node, error) {
 		}
 	}
 
-	iter.listDepth--
+	iter.ListDepth--
 	return ol, nil
 }
 
@@ -380,7 +380,7 @@ func (self *Parser) parseOrderedList(iter *Iterator) (core.Node, error) {
 // InLines
 //
 
-func (self *Parser) parseBold(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseBold(iter *tokens.Iterator) (core.Node, error) {
 	bold := html.Strong()
 
 	for !iter.Match(tokens.Bold) {
@@ -400,7 +400,7 @@ func (self *Parser) parseBold(iter *Iterator) (core.Node, error) {
 	return bold, nil
 }
 
-func (self *Parser) parseBoldAlt(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseBoldAlt(iter *tokens.Iterator) (core.Node, error) {
 	bold := html.Strong()
 
 	for !iter.Match(tokens.BoldAlt) {
@@ -420,7 +420,7 @@ func (self *Parser) parseBoldAlt(iter *Iterator) (core.Node, error) {
 	return bold, nil
 }
 
-func (self *Parser) parseItalic(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseItalic(iter *tokens.Iterator) (core.Node, error) {
 	italic := html.I()
 
 	for !iter.Match(tokens.Italic) {
@@ -440,7 +440,7 @@ func (self *Parser) parseItalic(iter *Iterator) (core.Node, error) {
 	return italic, nil
 }
 
-func (self *Parser) parseItalicAlt(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseItalicAlt(iter *tokens.Iterator) (core.Node, error) {
 	italic := html.I()
 
 	for !iter.Match(tokens.ItalicAlt) {
@@ -460,7 +460,7 @@ func (self *Parser) parseItalicAlt(iter *Iterator) (core.Node, error) {
 	return italic, nil
 }
 
-func (self *Parser) parseStrike(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseStrike(iter *tokens.Iterator) (core.Node, error) {
 	strike := html.S()
 
 	for !iter.Match(tokens.Strike) {
@@ -480,7 +480,7 @@ func (self *Parser) parseStrike(iter *Iterator) (core.Node, error) {
 	return strike, nil
 }
 
-func (self *Parser) parseStrikeAlt(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseStrikeAlt(iter *tokens.Iterator) (core.Node, error) {
 	strike := html.S()
 
 	for !iter.Match(tokens.StrikeAlt) {
@@ -504,7 +504,7 @@ func (self *Parser) parseBr() (core.Node, error) {
 	return html.Br(), nil
 }
 
-func (self *Parser) parseCode(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseCode(iter *tokens.Iterator) (core.Node, error) {
 	code := html.Code()
 	text, err := self.ParseTextUntil(iter, tokens.Code)
 
@@ -520,7 +520,7 @@ func (self *Parser) parseCode(iter *Iterator) (core.Node, error) {
 	return code, nil
 }
 
-func (self *Parser) parseLink(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseLink(iter *tokens.Iterator) (core.Node, error) {
 	link := html.A()
 
 	for !iter.Match(tokens.RightBracket) {
@@ -547,7 +547,7 @@ func (self *Parser) parseLink(iter *Iterator) (core.Node, error) {
 	return link, nil
 }
 
-func (self *Parser) parseImage(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseImage(iter *tokens.Iterator) (core.Node, error) {
 	image := html.Img()
 
 	if _, err := iter.Consume(tokens.LeftBracket, "expected '['"); err != nil {
@@ -576,7 +576,7 @@ func (self *Parser) parseImage(iter *Iterator) (core.Node, error) {
 	return image, nil
 }
 
-func (self *Parser) parseListItem(iter *Iterator) (*html.ListItemElement, error) {
+func (self *Parser) parseListItem(iter *tokens.Iterator) (*html.ListItemElement, error) {
 	li := html.Li()
 	iter.Save()
 	node, err := self.parseTask(iter)
@@ -603,7 +603,7 @@ func (self *Parser) parseListItem(iter *Iterator) (*html.ListItemElement, error)
 		}
 
 		if node.String() == "\n" {
-			if !iter.MatchCount(tokens.Tab, iter.listDepth) {
+			if !iter.MatchCount(tokens.Tab, iter.ListDepth) {
 				break
 			}
 
@@ -633,7 +633,7 @@ func (self *Parser) parseListItem(iter *Iterator) (*html.ListItemElement, error)
 	return li, nil
 }
 
-func (self *Parser) parseTask(iter *Iterator) (core.Node, error) {
+func (self *Parser) parseTask(iter *tokens.Iterator) (core.Node, error) {
 	id := uuid.NewString()
 	label := html.Label().For(id)
 	input := html.CheckBoxInput().Id(id)
@@ -694,7 +694,7 @@ func (self *Parser) parseTask(iter *Iterator) (core.Node, error) {
 	return label, nil
 }
 
-func (self *Parser) parseEmoji(iter *Iterator) (html.Raw, error) {
+func (self *Parser) parseEmoji(iter *tokens.Iterator) (html.Raw, error) {
 	alias := html.Raw{}
 
 	for !iter.Match(tokens.Colon) {
@@ -720,7 +720,7 @@ func (self *Parser) parseEmoji(iter *Iterator) (html.Raw, error) {
 	return html.Raw(emoji.Emoji), nil
 }
 
-func (self *Parser) parseNewLine(iter *Iterator) (html.Raw, error) {
+func (self *Parser) parseNewLine(iter *tokens.Iterator) (html.Raw, error) {
 	curr := iter.Curr().String()
 
 	if curr == " " || curr == "\n" {

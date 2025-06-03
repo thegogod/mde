@@ -1,17 +1,15 @@
-package markdown
+package tokens
 
-import (
-	"github.com/thegogod/mde/core"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
-)
+import "github.com/thegogod/mde/core"
 
 type Iterator struct {
-	scanner         *tokens.Scanner
-	prev            core.Token
-	curr            core.Token
-	blockQuoteDepth int
-	listDepth       int
-	saves           []Iterator
+	BlockQuoteDepth int
+	ListDepth       int
+
+	scanner *Scanner
+	prev    core.Token
+	curr    core.Token
+	saves   []Iterator
 }
 
 func (self Iterator) Curr() core.Token {
@@ -23,11 +21,11 @@ func (self Iterator) Prev() core.Token {
 }
 
 func (self *Iterator) Reset(src []byte) {
-	self.blockQuoteDepth = 0
+	self.BlockQuoteDepth = 0
+	self.ListDepth = 0
 	self.prev = nil
 	self.curr = nil
-	self.listDepth = 0
-	self.scanner = tokens.NewScanner(src)
+	self.scanner = NewScanner(src)
 	self.saves = []Iterator{}
 }
 
@@ -41,7 +39,7 @@ func (self *Iterator) Next() bool {
 
 	self.curr = token
 
-	if token.Kind() == tokens.Eof {
+	if token.Kind() == Eof {
 		return false
 	}
 
@@ -88,10 +86,10 @@ func (self *Iterator) Save() {
 
 	self.scanner.Save()
 	self.saves = append(self.saves, Iterator{
+		BlockQuoteDepth: self.BlockQuoteDepth,
+		ListDepth:       self.ListDepth,
 		prev:            self.prev,
 		curr:            self.curr,
-		blockQuoteDepth: self.blockQuoteDepth,
-		listDepth:       self.listDepth,
 		scanner:         self.scanner,
 	})
 }
@@ -107,10 +105,10 @@ func (self *Iterator) Revert() {
 	}
 
 	i := len(self.saves) - 1
+	self.BlockQuoteDepth = self.saves[i].BlockQuoteDepth
+	self.ListDepth = self.saves[i].ListDepth
 	self.prev = self.saves[i].prev
 	self.curr = self.saves[i].curr
-	self.blockQuoteDepth = self.saves[i].blockQuoteDepth
-	self.listDepth = self.saves[i].listDepth
 	self.scanner.Revert()
 }
 

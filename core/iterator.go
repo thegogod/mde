@@ -6,6 +6,7 @@ type Iterator interface {
 
 	Curr() Token
 	Prev() Token
+
 	Next() bool
 	Reset(src []byte)
 	Match(kind byte) bool
