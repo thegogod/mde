@@ -27,11 +27,10 @@ const (
 	Tilde        // ~
 	Equals       // =
 	GreaterThan  // >
+	BackQuote    // `
 
 	// elements
 
-	Ol        // ordered list (<ol>) (1. test)
-	Ul        // unordered list (<ul>) (- test)
-	Code      // `test`
-	CodeBlock // ```test```
+	Ol // ordered list (<ol>) (1. test)
+	Ul // unordered list (<ul>) (- test)
 )

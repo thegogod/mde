@@ -42,8 +42,6 @@ func (self Token) IsInline() bool {
 		fallthrough
 	case Ul:
 		fallthrough
-	case CodeBlock:
-		fallthrough
 	case GreaterThan:
 		return false
 	case Eof:
@@ -71,10 +69,8 @@ func (self Token) KindString() string {
 		return "ul"
 	case Dash:
 		return "dash"
-	case Code:
-		return "code"
-	case CodeBlock:
-		return "code-block"
+	case BackQuote:
+		return "back-quote"
 	case Colon:
 		return "colon"
 	case Bang:

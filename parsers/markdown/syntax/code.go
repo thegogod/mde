@@ -21,12 +21,12 @@ func (self Code) Name() string {
 }
 
 func (self Code) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Code)
+	return !iter.MatchCount(tokens.BackQuote, 3) && iter.Match(tokens.BackQuote)
 }
 
 func (self Code) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	code := html.Code()
-	text, err := parser.ParseTextUntil(iter, tokens.Code)
+	text, err := parser.ParseTextUntil(iter, tokens.BackQuote)
 
 	if text == nil {
 		return code, iter.Curr().Error("expected closing '`'")

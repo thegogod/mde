@@ -74,19 +74,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 
 		return self.create(GreaterThan), nil
 	case '`':
-		for self.peek() == '`' {
-			self.next()
-		}
-
-		i := self.pos.End - self.pos.Start
-
-		if i == 1 {
-			return self.create(Code), nil
-		} else if i >= 3 {
-			return self.create(CodeBlock), nil
-		}
-
-		break
+		return self.create(BackQuote), nil
 	case ':':
 		return self.create(Colon), nil
 	case '!':
@@ -140,12 +128,5 @@ func (self Scanner) create(TokenKind TokenKind) *Token {
 		TokenKind,
 		self.pos,
 		self.src[self.pos.Start:self.pos.End],
-	)
-}
-
-func (self Scanner) error(message string) error {
-	return NewError(
-		self.pos,
-		message,
 	)
 }
