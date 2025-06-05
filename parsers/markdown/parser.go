@@ -93,7 +93,7 @@ func (self *Parser) ParseBlock(iterator core.Iterator) (core.Node, error) {
 	iterator.Save()
 
 	for range iter.BlockQuoteDepth - 1 {
-		if !iterator.Match(tokens.BlockQuote) {
+		if !iterator.Match(tokens.GreaterThan) {
 			break
 		}
 	}

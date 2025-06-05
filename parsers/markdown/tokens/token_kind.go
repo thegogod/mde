@@ -24,16 +24,14 @@ const (
 	Asterisk     // *
 	Underscore   // _
 	Tilde        // ~
-	// Equals       // =
+	Equals       // =
+	GreaterThan  // >
 
 	// elements
 
-	Highlight  // ==
-	Br         // line break (<br>) (two spaces)
-	Ol         // ordered list (<ol>) (1. test)
-	Ul         // unordered list (<ul>) (- test)
-	BlockQuote // '>'
-	Code       // `test`
-	CodeBlock  // ```test```
-	Hr         // horizontal rule (<hr>) (---)
+	Ol        // ordered list (<ol>) (1. test)
+	Ul        // unordered list (<ul>) (- test)
+	Code      // `test`
+	CodeBlock // ```test```
+	Hr        // horizontal rule (<hr>) (---)
 )

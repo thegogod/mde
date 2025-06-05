@@ -21,13 +21,13 @@ func (self Highlight) Name() string {
 }
 
 func (self Highlight) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Highlight)
+	return iter.MatchCount(tokens.Equals, 2)
 }
 
 func (self Highlight) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	mark := html.Mark()
 
-	for !iter.Match(tokens.Highlight) {
+	for !iter.MatchCount(tokens.Equals, 2) {
 		node, err := parser.ParseInline(iter)
 
 		if node == nil {

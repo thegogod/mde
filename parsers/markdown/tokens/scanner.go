@@ -45,11 +45,6 @@ func (self *Scanner) Scan() (core.Token, error) {
 
 	switch b {
 	case ' ':
-		if self.peek() == ' ' {
-			self.next()
-			return self.create(Br), nil
-		}
-
 		return self.create(Space), nil
 	case '\n':
 		return self.create(NewLine), nil
@@ -81,18 +76,13 @@ func (self *Scanner) Scan() (core.Token, error) {
 	case '~':
 		return self.create(Tilde), nil
 	case '=':
-		if self.peek() == '=' {
-			self.next()
-			return self.create(Highlight), nil
-		}
-
-		break
+		return self.create(Equals), nil
 	case '>':
 		if self.peek() == ' ' {
 			self.next()
 		}
 
-		return self.create(BlockQuote), nil
+		return self.create(GreaterThan), nil
 	case '`':
 		for self.peek() == '`' {
 			self.next()

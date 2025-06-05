@@ -21,7 +21,7 @@ func (self BlockQuote) Name() string {
 }
 
 func (self BlockQuote) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.BlockQuote)
+	return iter.Match(tokens.GreaterThan)
 }
 
 func (self BlockQuote) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
@@ -39,7 +39,7 @@ func (self BlockQuote) Parse(parser core.Parser, iter core.Iterator) (core.Node,
 
 		blockQuote.Push(node)
 
-		if iter.Curr().Kind() != tokens.BlockQuote {
+		if iter.Curr().Kind() != tokens.GreaterThan {
 			break
 		}
 	}

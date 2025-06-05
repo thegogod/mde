@@ -44,10 +44,8 @@ func (self Token) IsInline() bool {
 		fallthrough
 	case CodeBlock:
 		fallthrough
-	case BlockQuote:
-		fallthrough
-	case Hr:
-		fallthrough
+	case GreaterThan:
+		return false
 	case Eof:
 		return false
 	default:
@@ -67,22 +65,16 @@ func (self Token) KindString() string {
 		return "space"
 	case Tab:
 		return "tab"
-	case Highlight:
-		return "highlight"
-	case Br:
-		return "br"
 	case Ol:
 		return "ol"
 	case Ul:
 		return "ul"
-	case BlockQuote:
-		return "block-quote"
+	case Hr:
+		return "hr"
 	case Code:
 		return "code"
 	case CodeBlock:
 		return "code-block"
-	case Hr:
-		return "hr"
 	case Colon:
 		return "colon"
 	case Bang:
@@ -101,6 +93,10 @@ func (self Token) KindString() string {
 		return "asterisk"
 	case Tilde:
 		return "tilde"
+	case Equals:
+		return "equals"
+	case GreaterThan:
+		return "greater-than"
 	default:
 		panic("unsupported token type")
 	}

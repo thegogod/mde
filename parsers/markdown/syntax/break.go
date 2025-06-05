@@ -21,7 +21,7 @@ func (self Break) Name() string {
 }
 
 func (self Break) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Br)
+	return iter.MatchCount(tokens.Space, 2)
 }
 
 func (self Break) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {

@@ -32,7 +32,7 @@ func (self NewLine) Parse(parser core.Parser, iter core.Iterator) (core.Node, er
 	it := iter.(*tokens.Iterator)
 
 	for range it.BlockQuoteDepth {
-		if !iter.Match(tokens.BlockQuote) {
+		if !iter.Match(tokens.GreaterThan) {
 			break
 		}
 	}
