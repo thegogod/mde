@@ -101,6 +101,8 @@ func (self Token) KindString() string {
 		return "strike"
 	case StrikeAlt:
 		return "strike-alt"
+	case Highlight:
+		return "highlight"
 	case Br:
 		return "br"
 	case Ol:

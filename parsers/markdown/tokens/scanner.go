@@ -101,6 +101,13 @@ func (self *Scanner) Scan() (core.Token, error) {
 		}
 
 		return self.create(Strike), nil
+	case '=':
+		if self.peek() == '=' {
+			self.next()
+			return self.create(Highlight), nil
+		}
+
+		break
 	case '>':
 		if self.peek() == ' ' {
 			self.next()

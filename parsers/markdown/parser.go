@@ -31,6 +31,7 @@ func New() *Parser {
 			syntax.ItalicAlt{},
 			syntax.Strike{},
 			syntax.StrikeAlt{},
+			syntax.Highlight{},
 			syntax.Code{},
 			syntax.Emoji{},
 			syntax.Link{},
