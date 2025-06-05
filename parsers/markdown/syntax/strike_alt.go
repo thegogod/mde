@@ -21,13 +21,13 @@ func (self StrikeAlt) Name() string {
 }
 
 func (self StrikeAlt) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.StrikeAlt)
+	return iter.MatchCount(tokens.Tilde, 2)
 }
 
 func (self StrikeAlt) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	strike := html.S()
 
-	for !iter.Match(tokens.StrikeAlt) {
+	for !iter.MatchCount(tokens.Tilde, 2) {
 		node, err := parser.ParseInline(iter)
 
 		if node == nil {

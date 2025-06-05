@@ -79,12 +79,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 	case '*':
 		return self.create(Asterisk), nil
 	case '~':
-		if self.peek() == '~' {
-			self.next()
-			return self.create(StrikeAlt), nil
-		}
-
-		return self.create(Strike), nil
+		return self.create(Tilde), nil
 	case '=':
 		if self.peek() == '=' {
 			self.next()

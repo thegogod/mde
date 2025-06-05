@@ -67,10 +67,6 @@ func (self Token) KindString() string {
 		return "space"
 	case Tab:
 		return "tab"
-	case Strike:
-		return "strike"
-	case StrikeAlt:
-		return "strike-alt"
 	case Highlight:
 		return "highlight"
 	case Br:
@@ -94,15 +90,17 @@ func (self Token) KindString() string {
 	case Hash:
 		return "hash"
 	case LeftParen:
-		return "("
+		return "left-paren"
 	case RightParen:
-		return ")"
+		return "right-paren"
 	case LeftBracket:
-		return "["
+		return "left-bracket"
 	case RightBracket:
-		return "]"
+		return "right-bracket"
 	case Asterisk:
 		return "asterisk"
+	case Tilde:
+		return "tilde"
 	default:
 		panic("unsupported token type")
 	}

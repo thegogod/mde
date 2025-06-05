@@ -21,13 +21,13 @@ func (self Strike) Name() string {
 }
 
 func (self Strike) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Strike)
+	return iter.Match(tokens.Tilde)
 }
 
 func (self Strike) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	strike := html.S()
 
-	for !iter.Match(tokens.Strike) {
+	for !iter.Match(tokens.Tilde) {
 		node, err := parser.ParseInline(iter)
 
 		if node == nil {
