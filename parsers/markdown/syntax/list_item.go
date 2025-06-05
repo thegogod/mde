@@ -87,16 +87,19 @@ func (self ListItem) parseTask(parser core.Parser, iter core.Iterator) (core.Nod
 	id := uuid.NewString()
 	label := html.Label().For(id)
 	input := html.CheckBoxInput().Id(id)
-	_, err := iter.Consume(tokens.LeftBracket, "expected '['")
 
-	if err != nil {
+	if _, err := iter.Consume(tokens.LeftBracket, "expected '['"); err != nil {
 		return label, err
 	}
 
-	checked, err := iter.Consume(tokens.Text, "expected ' ' or 'x'")
+	checked, err := iter.Consume(tokens.Space, "expected ' ' or 'x'")
 
 	if err != nil {
-		return label, err
+		checked, err = iter.Consume(tokens.Text, "expected ' ' or 'x'")
+
+		if err != nil {
+			return label, err
+		}
 	}
 
 	if checked.String() != " " && checked.String() != "x" {
@@ -107,20 +110,12 @@ func (self ListItem) parseTask(parser core.Parser, iter core.Iterator) (core.Nod
 		input.Checked(true)
 	}
 
-	_, err = iter.Consume(tokens.RightBracket, "expected ']'")
-
-	if err != nil {
+	if _, err = iter.Consume(tokens.RightBracket, "expected ']'"); err != nil {
 		return label, err
 	}
 
-	space, err := iter.Consume(tokens.Text, "expected ' '")
-
-	if err != nil {
+	if _, err = iter.Consume(tokens.Space, "expected ' '"); err != nil {
 		return label, err
-	}
-
-	if space.String() != " " {
-		return label, iter.Curr().Error("expected ' '")
 	}
 
 	text := ""

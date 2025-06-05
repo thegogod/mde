@@ -18,7 +18,12 @@ type Parser struct {
 func New(rules ...core.Syntax) *Parser {
 	return &Parser{
 		syntax: append(rules,
-			syntax.Heading{},
+			syntax.H1{},
+			syntax.H2{},
+			syntax.H3{},
+			syntax.H4{},
+			syntax.H5{},
+			syntax.H6{},
 			syntax.HorizontalRule{},
 			syntax.CodeBlock{},
 			syntax.BlockQuote{},

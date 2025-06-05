@@ -50,19 +50,13 @@ func (self *Scanner) Scan() (core.Token, error) {
 			return self.create(Br), nil
 		}
 
-		break
+		return self.create(Space), nil
 	case '\n':
 		return self.create(NewLine), nil
 	case '\t':
 		return self.create(Tab), nil
 	case '#':
-		token, err := self.scanHeading()
-
-		if err == nil {
-			return token, nil
-		}
-
-		break
+		return self.create(Hash), nil
 	case '-':
 		if self.peek() == ' ' {
 			self.next()
@@ -154,47 +148,6 @@ func (self *Scanner) Scan() (core.Token, error) {
 	}
 
 	return self.create(Text), nil
-}
-
-func (self *Scanner) scanHeading() (*Token, error) {
-	i := 1
-
-	for self.peek() == '#' {
-		i++
-		self.next()
-	}
-
-	if self.peek() != ' ' {
-		return nil, self.error("expected space")
-	}
-
-	self.next()
-	TokenKind := H1
-
-	switch i {
-	case 1:
-		TokenKind = H1
-		break
-	case 2:
-		TokenKind = H2
-		break
-	case 3:
-		TokenKind = H3
-		break
-	case 4:
-		TokenKind = H4
-		break
-	case 5:
-		TokenKind = H5
-		break
-	case 6:
-		TokenKind = H6
-		break
-	default:
-		return nil, self.error("max heading depth is 6")
-	}
-
-	return self.create(TokenKind), nil
 }
 
 func (self *Scanner) next() byte {

@@ -38,18 +38,6 @@ func (self Token) Error(message string) error {
 
 func (self Token) IsInline() bool {
 	switch self.kind {
-	case H1:
-		fallthrough
-	case H2:
-		fallthrough
-	case H3:
-		fallthrough
-	case H4:
-		fallthrough
-	case H5:
-		fallthrough
-	case H6:
-		fallthrough
 	case Ol:
 		fallthrough
 	case Ul:
@@ -75,20 +63,10 @@ func (self Token) KindString() string {
 		return "text"
 	case NewLine:
 		return "newline"
+	case Space:
+		return "space"
 	case Tab:
 		return "tab"
-	case H1:
-		return "h1"
-	case H2:
-		return "h2"
-	case H3:
-		return "h3"
-	case H4:
-		return "h4"
-	case H5:
-		return "h5"
-	case H6:
-		return "h6"
 	case Bold:
 		return "bold"
 	case BoldAlt:
@@ -121,6 +99,8 @@ func (self Token) KindString() string {
 		return "colon"
 	case Bang:
 		return "bang"
+	case Hash:
+		return "hash"
 	case LeftParen:
 		return "("
 	case RightParen:
