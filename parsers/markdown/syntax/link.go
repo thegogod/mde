@@ -20,7 +20,7 @@ func (self Link) Name() string {
 	return "link"
 }
 
-func (self Link) Select(iter core.Iterator) bool {
+func (self Link) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.LeftBracket)
 }
 

@@ -21,7 +21,7 @@ func (self ListItem) Name() string {
 	return "list_item"
 }
 
-func (self ListItem) Select(iter core.Iterator) bool {
+func (self ListItem) Select(parser core.Parser, iter core.Iterator) bool {
 	return false
 }
 

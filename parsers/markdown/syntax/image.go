@@ -20,7 +20,7 @@ func (self Image) Name() string {
 	return "image"
 }
 
-func (self Image) Select(iter core.Iterator) bool {
+func (self Image) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Bang)
 }
 

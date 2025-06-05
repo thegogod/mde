@@ -20,7 +20,7 @@ func (self Italic) Name() string {
 	return "italic"
 }
 
-func (self Italic) Select(iter core.Iterator) bool {
+func (self Italic) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Italic)
 }
 

@@ -20,7 +20,7 @@ func (self Strike) Name() string {
 	return "strike"
 }
 
-func (self Strike) Select(iter core.Iterator) bool {
+func (self Strike) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Strike)
 }
 

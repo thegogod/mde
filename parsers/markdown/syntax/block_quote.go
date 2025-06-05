@@ -20,7 +20,7 @@ func (self BlockQuote) Name() string {
 	return "block_quote"
 }
 
-func (self BlockQuote) Select(iter core.Iterator) bool {
+func (self BlockQuote) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.BlockQuote)
 }
 

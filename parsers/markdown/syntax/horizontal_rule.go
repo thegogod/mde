@@ -20,7 +20,7 @@ func (self HorizontalRule) Name() string {
 	return "hr"
 }
 
-func (self HorizontalRule) Select(iter core.Iterator) bool {
+func (self HorizontalRule) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Hr)
 }
 

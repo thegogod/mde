@@ -20,7 +20,7 @@ func (self ItalicAlt) Name() string {
 	return "italic_alt"
 }
 
-func (self ItalicAlt) Select(iter core.Iterator) bool {
+func (self ItalicAlt) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.ItalicAlt)
 }
 

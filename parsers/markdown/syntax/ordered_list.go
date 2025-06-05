@@ -20,7 +20,7 @@ func (self OrderedList) Name() string {
 	return "ordered_list"
 }
 
-func (self OrderedList) Select(iter core.Iterator) bool {
+func (self OrderedList) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Ol)
 }
 

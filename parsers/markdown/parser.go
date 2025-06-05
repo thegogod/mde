@@ -1,6 +1,7 @@
 package markdown
 
 import (
+	"bytes"
 	"fmt"
 	"slices"
 
@@ -35,6 +36,7 @@ func New() *Parser {
 			syntax.Code{},
 			syntax.Emoji{},
 			syntax.Link{},
+			syntax.Url{},
 			syntax.Image{},
 			syntax.Break{},
 			syntax.ListItem{},
@@ -99,15 +101,15 @@ func (self *Parser) ParseBlock(iterator core.Iterator) (core.Node, error) {
 	iterator.Save()
 
 	for _, syntax := range self.syntax {
-		if syntax.IsBlock() && syntax.Select(iterator) {
+		if syntax.IsBlock() && syntax.Select(self, iterator) {
 			node, err = syntax.Parse(self, iterator)
 
 			if err == nil {
 				break
 			}
-
-			iterator.Revert()
 		}
+
+		iterator.Revert()
 	}
 
 	iterator.Pop()
@@ -126,7 +128,7 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 	iterator.Save()
 
 	for _, syntax := range self.syntax {
-		if syntax.IsInline() && syntax.Select(iterator) {
+		if syntax.IsInline() && syntax.Select(self, iterator) {
 			node, err = syntax.Parse(self, iterator)
 
 			if err == nil {
@@ -137,9 +139,9 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 
 				break
 			}
-
-			iterator.Revert()
 		}
+
+		iterator.Revert()
 	}
 
 	if node == nil || err != nil {
@@ -176,7 +178,15 @@ func (self *Parser) ParseText(iter core.Iterator) ([]byte, error) {
 	text := html.Raw(iter.Curr().Bytes())
 	iter.Next()
 
+	if bytes.Equal(text, []byte{' '}) {
+		return text, nil
+	}
+
 	for iter.Curr().Kind() == tokens.Text {
+		if bytes.Equal(iter.Curr().Bytes(), []byte{' '}) {
+			return text, nil
+		}
+
 		text = append(text, iter.Curr().Bytes()...)
 		iter.Next()
 	}

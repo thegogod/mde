@@ -20,7 +20,7 @@ func (self Break) Name() string {
 	return "br"
 }
 
-func (self Break) Select(iter core.Iterator) bool {
+func (self Break) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Br)
 }
 

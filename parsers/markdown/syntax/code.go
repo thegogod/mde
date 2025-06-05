@@ -20,7 +20,7 @@ func (self Code) Name() string {
 	return "code"
 }
 
-func (self Code) Select(iter core.Iterator) bool {
+func (self Code) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Code)
 }
 

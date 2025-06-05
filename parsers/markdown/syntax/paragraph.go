@@ -19,7 +19,7 @@ func (self Paragraph) Name() string {
 	return "paragraph"
 }
 
-func (self Paragraph) Select(iter core.Iterator) bool {
+func (self Paragraph) Select(parser core.Parser, iter core.Iterator) bool {
 	return true
 }
 

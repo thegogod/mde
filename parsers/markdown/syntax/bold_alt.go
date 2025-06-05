@@ -20,7 +20,7 @@ func (self BoldAlt) Name() string {
 	return "bold_alt"
 }
 
-func (self BoldAlt) Select(iter core.Iterator) bool {
+func (self BoldAlt) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.BoldAlt)
 }
 

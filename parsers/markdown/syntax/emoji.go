@@ -21,7 +21,7 @@ func (self Emoji) Name() string {
 	return "emoji"
 }
 
-func (self Emoji) Select(iter core.Iterator) bool {
+func (self Emoji) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Colon)
 }
 

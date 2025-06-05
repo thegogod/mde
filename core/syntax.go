@@ -4,6 +4,6 @@ type Syntax interface {
 	IsBlock() bool
 	IsInline() bool
 	Name() string
-	Select(iter Iterator) bool
+	Select(parser Parser, iter Iterator) bool
 	Parse(parser Parser, iter Iterator) (Node, error)
 }

@@ -20,7 +20,7 @@ func (self Highlight) Name() string {
 	return "highlight"
 }
 
-func (self Highlight) Select(iter core.Iterator) bool {
+func (self Highlight) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Highlight)
 }
 

@@ -10,7 +10,7 @@ an example of an [_inline link!_](https://www.google.com)
 
 ## Section: A
 
-section a
+section a with an inline https://www.google.com
 
 ## Section: B
 

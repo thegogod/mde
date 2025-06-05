@@ -20,7 +20,7 @@ func (self StrikeAlt) Name() string {
 	return "strike_alt"
 }
 
-func (self StrikeAlt) Select(iter core.Iterator) bool {
+func (self StrikeAlt) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.StrikeAlt)
 }
 

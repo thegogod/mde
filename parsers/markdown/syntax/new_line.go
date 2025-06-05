@@ -20,7 +20,7 @@ func (self NewLine) Name() string {
 	return "newline"
 }
 
-func (self NewLine) Select(iter core.Iterator) bool {
+func (self NewLine) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.NewLine)
 }
 

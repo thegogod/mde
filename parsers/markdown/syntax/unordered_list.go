@@ -20,7 +20,7 @@ func (self UnOrderedList) Name() string {
 	return "unordered_list"
 }
 
-func (self UnOrderedList) Select(iter core.Iterator) bool {
+func (self UnOrderedList) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.Ul)
 }
 

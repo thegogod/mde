@@ -22,7 +22,7 @@ func (self CodeBlock) Name() string {
 	return "code_block"
 }
 
-func (self CodeBlock) Select(iter core.Iterator) bool {
+func (self CodeBlock) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.CodeBlock)
 }
 

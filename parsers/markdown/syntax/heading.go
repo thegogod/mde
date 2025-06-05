@@ -20,7 +20,7 @@ func (self Heading) Name() string {
 	return "heading"
 }
 
-func (self Heading) Select(iter core.Iterator) bool {
+func (self Heading) Select(parser core.Parser, iter core.Iterator) bool {
 	return iter.Match(tokens.H1) ||
 		iter.Match(tokens.H2) ||
 		iter.Match(tokens.H3) ||
