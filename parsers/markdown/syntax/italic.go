@@ -21,13 +21,13 @@ func (self Italic) Name() string {
 }
 
 func (self Italic) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Italic)
+	return iter.Match(tokens.Asterisk)
 }
 
 func (self Italic) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	italic := html.I()
 
-	for !iter.Match(tokens.Italic) {
+	for !iter.Match(tokens.Asterisk) {
 		node, err := parser.ParseInline(iter)
 
 		if node == nil {

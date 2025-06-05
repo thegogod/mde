@@ -75,19 +75,9 @@ func (self *Scanner) Scan() (core.Token, error) {
 
 		break
 	case '_':
-		if self.peek() == '_' {
-			self.next()
-			return self.create(BoldAlt), nil
-		}
-
-		return self.create(ItalicAlt), nil
+		return self.create(Underscore), nil
 	case '*':
-		if self.peek() == '*' {
-			self.next()
-			return self.create(Bold), nil
-		}
-
-		return self.create(Italic), nil
+		return self.create(Asterisk), nil
 	case '~':
 		if self.peek() == '~' {
 			self.next()

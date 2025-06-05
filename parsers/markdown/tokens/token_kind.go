@@ -21,13 +21,13 @@ const (
 	RightBracket // ]
 	LeftParen    // (
 	RightParen   // )
+	Asterisk     // *
+	Underscore   // _
+	// Tilde        // ~
+	// Equals       // =
 
 	// elements
 
-	Bold       // **
-	BoldAlt    // __
-	Italic     // *
-	ItalicAlt  // _
 	Strike     // ~
 	StrikeAlt  // ~~
 	Highlight  // ==
