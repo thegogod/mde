@@ -22,6 +22,7 @@ const (
 	LeftParen    // (
 	RightParen   // )
 	Asterisk     // *
+	Dash         // -
 	Underscore   // _
 	Tilde        // ~
 	Equals       // =
@@ -33,5 +34,4 @@ const (
 	Ul        // unordered list (<ul>) (- test)
 	Code      // `test`
 	CodeBlock // ```test```
-	Hr        // horizontal rule (<hr>) (---)
 )

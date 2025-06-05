@@ -56,19 +56,9 @@ func (self *Scanner) Scan() (core.Token, error) {
 		if self.peek() == ' ' {
 			self.next()
 			return self.create(Ul), nil
-		} else if self.peek() == '-' {
-			self.next()
-
-			if self.peek() == '-' {
-				self.next()
-
-				if self.peek() == 0 || unicode.IsSpace(rune(self.peek())) {
-					return self.create(Hr), nil
-				}
-			}
 		}
 
-		break
+		return self.create(Dash), nil
 	case '_':
 		return self.create(Underscore), nil
 	case '*':

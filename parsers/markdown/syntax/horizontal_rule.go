@@ -21,7 +21,7 @@ func (self HorizontalRule) Name() string {
 }
 
 func (self HorizontalRule) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Hr)
+	return iter.MatchCount(tokens.Dash, 3)
 }
 
 func (self HorizontalRule) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {

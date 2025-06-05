@@ -69,8 +69,8 @@ func (self Token) KindString() string {
 		return "ol"
 	case Ul:
 		return "ul"
-	case Hr:
-		return "hr"
+	case Dash:
+		return "dash"
 	case Code:
 		return "code"
 	case CodeBlock:
