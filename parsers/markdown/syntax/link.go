@@ -21,7 +21,7 @@ func (self Link) Name() string {
 }
 
 func (self Link) Select(iter core.Iterator) bool {
-	return iter.Match(tokens.Link)
+	return iter.Match(tokens.LeftBracket)
 }
 
 func (self Link) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {

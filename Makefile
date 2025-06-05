@@ -19,7 +19,7 @@ test:
 
 test.v:
 	go clean -testcache
-	go test ./... -cover -coverprofile=coverage.out -v
+	go test ./... -cover -coverprofile=coverage.out -v -timeout 5s
 
 test.cov:
 	go tool cover -html=coverage.out

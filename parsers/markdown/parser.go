@@ -1,10 +1,12 @@
 package markdown
 
 import (
+	"fmt"
 	"slices"
 
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
+	"github.com/thegogod/mde/parsers/markdown/syntax"
 	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
@@ -14,7 +16,29 @@ type Parser struct {
 
 func New() *Parser {
 	return &Parser{
-		syntax: []core.Syntax{},
+		syntax: []core.Syntax{
+			syntax.Heading{},
+			syntax.HorizontalRule{},
+			syntax.CodeBlock{},
+			syntax.BlockQuote{},
+			syntax.UnOrderedList{},
+			syntax.OrderedList{},
+			syntax.Paragraph{},
+
+			syntax.Bold{},
+			syntax.BoldAlt{},
+			syntax.Italic{},
+			syntax.ItalicAlt{},
+			syntax.Strike{},
+			syntax.StrikeAlt{},
+			syntax.Code{},
+			syntax.Emoji{},
+			syntax.Link{},
+			syntax.Image{},
+			syntax.Break{},
+			syntax.ListItem{},
+			syntax.NewLine{},
+		},
 	}
 }
 
@@ -35,12 +59,12 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 
 		node, err := self.ParseBlock(iter)
 
-		if node == nil && err == nil {
-			continue
+		if err != nil {
+			return group, err
 		}
 
-		if err != nil {
-			return nil, err
+		if node == nil {
+			continue
 		}
 
 		group.Push(node)
@@ -58,53 +82,35 @@ func (self *Parser) ParseBlock(iterator core.Iterator) (core.Node, error) {
 	var node core.Node = nil
 	var err error = nil
 
-	iter.Save()
+	iterator.Save()
 
 	for range iter.BlockQuoteDepth - 1 {
-		if !iter.Match(tokens.BlockQuote) {
+		if !iterator.Match(tokens.BlockQuote) {
 			break
 		}
 	}
 
-	if iter.Match(tokens.H1) {
-		node, err = self.parseHeading(1, iter)
-	} else if iter.Match(tokens.H2) {
-		node, err = self.parseHeading(2, iter)
-	} else if iter.Match(tokens.H3) {
-		node, err = self.parseHeading(3, iter)
-	} else if iter.Match(tokens.H4) {
-		node, err = self.parseHeading(4, iter)
-	} else if iter.Match(tokens.H5) {
-		node, err = self.parseHeading(5, iter)
-	} else if iter.Match(tokens.H6) {
-		node, err = self.parseHeading(6, iter)
-	} else if iter.Match(tokens.Hr) {
-		node, err = self.parseHr()
-	} else if iter.Match(tokens.CodeBlock) {
-		node, err = self.parseCodeBlock(iter)
-	} else if iter.Match(tokens.BlockQuote) {
-		node, err = self.parseBlockQuote(iter)
-	} else if iter.Match(tokens.Ul) {
-		node, err = self.parseUnorderedList(iter)
-	} else if iter.Match(tokens.Ol) {
-		node, err = self.parseOrderedList(iter)
-	} else if iter.Match(tokens.NewLine) {
-		node, err = self.ParseBlock(iter)
+	if iterator.Match(tokens.NewLine) {
+		iterator.Pop()
+		return self.ParseBlock(iterator)
 	}
 
-	if err != nil {
-		iter.Revert()
+	iterator.Save()
+
+	for _, syntax := range self.syntax {
+		if syntax.IsBlock() && syntax.Select(iterator) {
+			node, err = syntax.Parse(self, iterator)
+
+			if err == nil {
+				break
+			}
+
+			iterator.Revert()
+		}
 	}
 
-	if node == nil || err != nil {
-		node, err = self.parseParagraph(iter)
-	}
-
-	if err != nil {
-		iter.Revert()
-	}
-
-	iter.Pop()
+	iterator.Pop()
+	iterator.Pop()
 	return node, err
 }
 
@@ -113,75 +119,39 @@ func (self *Parser) ParseInline(iterator core.Iterator) (core.Node, error) {
 		return nil, nil
 	}
 
-	iter := iterator.(*tokens.Iterator)
 	var node core.Node = nil
 	var err error = nil
 
-	iter.Save()
+	iterator.Save()
 
-	if iter.Match(tokens.Bold) {
-		node, err = self.parseBold(iter)
-	} else if iter.Match(tokens.BoldAlt) {
-		node, err = self.parseBoldAlt(iter)
-	} else if iter.Match(tokens.Italic) {
-		node, err = self.parseItalic(iter)
-	} else if iter.Match(tokens.ItalicAlt) {
-		node, err = self.parseItalicAlt(iter)
-	} else if iter.Match(tokens.Strike) {
-		node, err = self.parseStrike(iter)
-	} else if iter.Match(tokens.StrikeAlt) {
-		node, err = self.parseStrikeAlt(iter)
-	} else if iter.Match(tokens.Br) {
-		node, err = self.parseBr()
-	} else if iter.Match(tokens.Code) {
-		node, err = self.parseCode(iter)
-	} else if iter.Match(tokens.LeftBracket) {
-		node, err = self.parseLink(iter)
-	} else if iter.Match(tokens.Bang) {
-		node, err = self.parseImage(iter)
-	} else if iter.Match(tokens.Colon) {
-		node, err = self.parseEmoji(iter)
-	} else if iter.Match(tokens.NewLine) {
-		if iter.Match(tokens.NewLine) {
-			iter.Pop()
-			return nil, nil
-		}
+	for _, syntax := range self.syntax {
+		if syntax.IsInline() && syntax.Select(iterator) {
+			node, err = syntax.Parse(self, iterator)
 
-		for range iter.BlockQuoteDepth {
-			if !iter.Match(tokens.BlockQuote) {
+			if err == nil {
+				if node == nil {
+					iterator.Pop()
+					return nil, nil
+				}
+
 				break
 			}
+
+			iterator.Revert()
 		}
-
-		node, err = self.parseNewLine(iter)
-	}
-
-	if err != nil {
-		iter.Revert()
 	}
 
 	if node == nil || err != nil {
-		text, texterr := self.ParseText(iter)
+		text, texterr := self.ParseText(iterator)
 
-		if text == nil || texterr != nil {
-			return html.Raw(text), texterr
+		if text != nil {
+			node = html.Raw(text)
 		}
 
-		for iter.Curr().Kind() == tokens.Text {
-			node, err := self.ParseText(iter)
-
-			if node == nil || err != nil {
-				return html.Raw(text), err
-			}
-
-			text = append(text, node...)
-		}
-
-		node = html.Raw(text)
-		err = nil
+		err = texterr
 	}
 
-	iter.Pop()
+	iterator.Pop()
 	return node, err
 }
 
@@ -191,7 +161,7 @@ func (self *Parser) ParseSyntax(name string, iter core.Iterator) (core.Node, err
 	})
 
 	if i < 0 {
-		return nil, nil
+		panic(fmt.Sprintf("syntax '%s' not found", name))
 	}
 
 	return self.syntax[i].Parse(self, iter)
@@ -204,6 +174,12 @@ func (self *Parser) ParseText(iter core.Iterator) ([]byte, error) {
 
 	text := html.Raw(iter.Curr().Bytes())
 	iter.Next()
+
+	for iter.Curr().Kind() == tokens.Text {
+		text = append(text, iter.Curr().Bytes()...)
+		iter.Next()
+	}
+
 	return text, nil
 }
 

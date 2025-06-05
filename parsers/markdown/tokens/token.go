@@ -115,10 +115,6 @@ func (self Token) KindString() string {
 		return "code-block"
 	case Hr:
 		return "hr"
-	case Link:
-		return "link"
-	case Image:
-		return "image"
 	case Colon:
 		return "colon"
 	case Bang:

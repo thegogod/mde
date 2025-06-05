@@ -21,7 +21,7 @@ func (self Image) Name() string {
 }
 
 func (self Image) Select(iter core.Iterator) bool {
-	return iter.Match(tokens.Image)
+	return iter.Match(tokens.Bang)
 }
 
 func (self Image) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {

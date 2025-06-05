@@ -41,6 +41,4 @@ const (
 	Code       // `test`
 	CodeBlock  // ```test```
 	Hr         // horizontal rule (<hr>) (---)
-	Link       // link (<a>) ([test](https://test.com))
-	Image      // image (<img>) (![test](https://test.com/image.png))
 )

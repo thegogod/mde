@@ -26,7 +26,6 @@ func (self NewLine) Select(iter core.Iterator) bool {
 
 func (self NewLine) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	if iter.Match(tokens.NewLine) {
-		iter.Pop()
 		return nil, nil
 	}
 

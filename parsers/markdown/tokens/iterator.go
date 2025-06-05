@@ -1,6 +1,8 @@
 package tokens
 
-import "github.com/thegogod/mde/core"
+import (
+	"github.com/thegogod/mde/core"
+)
 
 type Iterator struct {
 	BlockQuoteDepth int

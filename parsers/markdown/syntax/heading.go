@@ -30,7 +30,7 @@ func (self Heading) Select(iter core.Iterator) bool {
 }
 
 func (self Heading) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
-	depth := 9 + len(iter.Curr().Bytes())
+	depth := len(iter.Prev().Bytes()) - 1
 	heading := html.Heading(depth)
 
 	for iter.Curr().IsInline() {
