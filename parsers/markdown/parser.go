@@ -17,7 +17,7 @@ type Parser struct {
 
 func New(rules ...core.Syntax) *Parser {
 	return &Parser{
-		syntax: append(rules, []core.Syntax{
+		syntax: append(rules,
 			syntax.Heading{},
 			syntax.HorizontalRule{},
 			syntax.CodeBlock{},
@@ -41,7 +41,7 @@ func New(rules ...core.Syntax) *Parser {
 			syntax.Break{},
 			syntax.ListItem{},
 			syntax.NewLine{},
-		}...),
+		),
 	}
 }
 
