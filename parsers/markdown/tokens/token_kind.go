@@ -28,6 +28,12 @@ const (
 	Equals       // =
 	GreaterThan  // >
 	BackQuote    // `
+	Period       // .
+
+	// compounds
+
+	Integer // 123
+	Decimal // 123.4
 
 	// elements
 

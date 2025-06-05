@@ -11,7 +11,7 @@ import (
 func TestScanner(t *testing.T) {
 	t.Run("should scan", func(t *testing.T) {
 		t.SkipNow()
-		data, err := os.ReadFile(filepath.Join("..", "..", "..", "testcases", "code_block.md"))
+		data, err := os.ReadFile(filepath.Join("..", "..", "..", "testcases", "lists.md"))
 
 		if err != nil {
 			t.Fatal(err)

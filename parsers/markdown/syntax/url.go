@@ -51,10 +51,20 @@ func (self Url) Parse(parser core.Parser, iter core.Iterator) (core.Node, error)
 		return link, err
 	}
 
-	path, err := parser.ParseText(iter)
+	path := []byte{}
 
-	if path == nil || err != nil {
-		return link, err
+	for {
+		part, err := parser.ParseText(iter)
+
+		if part == nil || err != nil {
+			return link, err
+		}
+
+		path = append(path, part...)
+
+		if iter.Curr().Kind() != tokens.Period {
+			break
+		}
 	}
 
 	url := fmt.Sprintf("%s://%s", protocol, path)

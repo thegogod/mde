@@ -93,6 +93,12 @@ func (self Token) KindString() string {
 		return "equals"
 	case GreaterThan:
 		return "greater-than"
+	case Period:
+		return "period"
+	case Integer:
+		return "integer"
+	case Decimal:
+		return "decimal"
 	default:
 		panic("unsupported token type")
 	}

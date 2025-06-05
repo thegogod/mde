@@ -1,8 +1,6 @@
 package tokens
 
 import (
-	"unicode"
-
 	"github.com/thegogod/mde/core"
 )
 
@@ -52,6 +50,8 @@ func (self *Scanner) Scan() (core.Token, error) {
 		return self.create(Tab), nil
 	case '#':
 		return self.create(Hash), nil
+	case '.':
+		return self.create(Period), nil
 	case '-':
 		if self.peek() == ' ' {
 			self.next()
@@ -88,7 +88,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 	case ')':
 		return self.create(RightParen), nil
 	default:
-		if unicode.IsNumber(rune(b)) && self.peek() == '.' {
+		if b >= '0' && b <= '9' && self.peek() == '.' {
 			self.next()
 
 			if self.peek() == ' ' {
@@ -98,9 +98,38 @@ func (self *Scanner) Scan() (core.Token, error) {
 
 			self.pos.End--
 		}
+
+		if self.peek() >= '0' && self.peek() <= '9' {
+			return self.scanNumeric()
+		}
 	}
 
 	return self.create(Text), nil
+}
+
+func (self *Scanner) scanNumeric() (*Token, error) {
+	for self.peek() >= '0' && self.peek() <= '9' {
+		self.next()
+	}
+
+	if self.peek() != '.' {
+		return self.create(Integer), nil
+	}
+
+	self.Save()
+	self.next()
+
+	if self.peek() < '0' || self.peek() > '9' {
+		self.RevertAndPop()
+		return self.create(Integer), nil
+	}
+
+	for self.peek() >= '0' && self.peek() <= '9' {
+		self.next()
+	}
+
+	self.Pop()
+	return self.create(Decimal), nil
 }
 
 func (self *Scanner) next() byte {
