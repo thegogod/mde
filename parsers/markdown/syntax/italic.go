@@ -21,7 +21,7 @@ func (self Italic) Name() string {
 }
 
 func (self Italic) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Asterisk)
+	return iter.MatchCount(tokens.Asterisk, 1)
 }
 
 func (self Italic) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {

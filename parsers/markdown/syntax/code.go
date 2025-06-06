@@ -21,7 +21,7 @@ func (self Code) Name() string {
 }
 
 func (self Code) Select(parser core.Parser, iter core.Iterator) bool {
-	return !iter.MatchCount(tokens.BackQuote, 3) && iter.Match(tokens.BackQuote)
+	return iter.MatchCount(tokens.BackQuote, 1)
 }
 
 func (self Code) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {

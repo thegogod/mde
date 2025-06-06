@@ -22,7 +22,7 @@ func (self Emoji) Name() string {
 }
 
 func (self Emoji) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Colon)
+	return iter.MatchCount(tokens.Colon, 1)
 }
 
 func (self Emoji) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {

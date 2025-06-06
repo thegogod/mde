@@ -21,7 +21,7 @@ func (self Strike) Name() string {
 }
 
 func (self Strike) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Tilde)
+	return iter.MatchCount(tokens.Tilde, 1)
 }
 
 func (self Strike) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {

@@ -68,6 +68,12 @@ func (self *Iterator) MatchCount(kind byte, count int) bool {
 		}
 	}
 
+	if self.Match(kind) {
+		self.Revert()
+		self.Pop()
+		return false
+	}
+
 	self.Pop()
 	return true
 }

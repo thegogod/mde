@@ -21,7 +21,7 @@ func (self H1) Name() string {
 }
 
 func (self H1) Select(parser core.Parser, iter core.Iterator) bool {
-	if !iter.Match(tokens.Hash) {
+	if !iter.MatchCount(tokens.Hash, 1) {
 		return false
 	}
 

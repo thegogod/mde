@@ -21,7 +21,7 @@ func (self ItalicAlt) Name() string {
 }
 
 func (self ItalicAlt) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Underscore)
+	return iter.MatchCount(tokens.Underscore, 1)
 }
 
 func (self ItalicAlt) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
