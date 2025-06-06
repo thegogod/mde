@@ -7,5 +7,4 @@ type Token interface {
 	Bytes() []byte
 	String() string
 	Error(message string) error
-	IsInline() bool
 }

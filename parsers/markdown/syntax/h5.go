@@ -31,7 +31,7 @@ func (self H5) Select(parser core.Parser, iter core.Iterator) bool {
 func (self H5) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
 	heading := html.H5()
 
-	for iter.Curr().IsInline() {
+	for iter.Curr().Kind() != tokens.Eof && iter.Curr().Kind() != tokens.NewLine {
 		node, err := parser.ParseInline(iter)
 
 		if node == nil || err != nil {

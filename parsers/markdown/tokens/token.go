@@ -36,17 +36,6 @@ func (self Token) Error(message string) error {
 	return NewError(self.position, message)
 }
 
-func (self Token) IsInline() bool {
-	switch self.kind {
-	case GreaterThan:
-		fallthrough
-	case Eof:
-		return false
-	default:
-		return true
-	}
-}
-
 func (self Token) KindString() string {
 	switch self.kind {
 	case Eof:

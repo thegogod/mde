@@ -3,6 +3,7 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
+	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Paragraph struct{}
@@ -27,7 +28,7 @@ func (self Paragraph) Parse(parser core.Parser, iter core.Iterator) (core.Node, 
 	paragraph := html.P()
 	buff := html.Raw{}
 
-	for iter.Curr().IsInline() {
+	for iter.Curr().Kind() != tokens.Eof {
 		node, err := parser.ParseInline(iter)
 
 		if node == nil {
@@ -39,6 +40,10 @@ func (self Paragraph) Parse(parser core.Parser, iter core.Iterator) (core.Node, 
 		}
 
 		if node.String() == "\n" {
+			if iter.Curr().Kind() == tokens.GreaterThan {
+				break
+			}
+
 			buff = append(buff, node.Bytes()...)
 			continue
 		}

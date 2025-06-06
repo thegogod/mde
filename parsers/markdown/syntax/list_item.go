@@ -39,7 +39,7 @@ func (self ListItem) Parse(parser core.Parser, iter core.Iterator) (core.Node, e
 
 	iter.Revert()
 
-	for iter.Curr().IsInline() {
+	for iter.Curr().Kind() != tokens.Eof {
 		node, err := parser.ParseInline(iter)
 
 		if err != nil {
