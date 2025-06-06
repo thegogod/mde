@@ -38,10 +38,6 @@ func (self Token) Error(message string) error {
 
 func (self Token) IsInline() bool {
 	switch self.kind {
-	case Ol:
-		fallthrough
-	case Ul:
-		fallthrough
 	case GreaterThan:
 		fallthrough
 	case Eof:
@@ -63,10 +59,6 @@ func (self Token) KindString() string {
 		return "space"
 	case Tab:
 		return "tab"
-	case Ol:
-		return "ol"
-	case Ul:
-		return "ul"
 	case Dash:
 		return "dash"
 	case BackQuote:

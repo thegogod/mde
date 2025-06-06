@@ -35,9 +35,4 @@ const (
 
 	Integer // 123
 	Decimal // 123.4
-
-	// elements
-
-	Ol // ordered list (<ol>) (1. test)
-	Ul // unordered list (<ul>) (- test)
 )

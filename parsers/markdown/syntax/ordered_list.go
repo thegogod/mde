@@ -21,7 +21,7 @@ func (self OrderedList) Name() string {
 }
 
 func (self OrderedList) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Ol)
+	return iter.Match(tokens.Integer) && iter.Match(tokens.Period) && iter.Match(tokens.Space)
 }
 
 func (self OrderedList) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
@@ -43,7 +43,7 @@ func (self OrderedList) Parse(parser core.Parser, iter core.Iterator) (core.Node
 			break
 		}
 
-		if !iter.Match(tokens.Ol) {
+		if !(iter.Match(tokens.Integer) && iter.Match(tokens.Period) && iter.Match(tokens.Space)) {
 			break
 		}
 	}

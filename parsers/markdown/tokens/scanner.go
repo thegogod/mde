@@ -55,11 +55,6 @@ func (self *Scanner) Scan() (core.Token, error) {
 	case '|':
 		return self.create(Pipe), nil
 	case '-':
-		if self.peek() == ' ' {
-			self.next()
-			return self.create(Ul), nil
-		}
-
 		return self.create(Dash), nil
 	case '_':
 		return self.create(Underscore), nil
@@ -90,18 +85,7 @@ func (self *Scanner) Scan() (core.Token, error) {
 	case ')':
 		return self.create(RightParen), nil
 	default:
-		if b >= '0' && b <= '9' && self.peek() == '.' {
-			self.next()
-
-			if self.peek() == ' ' {
-				self.next()
-				return self.create(Ol), nil
-			}
-
-			self.pos.End--
-		}
-
-		if self.peek() >= '0' && self.peek() <= '9' {
+		if b >= '0' && b <= '9' {
 			return self.scanNumeric()
 		}
 	}

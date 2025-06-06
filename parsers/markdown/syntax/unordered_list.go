@@ -21,7 +21,7 @@ func (self UnOrderedList) Name() string {
 }
 
 func (self UnOrderedList) Select(parser core.Parser, iter core.Iterator) bool {
-	return iter.Match(tokens.Ul)
+	return iter.Match(tokens.Dash) && iter.Match(tokens.Space)
 }
 
 func (self UnOrderedList) Parse(parser core.Parser, iter core.Iterator) (core.Node, error) {
@@ -43,7 +43,7 @@ func (self UnOrderedList) Parse(parser core.Parser, iter core.Iterator) (core.No
 			break
 		}
 
-		if !iter.Match(tokens.Ul) {
+		if !(iter.Match(tokens.Dash) && iter.Match(tokens.Space)) {
 			break
 		}
 	}
