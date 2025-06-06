@@ -25,6 +25,10 @@ func (self *HtmlElement) Style(styles ...maps.KeyValue[string, string]) *HtmlEle
 	return self
 }
 
+func (self HtmlElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *HtmlElement) Class(classes ...string) *HtmlElement {
 	self.element.Class(classes...)
 	return self

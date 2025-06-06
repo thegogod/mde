@@ -25,6 +25,10 @@ func (self *ItalicElement) Style(styles ...maps.KeyValue[string, string]) *Itali
 	return self
 }
 
+func (self ItalicElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *ItalicElement) Class(classes ...string) *ItalicElement {
 	self.element.Class(classes...)
 	return self

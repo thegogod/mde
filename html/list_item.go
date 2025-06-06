@@ -25,6 +25,10 @@ func (self *ListItemElement) Style(styles ...maps.KeyValue[string, string]) *Lis
 	return self
 }
 
+func (self ListItemElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *ListItemElement) Class(classes ...string) *ListItemElement {
 	self.element.Class(classes...)
 	return self

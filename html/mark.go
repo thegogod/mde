@@ -25,6 +25,10 @@ func (self *MarkElement) Style(styles ...maps.KeyValue[string, string]) *MarkEle
 	return self
 }
 
+func (self MarkElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *MarkElement) Class(classes ...string) *MarkElement {
 	self.element.Class(classes...)
 	return self

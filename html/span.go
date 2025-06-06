@@ -25,6 +25,10 @@ func (self *SpanElement) Style(styles ...maps.KeyValue[string, string]) *SpanEle
 	return self
 }
 
+func (self SpanElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *SpanElement) Class(classes ...string) *SpanElement {
 	self.element.Class(classes...)
 	return self

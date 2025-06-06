@@ -86,6 +86,10 @@ func (self *TextInputElement) Style(styles ...maps.KeyValue[string, string]) *Te
 	return self
 }
 
+func (self TextInputElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *TextInputElement) Class(classes ...string) *TextInputElement {
 	self.element.Class(classes...)
 	return self

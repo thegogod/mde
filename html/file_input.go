@@ -66,6 +66,10 @@ func (self *FileInputElement) Style(styles ...maps.KeyValue[string, string]) *Fi
 	return self
 }
 
+func (self FileInputElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *FileInputElement) Class(classes ...string) *FileInputElement {
 	self.element.Class(classes...)
 	return self

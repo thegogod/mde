@@ -35,6 +35,10 @@ func (self *AnchorElement) Style(styles ...maps.KeyValue[string, string]) *Ancho
 	return self
 }
 
+func (self AnchorElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *AnchorElement) Class(classes ...string) *AnchorElement {
 	self.element.Class(classes...)
 	return self

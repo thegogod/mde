@@ -31,6 +31,10 @@ func (self *OrderedListElement) Style(styles ...maps.KeyValue[string, string]) *
 	return self
 }
 
+func (self OrderedListElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *OrderedListElement) Class(classes ...string) *OrderedListElement {
 	self.element.Class(classes...)
 	return self

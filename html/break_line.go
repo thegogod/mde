@@ -22,6 +22,10 @@ func (self *BreakLineElement) Style(styles ...maps.KeyValue[string, string]) *Br
 	return self
 }
 
+func (self BreakLineElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *BreakLineElement) Class(classes ...string) *BreakLineElement {
 	self.element.Class(classes...)
 	return self

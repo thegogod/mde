@@ -30,6 +30,10 @@ func (self *LabelElement) Style(styles ...maps.KeyValue[string, string]) *LabelE
 	return self
 }
 
+func (self LabelElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *LabelElement) Class(classes ...string) *LabelElement {
 	self.element.Class(classes...)
 	return self

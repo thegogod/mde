@@ -25,6 +25,10 @@ func (self *CodeElement) Style(styles ...maps.KeyValue[string, string]) *CodeEle
 	return self
 }
 
+func (self CodeElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *CodeElement) Class(classes ...string) *CodeElement {
 	self.element.Class(classes...)
 	return self

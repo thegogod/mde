@@ -25,6 +25,10 @@ func (self *ParagraphElement) Style(styles ...maps.KeyValue[string, string]) *Pa
 	return self
 }
 
+func (self ParagraphElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *ParagraphElement) Class(classes ...string) *ParagraphElement {
 	self.element.Class(classes...)
 	return self

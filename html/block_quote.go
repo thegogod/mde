@@ -30,6 +30,10 @@ func (self *BlockQuoteElement) Style(styles ...maps.KeyValue[string, string]) *B
 	return self
 }
 
+func (self BlockQuoteElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *BlockQuoteElement) Class(classes ...string) *BlockQuoteElement {
 	self.element.Class(classes...)
 	return self

@@ -56,6 +56,10 @@ func (self *CheckBoxInputElement) Style(styles ...maps.KeyValue[string, string])
 	return self
 }
 
+func (self CheckBoxInputElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *CheckBoxInputElement) Class(classes ...string) *CheckBoxInputElement {
 	self.element.Class(classes...)
 	return self

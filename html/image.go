@@ -32,6 +32,10 @@ func (self *ImageElement) Style(styles ...maps.KeyValue[string, string]) *ImageE
 	return self
 }
 
+func (self ImageElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *ImageElement) Class(classes ...string) *ImageElement {
 	self.element.Class(classes...)
 	return self

@@ -22,6 +22,10 @@ func (self *HorizontalRuleElement) Style(styles ...maps.KeyValue[string, string]
 	return self
 }
 
+func (self HorizontalRuleElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *HorizontalRuleElement) Class(classes ...string) *HorizontalRuleElement {
 	self.element.Class(classes...)
 	return self

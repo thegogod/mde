@@ -50,6 +50,10 @@ func (self *InputElement) Style(styles ...maps.KeyValue[string, string]) *InputE
 	return self
 }
 
+func (self InputElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *InputElement) Class(classes ...string) *InputElement {
 	self.element.Class(classes...)
 	return self

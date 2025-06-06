@@ -53,3 +53,9 @@ func (self *OMap[K, V]) Del(key K) {
 		return pair.Key == key
 	})
 }
+
+func (self *OMap[K, V]) Merge(other OMap[K, V]) {
+	for _, pair := range other {
+		self.Set(pair.Key, pair.Value)
+	}
+}

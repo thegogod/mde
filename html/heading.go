@@ -73,6 +73,10 @@ func (self *HeadingElement) Style(styles ...maps.KeyValue[string, string]) *Head
 	return self
 }
 
+func (self HeadingElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *HeadingElement) Class(classes ...string) *HeadingElement {
 	self.element.Class(classes...)
 	return self

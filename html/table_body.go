@@ -27,6 +27,10 @@ func (self *TableBodyElement) Style(styles ...maps.KeyValue[string, string]) *Ta
 	return self
 }
 
+func (self TableBodyElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *TableBodyElement) Class(classes ...string) *TableBodyElement {
 	self.element.Class(classes...)
 	return self

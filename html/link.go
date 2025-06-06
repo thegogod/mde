@@ -32,6 +32,10 @@ func (self *LinkElement) Style(styles ...maps.KeyValue[string, string]) *LinkEle
 	return self
 }
 
+func (self LinkElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *LinkElement) Class(classes ...string) *LinkElement {
 	self.element.Class(classes...)
 	return self

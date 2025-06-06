@@ -28,13 +28,33 @@ func (self *Element) Id(value string) *Element {
 }
 
 func (self *Element) Style(styles ...maps.KeyValue[string, string]) *Element {
-	values := []string{}
+	value := []string{}
+	set := self.GetStyles()
+	set.Merge(styles)
 
-	for _, style := range styles {
-		values = append(values, fmt.Sprintf("%s: %s;", style.Key, style.Value))
+	for _, pair := range set {
+		value = append(value, fmt.Sprintf("%s: %s", pair.Key, pair.Value))
 	}
 
-	return self.Attr("style", strings.Join(values, ""))
+	return self.Attr("style", strings.Join(append(value, ""), ";"))
+}
+
+func (self Element) GetStyles() maps.OMap[string, string] {
+	styles := maps.OMap[string, string]{}
+	existing := self.attributes.GetOrDefault("style")
+	lines := strings.SplitSeq(existing, ";")
+
+	for line := range lines {
+		parts := strings.Split(line, ": ")
+
+		if len(parts) != 2 {
+			continue
+		}
+
+		styles.Set(parts[0], parts[1])
+	}
+
+	return styles
 }
 
 func (self *Element) Class(classes ...string) *Element {

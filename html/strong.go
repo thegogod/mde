@@ -25,6 +25,10 @@ func (self *StrongElement) Style(styles ...maps.KeyValue[string, string]) *Stron
 	return self
 }
 
+func (self StrongElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *StrongElement) Class(classes ...string) *StrongElement {
 	self.element.Class(classes...)
 	return self

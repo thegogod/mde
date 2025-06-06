@@ -25,6 +25,10 @@ func (self *PreElement) Style(styles ...maps.KeyValue[string, string]) *PreEleme
 	return self
 }
 
+func (self PreElement) GetStyles() maps.OMap[string, string] {
+	return self.element.GetStyles()
+}
+
 func (self *PreElement) Class(classes ...string) *PreElement {
 	self.element.Class(classes...)
 	return self
