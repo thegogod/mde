@@ -29,6 +29,7 @@ const (
 	GreaterThan  // >
 	BackQuote    // `
 	Period       // .
+	Pipe         // |
 
 	// compounds
 

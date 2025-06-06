@@ -52,6 +52,8 @@ func (self *Scanner) Scan() (core.Token, error) {
 		return self.create(Hash), nil
 	case '.':
 		return self.create(Period), nil
+	case '|':
+		return self.create(Pipe), nil
 	case '-':
 		if self.peek() == ' ' {
 			self.next()

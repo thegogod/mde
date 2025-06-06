@@ -95,6 +95,8 @@ func (self Token) KindString() string {
 		return "greater-than"
 	case Period:
 		return "period"
+	case Pipe:
+		return "pipe"
 	case Integer:
 		return "integer"
 	case Decimal:
