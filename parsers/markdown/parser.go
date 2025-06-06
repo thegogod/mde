@@ -29,6 +29,7 @@ func New(rules ...core.Syntax) *Parser {
 			syntax.BlockQuote{},
 			syntax.UnOrderedList{},
 			syntax.OrderedList{},
+			syntax.Table{},
 			syntax.Paragraph{},
 
 			syntax.Bold{},

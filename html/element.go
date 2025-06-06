@@ -32,7 +32,15 @@ func (self *Element) Style(styles ...maps.KeyValue[string, string]) *Element {
 	set := self.GetStyles()
 	set.Merge(styles)
 
+	if len(set) == 0 {
+		return self.DelAttr("style")
+	}
+
 	for _, pair := range set {
+		if pair.Key == "" || pair.Value == "" {
+			continue
+		}
+
 		value = append(value, fmt.Sprintf("%s: %s", pair.Key, pair.Value))
 	}
 

@@ -6,6 +6,7 @@ type Iterator interface {
 
 	Curr() Token
 	Prev() Token
+	Position() Position
 
 	Next() bool
 	Reset(src []byte)

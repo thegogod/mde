@@ -30,12 +30,12 @@ func (self Paragraph) Parse(parser core.Parser, iter core.Iterator) (core.Node, 
 	for iter.Curr().IsInline() {
 		node, err := parser.ParseInline(iter)
 
-		if err != nil {
-			return paragraph, err
-		}
-
 		if node == nil {
 			break
+		}
+
+		if err != nil {
+			return paragraph, err
 		}
 
 		if node.String() == "\n" {

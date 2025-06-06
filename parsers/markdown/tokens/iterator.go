@@ -22,6 +22,10 @@ func (self Iterator) Prev() core.Token {
 	return self.prev
 }
 
+func (self Iterator) Position() core.Position {
+	return self.scanner.pos
+}
+
 func (self *Iterator) Reset(src []byte) {
 	self.BlockQuoteDepth = 0
 	self.ListDepth = 0

@@ -43,7 +43,7 @@ func (self Token) IsInline() bool {
 	case Ul:
 		fallthrough
 	case GreaterThan:
-		return false
+		fallthrough
 	case Eof:
 		return false
 	default:
