@@ -27,9 +27,9 @@ func TestParser(t *testing.T) {
 		}
 
 		if !bytes.Equal(pretty, html) {
-			t.Logf("expected: %v", html)
-			t.Logf("received: %v", pretty)
-			t.Error(string(pretty))
+			t.Logf("expected: %v", string(html))
+			t.Logf("received: %v", string(pretty))
+			t.FailNow()
 		}
 	})
 }
