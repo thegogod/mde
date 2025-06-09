@@ -6,7 +6,6 @@ type Iterator interface {
 
 	Curr() Token
 	Prev() Token
-	Position() Position
 
 	Next() bool
 	Match(kind ...byte) bool

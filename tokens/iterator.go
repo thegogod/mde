@@ -8,40 +8,36 @@ type Iterator struct {
 	BlockQuoteDepth int
 	ListDepth       int
 
-	scanner *Scanner
-	prev    core.Token
-	curr    core.Token
-	saves   []Iterator
+	_scanner *Scanner
+	_prev    core.Token
+	_curr    core.Token
+	_saves   []Iterator
 }
 
 func Iter(scanner *Scanner) *Iterator {
 	return &Iterator{
-		scanner: scanner,
-		saves:   []Iterator{},
+		_scanner: scanner,
+		_saves:   []Iterator{},
 	}
 }
 
 func (self Iterator) Curr() core.Token {
-	return self.curr
+	return self._curr
 }
 
 func (self Iterator) Prev() core.Token {
-	return self.prev
-}
-
-func (self Iterator) Position() core.Position {
-	return self.scanner._end
+	return self._prev
 }
 
 func (self *Iterator) Next() bool {
-	self.prev = self.curr
-	token, err := self.scanner.Scan()
+	self._prev = self._curr
+	token, err := self._scanner.Scan()
 
 	if err != nil {
 		return self.Next()
 	}
 
-	self.curr = token
+	self._curr = token
 
 	if token.Kind() == Eof {
 		return false
@@ -54,7 +50,7 @@ func (self *Iterator) Match(kind ...byte) bool {
 	self.Save()
 
 	for _, k := range kind {
-		if self.curr.Kind() != k {
+		if self._curr.Kind() != k {
 			self.RevertAndPop()
 			return false
 		}
@@ -92,7 +88,7 @@ func (self *Iterator) MatchBytes(value ...byte) bool {
 	i := 0
 
 	for i < len(value) {
-		for _, b := range self.curr.Bytes() {
+		for _, b := range self._curr.Bytes() {
 			if i >= len(value) {
 				break
 			}
@@ -118,45 +114,45 @@ func (self *Iterator) MatchBytes(value ...byte) bool {
 }
 
 func (self *Iterator) Consume(kind byte, message string) (core.Token, error) {
-	if self.curr.Kind() == kind {
+	if self._curr.Kind() == kind {
 		self.Next()
-		return self.prev, nil
+		return self._prev, nil
 	}
 
-	return nil, self.curr.Error(message)
+	return nil, self._curr.Error(message)
 }
 
 func (self *Iterator) Save() {
-	if self.saves == nil {
-		self.saves = []Iterator{}
+	if self._saves == nil {
+		self._saves = []Iterator{}
 	}
 
-	self.scanner.Save()
-	self.saves = append(self.saves, Iterator{
+	self._scanner.Save()
+	self._saves = append(self._saves, Iterator{
 		BlockQuoteDepth: self.BlockQuoteDepth,
 		ListDepth:       self.ListDepth,
-		prev:            self.prev,
-		curr:            self.curr,
-		scanner:         self.scanner,
+		_prev:           self._prev,
+		_curr:           self._curr,
+		_scanner:        self._scanner,
 	})
 }
 
 func (self *Iterator) Pop() {
-	self.saves = self.saves[:len(self.saves)-1]
-	self.scanner.Pop()
+	self._saves = self._saves[:len(self._saves)-1]
+	self._scanner.Pop()
 }
 
 func (self *Iterator) Revert() {
-	if self.saves == nil || len(self.saves) == 0 {
+	if self._saves == nil || len(self._saves) == 0 {
 		return
 	}
 
-	i := len(self.saves) - 1
-	self.BlockQuoteDepth = self.saves[i].BlockQuoteDepth
-	self.ListDepth = self.saves[i].ListDepth
-	self.prev = self.saves[i].prev
-	self.curr = self.saves[i].curr
-	self.scanner.Revert()
+	i := len(self._saves) - 1
+	self.BlockQuoteDepth = self._saves[i].BlockQuoteDepth
+	self.ListDepth = self._saves[i].ListDepth
+	self._prev = self._saves[i]._prev
+	self._curr = self._saves[i]._curr
+	self._scanner.Revert()
 }
 
 func (self *Iterator) RevertAndPop() {
