@@ -50,12 +50,19 @@ func (self *Iterator) Next() bool {
 	return true
 }
 
-func (self *Iterator) Match(kind byte) bool {
-	if self.curr.Kind() != kind {
-		return false
+func (self *Iterator) Match(kind ...byte) bool {
+	self.Save()
+
+	for _, k := range kind {
+		if self.curr.Kind() != k {
+			self.RevertAndPop()
+			return false
+		}
+
+		self.Next()
 	}
 
-	self.Next()
+	self.Pop()
 	return true
 }
 
