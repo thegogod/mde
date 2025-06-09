@@ -184,6 +184,7 @@ func (self Scanner) peek() byte {
 func (self Scanner) create(TokenKind TokenKind) *Token {
 	return NewToken(
 		TokenKind,
+		self.start,
 		self.end,
 		self.src[self.start.Index:self.end.Index],
 	)

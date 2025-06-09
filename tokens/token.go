@@ -7,16 +7,18 @@ import (
 )
 
 type Token struct {
-	kind     TokenKind
-	position core.Position
-	value    []byte
+	kind  TokenKind
+	start core.Position
+	end   core.Position
+	value []byte
 }
 
-func NewToken(kind TokenKind, position core.Position, value []byte) *Token {
+func NewToken(kind TokenKind, start core.Position, end core.Position, value []byte) *Token {
 	return &Token{
-		kind:     kind,
-		position: position,
-		value:    value,
+		kind:  kind,
+		start: start,
+		end:   end,
+		value: value,
 	}
 }
 
@@ -24,8 +26,12 @@ func (self Token) Kind() byte {
 	return self.kind
 }
 
-func (self Token) Position() core.Position {
-	return self.position
+func (self Token) Start() core.Position {
+	return self.start
+}
+
+func (self Token) End() core.Position {
+	return self.end
 }
 
 func (self Token) Bytes() []byte {
@@ -37,7 +43,7 @@ func (self Token) String() string {
 }
 
 func (self Token) Error(message string) error {
-	return NewError(self.position, message)
+	return NewError(self.start, self.end, message)
 }
 
 func (self Token) KindString() string {
