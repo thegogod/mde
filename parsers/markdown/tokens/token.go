@@ -82,6 +82,8 @@ func (self Token) KindString() string {
 		return "period"
 	case Pipe:
 		return "pipe"
+	case Ampersand:
+		return "ampersand"
 	case Integer:
 		return "integer"
 	case Decimal:

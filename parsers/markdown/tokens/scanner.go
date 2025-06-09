@@ -54,6 +54,8 @@ func (self *Scanner) Scan() (core.Token, error) {
 		return self.create(Period), nil
 	case '|':
 		return self.create(Pipe), nil
+	case '&':
+		return self.create(Ampersand), nil
 	case '-':
 		return self.create(Dash), nil
 	case '_':

@@ -32,6 +32,7 @@ const (
 	BackQuote    // `
 	Period       // .
 	Pipe         // |
+	Ampersand    // &
 
 	// compounds
 
