@@ -17,37 +17,7 @@ type Parser struct {
 
 func New(rules ...core.Syntax) *Parser {
 	return &Parser{
-		syntax: append(rules,
-			markdown.H1{},
-			markdown.H2{},
-			markdown.H3{},
-			markdown.H4{},
-			markdown.H5{},
-			markdown.H6{},
-			markdown.HorizontalRule{},
-			markdown.CodeBlock{},
-			markdown.BlockQuote{},
-			markdown.UnOrderedList{},
-			markdown.OrderedList{},
-			markdown.Table{},
-			markdown.Paragraph{},
-
-			markdown.Bold{},
-			markdown.BoldAlt{},
-			markdown.Italic{},
-			markdown.ItalicAlt{},
-			markdown.Strike{},
-			markdown.StrikeAlt{},
-			markdown.Highlight{},
-			markdown.Code{},
-			markdown.Emoji{},
-			markdown.Link{},
-			markdown.Url{},
-			markdown.Image{},
-			markdown.Break{},
-			markdown.ListItem{},
-			markdown.NewLine{},
-		),
+		syntax: append(rules, markdown.All...),
 	}
 }
 
