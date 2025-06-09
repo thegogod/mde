@@ -9,7 +9,7 @@ type Position struct {
 	Start int
 	End   int
 
-	saves []Position
+	_saves []Position
 }
 
 func (self Position) IsValid() bool {
@@ -17,11 +17,11 @@ func (self Position) IsValid() bool {
 }
 
 func (self *Position) Save() {
-	if self.saves == nil {
-		self.saves = []Position{}
+	if self._saves == nil {
+		self._saves = []Position{}
 	}
 
-	self.saves = append(self.saves, Position{
+	self._saves = append(self._saves, Position{
 		Ln:    self.Ln,
 		Col:   self.Col,
 		Start: self.Start,
@@ -30,22 +30,22 @@ func (self *Position) Save() {
 }
 
 func (self *Position) Pop() {
-	if len(self.saves) == 0 {
+	if len(self._saves) == 0 {
 		return
 	}
 
-	self.saves = self.saves[:len(self.saves)-1]
+	self._saves = self._saves[:len(self._saves)-1]
 }
 
 func (self *Position) Revert() {
-	if self.saves == nil || len(self.saves) == 0 {
+	if self._saves == nil || len(self._saves) == 0 {
 		return
 	}
 
-	self.Ln = self.saves[len(self.saves)-1].Ln
-	self.Col = self.saves[len(self.saves)-1].Col
-	self.Start = self.saves[len(self.saves)-1].Start
-	self.End = self.saves[len(self.saves)-1].End
+	self.Ln = self._saves[len(self._saves)-1].Ln
+	self.Col = self._saves[len(self._saves)-1].Col
+	self.Start = self._saves[len(self._saves)-1].Start
+	self.End = self._saves[len(self._saves)-1].End
 }
 
 func (self *Position) RevertAndPop() {
