@@ -14,6 +14,13 @@ type Iterator struct {
 	saves   []Iterator
 }
 
+func Iter(scanner *Scanner) *Iterator {
+	return &Iterator{
+		scanner: scanner,
+		saves:   []Iterator{},
+	}
+}
+
 func (self Iterator) Curr() core.Token {
 	return self.curr
 }
@@ -24,15 +31,6 @@ func (self Iterator) Prev() core.Token {
 
 func (self Iterator) Position() core.Position {
 	return self.scanner.pos
-}
-
-func (self *Iterator) Reset(src []byte) {
-	self.BlockQuoteDepth = 0
-	self.ListDepth = 0
-	self.prev = nil
-	self.curr = nil
-	self.scanner = NewScanner(src)
-	self.saves = []Iterator{}
 }
 
 func (self *Iterator) Next() bool {

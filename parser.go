@@ -22,8 +22,7 @@ func New(rules ...core.Syntax) *Parser {
 }
 
 func (self *Parser) Parse(src []byte) (core.Node, error) {
-	iter := &tokens.Iterator{}
-	iter.Reset(src)
+	iter := tokens.Iter(tokens.NewScanner(src))
 
 	if !iter.Next() {
 		return nil, nil

@@ -30,6 +30,7 @@ const (
 	Tilde        // ~
 	Equals       // =
 	GreaterThan  // >
+	LessThan     // <
 	BackQuote    // `
 	Period       // .
 	Pipe         // |

@@ -74,6 +74,12 @@ func (self *Scanner) Scan() (core.Token, error) {
 		}
 
 		return self.create(GreaterThan), nil
+	case '<':
+		if self.peek() == ' ' {
+			self.next()
+		}
+
+		return self.create(LessThan), nil
 	case '`':
 		return self.create(BackQuote), nil
 	case ':':

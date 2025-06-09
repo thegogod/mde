@@ -9,7 +9,6 @@ type Iterator interface {
 	Position() Position
 
 	Next() bool
-	Reset(src []byte)
 	Match(kind byte) bool
 	MatchCount(kind byte, count int) bool
 	MatchBytes(value ...byte) bool

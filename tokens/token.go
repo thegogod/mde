@@ -90,6 +90,8 @@ func (self Token) KindString() string {
 		return "equals"
 	case GreaterThan:
 		return "greater-than"
+	case LessThan:
+		return "less-than"
 	case Period:
 		return "period"
 	case Pipe:
