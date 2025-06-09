@@ -5,17 +5,17 @@ import (
 )
 
 type Scanner struct {
-	src    []byte
-	start  core.Position
-	end    core.Position
+	_src   []byte
+	_start core.Position
+	_end   core.Position
 	_saves []core.Position
 }
 
 func NewScanner(src []byte) *Scanner {
 	return &Scanner{
-		src:    src,
-		start:  core.Position{},
-		end:    core.Position{},
+		_src:   src,
+		_start: core.Position{},
+		_end:   core.Position{},
 		_saves: []core.Position{},
 	}
 }
@@ -25,7 +25,7 @@ func (self *Scanner) Save() {
 		self._saves = []core.Position{}
 	}
 
-	self._saves = append(self._saves, self.end)
+	self._saves = append(self._saves, self._end)
 }
 
 func (self *Scanner) Pop() {
@@ -41,7 +41,7 @@ func (self *Scanner) Revert() {
 		return
 	}
 
-	self.end = self._saves[len(self._saves)-1]
+	self._end = self._saves[len(self._saves)-1]
 }
 
 func (self *Scanner) RevertAndPop() {
@@ -50,12 +50,12 @@ func (self *Scanner) RevertAndPop() {
 }
 
 func (self *Scanner) Scan() (core.Token, error) {
-	if self.end.Index >= len(self.src) {
+	if self._end.Index >= len(self._src) {
 		return self.create(Eof), nil
 	}
 
-	self.start = self.end
-	b := self.src[self.end.Index]
+	self._start = self._end
+	b := self.peek()
 	self.next()
 
 	switch b {
@@ -162,30 +162,30 @@ func (self *Scanner) scanText() (*Token, error) {
 }
 
 func (self *Scanner) next() byte {
-	self.end.Index++
-	self.end.Col++
+	self._end.Index++
+	self._end.Col++
 
 	if self.peek() == '\n' {
-		self.end.Ln++
-		self.end.Col = 0
+		self._end.Ln++
+		self._end.Col = 0
 	}
 
 	return self.peek()
 }
 
 func (self Scanner) peek() byte {
-	if self.end.Index >= len(self.src) {
+	if self._end.Index >= len(self._src) {
 		return byte(Eof)
 	}
 
-	return self.src[self.end.Index]
+	return self._src[self._end.Index]
 }
 
 func (self Scanner) create(TokenKind TokenKind) *Token {
 	return NewToken(
 		TokenKind,
-		self.start,
-		self.end,
-		self.src[self.start.Index:self.end.Index],
+		self._start,
+		self._end,
+		self._src[self._start.Index:self._end.Index],
 	)
 }
