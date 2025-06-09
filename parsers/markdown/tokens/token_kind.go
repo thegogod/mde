@@ -21,6 +21,8 @@ const (
 	RightBracket // ]
 	LeftParen    // (
 	RightParen   // )
+	LeftBrace    // {
+	RightBrace   // }
 	Asterisk     // *
 	Dash         // -
 	Underscore   // _

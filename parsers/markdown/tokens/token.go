@@ -66,6 +66,10 @@ func (self Token) KindString() string {
 		return "left-bracket"
 	case RightBracket:
 		return "right-bracket"
+	case LeftBrace:
+		return "left-brace"
+	case RightBrace:
+		return "right-brace"
 	case Asterisk:
 		return "asterisk"
 	case Tilde:

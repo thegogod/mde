@@ -80,6 +80,10 @@ func (self *Scanner) Scan() (core.Token, error) {
 		return self.create(LeftBracket), nil
 	case ']':
 		return self.create(RightBracket), nil
+	case '{':
+		return self.create(LeftBrace), nil
+	case '}':
+		return self.create(RightBrace), nil
 	case '(':
 		return self.create(LeftParen), nil
 	case ')':
