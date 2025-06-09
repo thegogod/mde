@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/thegogod/mde/parsers/markdown/tokens"
+	"github.com/thegogod/mde/tokens"
 )
 
 func TestScanner(t *testing.T) {

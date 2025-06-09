@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
+	"github.com/thegogod/mde/tokens"
 )
 
 type ListItem struct{}
