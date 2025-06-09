@@ -29,7 +29,7 @@ func (self Emoji) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 	alias := html.Raw{}
 
 	for !iter.Match(tokens.Colon) {
-		node, err := parser.ParseText(iter)
+		node, err := parser.ParseText(parser, iter)
 
 		if node == nil {
 			return alias, iter.Curr().Error("expected closing ':'")

@@ -28,7 +28,7 @@ func (self CodeBlock) Select(parser core.Parser, iter *core.Iterator) bool {
 
 func (self CodeBlock) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	code := html.Code()
-	lang, err := parser.ParseTextUntil(tokens.NewLine, iter)
+	lang, err := parser.ParseTextUntil(tokens.NewLine, parser, iter)
 
 	if lang == nil || err != nil {
 		return html.Pre(code), err
@@ -41,7 +41,7 @@ func (self CodeBlock) Parse(parser core.Parser, iter *core.Iterator) (core.Node,
 	buff := html.Raw{}
 
 	for !iter.MatchCount(tokens.BackQuote, 3) {
-		node, err := parser.ParseText(iter)
+		node, err := parser.ParseText(parser, iter)
 
 		if node == nil {
 			return html.Pre(code), iter.Curr().Error("expected closing '```'")

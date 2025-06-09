@@ -25,7 +25,7 @@ func (self Url) Name() string {
 
 func (self Url) Select(parser core.Parser, iter *core.Iterator) bool {
 	iter.Save()
-	text, err := parser.ParseText(iter)
+	text, err := parser.ParseText(parser, iter)
 	iter.RevertAndPop()
 
 	if text == nil || err != nil {
@@ -37,7 +37,7 @@ func (self Url) Select(parser core.Parser, iter *core.Iterator) bool {
 
 func (self Url) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	link := html.A()
-	protocol, _ := parser.ParseText(iter)
+	protocol, _ := parser.ParseText(parser, iter)
 
 	if _, err := iter.Consume(tokens.Colon, "expected ':'"); err != nil {
 		return link, err
@@ -54,7 +54,7 @@ func (self Url) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error
 	path := []byte{}
 
 	for {
-		part, err := parser.ParseText(iter)
+		part, err := parser.ParseText(parser, iter)
 
 		if part == nil || err != nil {
 			return link, err

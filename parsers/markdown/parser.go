@@ -39,7 +39,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 			break
 		}
 
-		node, err := self.ParseBlock(iter)
+		node, err := self.ParseBlock(self, iter)
 
 		if err != nil {
 			return group, err
@@ -55,7 +55,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 	return group, nil
 }
 
-func (self *Parser) ParseBlock(iterator *core.Iterator) (core.Node, error) {
+func (self *Parser) ParseBlock(parser core.Parser, iterator *core.Iterator) (core.Node, error) {
 	if iterator.Match(tokens.Eof) {
 		return nil, nil
 	}
@@ -73,7 +73,7 @@ func (self *Parser) ParseBlock(iterator *core.Iterator) (core.Node, error) {
 
 	if iterator.Match(tokens.NewLine) {
 		iterator.Pop()
-		return self.ParseBlock(iterator)
+		return self.ParseBlock(self, iterator)
 	}
 
 	iterator.Save()
@@ -95,7 +95,7 @@ func (self *Parser) ParseBlock(iterator *core.Iterator) (core.Node, error) {
 	return node, err
 }
 
-func (self *Parser) ParseInline(iterator *core.Iterator) (core.Node, error) {
+func (self *Parser) ParseInline(parser core.Parser, iterator *core.Iterator) (core.Node, error) {
 	if iterator.Match(tokens.Eof) {
 		return nil, nil
 	}
@@ -123,7 +123,7 @@ func (self *Parser) ParseInline(iterator *core.Iterator) (core.Node, error) {
 	}
 
 	if node == nil || err != nil {
-		text, texterr := self.ParseText(iterator)
+		text, texterr := self.ParseText(self, iterator)
 
 		if text != nil {
 			node = html.Raw(text)
@@ -136,7 +136,7 @@ func (self *Parser) ParseInline(iterator *core.Iterator) (core.Node, error) {
 	return node, err
 }
 
-func (self *Parser) ParseSyntax(name string, iter *core.Iterator) (core.Node, error) {
+func (self *Parser) ParseSyntax(name string, parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	i := slices.IndexFunc(self.syntax, func(s core.Syntax) bool {
 		return s.Name() == name
 	})
@@ -148,7 +148,7 @@ func (self *Parser) ParseSyntax(name string, iter *core.Iterator) (core.Node, er
 	return self.syntax[i].Parse(self, iter)
 }
 
-func (self *Parser) ParseText(iter *core.Iterator) ([]byte, error) {
+func (self *Parser) ParseText(parser core.Parser, iter *core.Iterator) ([]byte, error) {
 	if iter.Curr().Kind() == tokens.Eof {
 		return nil, nil
 	}
@@ -172,7 +172,7 @@ func (self *Parser) ParseText(iter *core.Iterator) ([]byte, error) {
 	return text, nil
 }
 
-func (self *Parser) ParseTextUntil(kind tokens.TokenKind, iter *core.Iterator) ([]byte, error) {
+func (self *Parser) ParseTextUntil(kind tokens.TokenKind, parser core.Parser, iter *core.Iterator) ([]byte, error) {
 	if iter.Curr().Kind() == tokens.Eof {
 		return nil, nil
 	}
@@ -180,7 +180,7 @@ func (self *Parser) ParseTextUntil(kind tokens.TokenKind, iter *core.Iterator) (
 	text := html.Raw{}
 
 	for !iter.Match(kind) {
-		node, err := self.ParseText(iter)
+		node, err := self.ParseText(parser, iter)
 
 		if node == nil || err != nil {
 			return text, err

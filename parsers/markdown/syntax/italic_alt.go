@@ -28,7 +28,7 @@ func (self ItalicAlt) Parse(parser core.Parser, iter *core.Iterator) (core.Node,
 	italic := html.I()
 
 	for !iter.Match(tokens.Underscore) {
-		node, err := parser.ParseInline(iter)
+		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {
 			return italic, iter.Curr().Error("expected closing '_'")

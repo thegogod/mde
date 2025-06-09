@@ -28,7 +28,7 @@ func (self Strike) Parse(parser core.Parser, iter *core.Iterator) (core.Node, er
 	strike := html.S()
 
 	for !iter.Match(tokens.Tilde) {
-		node, err := parser.ParseInline(iter)
+		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {
 			return strike, iter.Curr().Error("expected closing '~'")

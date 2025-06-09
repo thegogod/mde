@@ -28,7 +28,7 @@ func (self BoldAlt) Parse(parser core.Parser, iter *core.Iterator) (core.Node, e
 	bold := html.Strong()
 
 	for !iter.MatchCount(tokens.Underscore, 2) {
-		node, err := parser.ParseInline(iter)
+		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {
 			return bold, iter.Curr().Error("expected closing '__'")

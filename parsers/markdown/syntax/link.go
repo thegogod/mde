@@ -28,7 +28,7 @@ func (self Link) Parse(parser core.Parser, iter *core.Iterator) (core.Node, erro
 	link := html.A()
 
 	for !iter.Match(tokens.RightBracket) {
-		node, err := parser.ParseInline(iter)
+		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil || err != nil {
 			return link, err
@@ -41,7 +41,7 @@ func (self Link) Parse(parser core.Parser, iter *core.Iterator) (core.Node, erro
 		return link, err
 	}
 
-	node, err := parser.ParseTextUntil(tokens.RightParen, iter)
+	node, err := parser.ParseTextUntil(tokens.RightParen, parser, iter)
 
 	if node == nil || err != nil {
 		return link, err

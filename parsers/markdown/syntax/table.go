@@ -43,7 +43,7 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 		buff := []byte{}
 
 		for !iter.Match(tokens.Pipe) {
-			node, err := parser.ParseInline(iter)
+			node, err := parser.ParseInline(parser, iter)
 
 			if node == nil {
 				return table, iter.Curr().Error("invalid table header")
@@ -78,7 +78,7 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 	}
 
 	for i := range len(columns) {
-		node, err := parser.ParseTextUntil(tokens.Pipe, iter)
+		node, err := parser.ParseTextUntil(tokens.Pipe, parser, iter)
 
 		if node == nil {
 			return table, iter.Curr().Error("expected closing '|'")
@@ -146,7 +146,7 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 			buff := []byte{}
 
 			for !iter.Match(tokens.Pipe) {
-				node, err := parser.ParseInline(iter)
+				node, err := parser.ParseInline(parser, iter)
 
 				if node == nil {
 					return table, iter.Curr().Error("expected closing '|'")

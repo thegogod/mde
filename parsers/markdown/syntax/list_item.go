@@ -39,7 +39,7 @@ func (self ListItem) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 	iter.Revert()
 
 	for iter.Curr().Kind() != tokens.Eof {
-		node, err := parser.ParseInline(iter)
+		node, err := parser.ParseInline(parser, iter)
 
 		if err != nil {
 			iter.Revert()
@@ -60,9 +60,9 @@ func (self ListItem) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 			iter.Save()
 
 			if iter.Match(tokens.Integer) && iter.Match(tokens.Period) && iter.Match(tokens.Space) {
-				node, err = parser.ParseSyntax("ordered_list", iter)
+				node, err = parser.ParseSyntax("ordered_list", parser, iter)
 			} else if iter.Match(tokens.Dash) && iter.Match(tokens.Space) {
-				node, err = parser.ParseSyntax("unordered_list", iter)
+				node, err = parser.ParseSyntax("unordered_list", parser, iter)
 			}
 
 			if node != nil && err == nil {
@@ -120,7 +120,7 @@ func (self ListItem) parseTask(parser core.Parser, iter *core.Iterator) (core.No
 	text := ""
 
 	for !iter.Match(tokens.NewLine) {
-		node, err := parser.ParseText(iter)
+		node, err := parser.ParseText(parser, iter)
 
 		if err != nil {
 			return label, err

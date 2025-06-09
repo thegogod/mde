@@ -28,7 +28,7 @@ func (self Bold) Parse(parser core.Parser, iter *core.Iterator) (core.Node, erro
 	bold := html.Strong()
 
 	for !iter.MatchCount(tokens.Asterisk, 2) {
-		node, err := parser.ParseInline(iter)
+		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {
 			return bold, iter.Curr().Error("expected closing '**'")

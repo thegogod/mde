@@ -29,7 +29,7 @@ func (self BlockQuote) Parse(parser core.Parser, iter *core.Iterator) (core.Node
 	blockQuote := html.BlockQuote()
 
 	for {
-		node, err := parser.ParseBlock(iter)
+		node, err := parser.ParseBlock(parser, iter)
 
 		if node == nil || err != nil {
 			iter.BlockQuoteDepth--

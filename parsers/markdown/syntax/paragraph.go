@@ -29,7 +29,7 @@ func (self Paragraph) Parse(parser core.Parser, iter *core.Iterator) (core.Node,
 	buff := html.Raw{}
 
 	for iter.Curr().Kind() != tokens.Eof {
-		node, err := parser.ParseInline(iter)
+		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {
 			break

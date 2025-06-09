@@ -28,7 +28,7 @@ func (self Highlight) Parse(parser core.Parser, iter *core.Iterator) (core.Node,
 	mark := html.Mark()
 
 	for !iter.MatchCount(tokens.Equals, 2) {
-		node, err := parser.ParseInline(iter)
+		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {
 			return mark, iter.Curr().Error("expected closing '=='")
