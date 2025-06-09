@@ -30,7 +30,7 @@ func (self Iterator) Prev() core.Token {
 }
 
 func (self Iterator) Position() core.Position {
-	return self.scanner.pos
+	return self.scanner.end
 }
 
 func (self *Iterator) Next() bool {
