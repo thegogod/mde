@@ -37,13 +37,13 @@ func (self Runtime) Parse(src []byte) (core.Node, error) {
 		for _, parser := range self._parsers {
 			node, err = parser.ParseBlock(parser, iter)
 
-			if err != nil {
-				return group, err
+			if err == nil {
+				break
 			}
+		}
 
-			if node == nil {
-				continue
-			}
+		if node == nil {
+			continue
 		}
 
 		group.Push(node)
