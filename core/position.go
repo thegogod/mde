@@ -7,8 +7,6 @@ type Position struct {
 	Ln    int
 	Col   int
 	Index int
-
-	_saves []Position
 }
 
 func (self Position) String() string {
