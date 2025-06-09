@@ -43,11 +43,11 @@ func (self Url) Parse(parser core.Parser, iter core.Iterator) (core.Node, error)
 		return link, err
 	}
 
-	if token, err := iter.Consume(tokens.Text, "expected '/'"); err != nil || token.String() != "/" {
+	if _, err := iter.Consume(tokens.Slash, "expected '/'"); err != nil {
 		return link, err
 	}
 
-	if token, err := iter.Consume(tokens.Text, "expected '/'"); err != nil || token.String() != "/" {
+	if _, err := iter.Consume(tokens.Slash, "expected '/'"); err != nil {
 		return link, err
 	}
 

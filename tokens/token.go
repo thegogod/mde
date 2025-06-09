@@ -1,6 +1,10 @@
 package tokens
 
-import "github.com/thegogod/mde/core"
+import (
+	"fmt"
+
+	"github.com/thegogod/mde/core"
+)
 
 type Token struct {
 	kind     TokenKind
@@ -58,6 +62,8 @@ func (self Token) KindString() string {
 		return "bang"
 	case Hash:
 		return "hash"
+	case At:
+		return "at"
 	case LeftParen:
 		return "left-paren"
 	case RightParen:
@@ -72,6 +78,12 @@ func (self Token) KindString() string {
 		return "right-brace"
 	case Asterisk:
 		return "asterisk"
+	case Underscore:
+		return "underscore"
+	case Slash:
+		return "slash"
+	case BackSlash:
+		return "back-slash"
 	case Tilde:
 		return "tilde"
 	case Equals:
@@ -89,6 +101,6 @@ func (self Token) KindString() string {
 	case Decimal:
 		return "decimal"
 	default:
-		panic("unsupported token type")
+		panic(fmt.Sprintf("'%d': unsupported token type", self.kind))
 	}
 }

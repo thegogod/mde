@@ -12,5 +12,6 @@ type Iterator interface {
 	Reset(src []byte)
 	Match(kind byte) bool
 	MatchCount(kind byte, count int) bool
+	MatchBytes(value ...byte) bool
 	Consume(kind byte, message string) (Token, error)
 }

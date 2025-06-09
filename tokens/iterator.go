@@ -82,6 +82,36 @@ func (self *Iterator) MatchCount(kind byte, count int) bool {
 	return true
 }
 
+func (self *Iterator) MatchBytes(value ...byte) bool {
+	self.Save()
+	i := 0
+
+	for i < len(value) {
+		for _, b := range self.curr.Bytes() {
+			if i >= len(value) {
+				break
+			}
+
+			if b != value[i] {
+				self.Revert()
+				self.Pop()
+				return false
+			}
+
+			i++
+		}
+
+		if !self.Next() {
+			self.Revert()
+			self.Pop()
+			return false
+		}
+	}
+
+	self.Pop()
+	return true
+}
+
 func (self *Iterator) Consume(kind byte, message string) (core.Token, error) {
 	if self.curr.Kind() == kind {
 		self.Next()

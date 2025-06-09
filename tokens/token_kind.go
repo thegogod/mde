@@ -17,6 +17,7 @@ const (
 	Colon        // :
 	Bang         // !
 	Hash         // #
+	At           // @
 	LeftBracket  // [
 	RightBracket // ]
 	LeftParen    // (
@@ -33,6 +34,8 @@ const (
 	Period       // .
 	Pipe         // |
 	Ampersand    // &
+	Slash        // /
+	BackSlash    // \
 
 	// compounds
 

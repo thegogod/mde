@@ -50,6 +50,8 @@ func (self *Scanner) Scan() (core.Token, error) {
 		return self.create(Tab), nil
 	case '#':
 		return self.create(Hash), nil
+	case '@':
+		return self.create(At), nil
 	case '.':
 		return self.create(Period), nil
 	case '|':
@@ -90,13 +92,17 @@ func (self *Scanner) Scan() (core.Token, error) {
 		return self.create(LeftParen), nil
 	case ')':
 		return self.create(RightParen), nil
+	case '/':
+		return self.create(Slash), nil
+	case '\\':
+		return self.create(BackSlash), nil
 	default:
 		if b >= '0' && b <= '9' {
 			return self.scanNumeric()
 		}
 	}
 
-	return self.create(Text), nil
+	return self.scanText()
 }
 
 func (self *Scanner) scanNumeric() (*Token, error) {
@@ -122,6 +128,14 @@ func (self *Scanner) scanNumeric() (*Token, error) {
 
 	self.Pop()
 	return self.create(Decimal), nil
+}
+
+func (self *Scanner) scanText() (*Token, error) {
+	for (self.peek() >= 'a' && self.peek() <= 'z') || (self.peek() >= 'A' && self.peek() <= 'Z') {
+		self.next()
+	}
+
+	return self.create(Text), nil
 }
 
 func (self *Scanner) next() byte {
