@@ -14,9 +14,13 @@ func Ptr(src []byte) *Pointer {
 	}
 }
 
+func (self Pointer) Eof() bool {
+	return self.End.Index >= len(self.Src)
+}
+
 func (self Pointer) Peek() byte {
-	if self.End.Index >= len(self.Src) {
-		return byte(0)
+	if self.Eof() {
+		return 0
 	}
 
 	return self.Src[self.End.Index]
@@ -40,4 +44,13 @@ func (self Pointer) Error(message string) error {
 
 func (self Pointer) Bytes() []byte {
 	return self.Src[self.Start.Index:self.End.Index]
+}
+
+func (self *Pointer) Done(kind TokenKind) *Token {
+	return NewToken(
+		kind,
+		self.Start,
+		self.End,
+		self.Bytes(),
+	)
 }
