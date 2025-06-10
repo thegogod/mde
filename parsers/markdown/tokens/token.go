@@ -22,7 +22,7 @@ func NewToken(kind TokenKind, start core.Position, end core.Position, value []by
 	}
 }
 
-func (self Token) Kind() byte {
+func (self Token) Kind() rune {
 	return self.kind
 }
 

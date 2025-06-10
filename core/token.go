@@ -1,7 +1,7 @@
 package core
 
 type Token interface {
-	Kind() byte
+	Kind() rune
 	KindString() string
 	Start() Position
 	End() Position

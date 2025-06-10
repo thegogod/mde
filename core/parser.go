@@ -7,5 +7,5 @@ type Parser interface {
 	ParseSyntax(name string, parser Parser, iter *Iterator) (Node, error)
 
 	ParseText(parser Parser, iter *Iterator) ([]byte, error)
-	ParseTextUntil(kind byte, parser Parser, iter *Iterator) ([]byte, error)
+	ParseTextUntil(kind rune, parser Parser, iter *Iterator) ([]byte, error)
 }

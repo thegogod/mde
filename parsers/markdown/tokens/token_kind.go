@@ -1,6 +1,6 @@
 package tokens
 
-type TokenKind = byte
+type TokenKind = rune
 
 const (
 	Eof TokenKind = iota

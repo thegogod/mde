@@ -46,7 +46,7 @@ func (self *Iterator) Next() bool {
 	return true
 }
 
-func (self *Iterator) Match(kind ...byte) bool {
+func (self *Iterator) Match(kind ...rune) bool {
 	self.Save()
 
 	for _, k := range kind {
@@ -62,7 +62,7 @@ func (self *Iterator) Match(kind ...byte) bool {
 	return true
 }
 
-func (self *Iterator) MatchCount(kind byte, count int) bool {
+func (self *Iterator) MatchCount(kind rune, count int) bool {
 	self.Save()
 
 	for range count {
@@ -109,7 +109,7 @@ func (self *Iterator) MatchBytes(value ...byte) bool {
 	return true
 }
 
-func (self *Iterator) Consume(kind byte, message string) (Token, error) {
+func (self *Iterator) Consume(kind rune, message string) (Token, error) {
 	if self._curr.Kind() == kind {
 		self.Next()
 		return self._prev, nil
