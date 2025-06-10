@@ -8,7 +8,6 @@ import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
 	"github.com/thegogod/mde/parsers/markdown/syntax"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Parser struct {
@@ -26,7 +25,7 @@ func (self Parser) Name() string {
 }
 
 func (self *Parser) Parse(src []byte) (core.Node, error) {
-	iter := core.Iter(tokens.NewScanner(src))
+	iter := core.Iter(NewScanner(src))
 
 	if !iter.Next() {
 		return nil, nil
@@ -35,7 +34,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 	group := html.Fragment()
 
 	for {
-		if iter.Curr().Kind() == tokens.Eof {
+		if iter.Curr().Kind() == core.Eof {
 			break
 		}
 
@@ -56,7 +55,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 }
 
 func (self *Parser) ParseBlock(parser core.Parser, iterator *core.Iterator) (core.Node, error) {
-	if iterator.Match(tokens.Eof) {
+	if iterator.Match(core.Eof) {
 		return nil, nil
 	}
 
@@ -66,12 +65,12 @@ func (self *Parser) ParseBlock(parser core.Parser, iterator *core.Iterator) (cor
 	iterator.Save()
 
 	for range iterator.BlockQuoteDepth - 1 {
-		if !iterator.Match(tokens.GreaterThan) {
+		if !iterator.Match(core.GreaterThan) {
 			break
 		}
 	}
 
-	if iterator.Match(tokens.NewLine) {
+	if iterator.Match(core.NewLine) {
 		iterator.Pop()
 		return self.ParseBlock(self, iterator)
 	}
@@ -96,7 +95,7 @@ func (self *Parser) ParseBlock(parser core.Parser, iterator *core.Iterator) (cor
 }
 
 func (self *Parser) ParseInline(parser core.Parser, iterator *core.Iterator) (core.Node, error) {
-	if iterator.Match(tokens.Eof) {
+	if iterator.Match(core.Eof) {
 		return nil, nil
 	}
 
@@ -149,7 +148,7 @@ func (self *Parser) ParseSyntax(name string, parser core.Parser, iter *core.Iter
 }
 
 func (self *Parser) ParseText(parser core.Parser, iter *core.Iterator) ([]byte, error) {
-	if iter.Curr().Kind() == tokens.Eof {
+	if iter.Curr().Kind() == core.Eof {
 		return nil, nil
 	}
 
@@ -160,7 +159,7 @@ func (self *Parser) ParseText(parser core.Parser, iter *core.Iterator) ([]byte, 
 		return text, nil
 	}
 
-	for iter.Curr().Kind() == tokens.Text {
+	for iter.Curr().Kind() == core.Text {
 		if bytes.Equal(iter.Curr().Bytes(), []byte{' '}) {
 			return text, nil
 		}
@@ -172,8 +171,8 @@ func (self *Parser) ParseText(parser core.Parser, iter *core.Iterator) ([]byte, 
 	return text, nil
 }
 
-func (self *Parser) ParseTextUntil(kind tokens.TokenKind, parser core.Parser, iter *core.Iterator) ([]byte, error) {
-	if iter.Curr().Kind() == tokens.Eof {
+func (self *Parser) ParseTextUntil(kind core.TokenKind, parser core.Parser, iter *core.Iterator) ([]byte, error) {
+	if iter.Curr().Kind() == core.Eof {
 		return nil, nil
 	}
 

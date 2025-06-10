@@ -4,7 +4,6 @@ import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/emojis"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Emoji struct{}
@@ -22,13 +21,13 @@ func (self Emoji) Name() string {
 }
 
 func (self Emoji) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.Colon, 1)
+	return iter.MatchCount(core.Colon, 1)
 }
 
 func (self Emoji) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	alias := html.Raw{}
 
-	for !iter.Match(tokens.Colon) {
+	for !iter.Match(core.Colon) {
 		node, err := parser.ParseText(parser, iter)
 
 		if node == nil {

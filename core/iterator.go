@@ -5,8 +5,8 @@ type Iterator struct {
 	ListDepth       int
 
 	_scanner Scanner
-	_prev    Token
-	_curr    Token
+	_prev    *Token
+	_curr    *Token
 	_saves   []Iterator
 }
 
@@ -21,11 +21,11 @@ func (self Iterator) Pointer() *Pointer {
 	return self._scanner.Pointer()
 }
 
-func (self Iterator) Curr() Token {
+func (self Iterator) Curr() *Token {
 	return self._curr
 }
 
-func (self Iterator) Prev() Token {
+func (self Iterator) Prev() *Token {
 	return self._prev
 }
 
@@ -109,7 +109,7 @@ func (self *Iterator) MatchBytes(value ...byte) bool {
 	return true
 }
 
-func (self *Iterator) Consume(kind rune, message string) (Token, error) {
+func (self *Iterator) Consume(kind rune, message string) (*Token, error) {
 	if self._curr.Kind() == kind {
 		self.Next()
 		return self._prev, nil

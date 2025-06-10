@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Strike struct{}
@@ -21,13 +20,13 @@ func (self Strike) Name() string {
 }
 
 func (self Strike) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.Tilde, 1)
+	return iter.MatchCount(core.Tilde, 1)
 }
 
 func (self Strike) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	strike := html.S()
 
-	for !iter.Match(tokens.Tilde) {
+	for !iter.Match(core.Tilde) {
 		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {

@@ -4,7 +4,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type ListItem struct{}
@@ -38,7 +37,7 @@ func (self ListItem) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 
 	iter.Revert()
 
-	for iter.Curr().Kind() != tokens.Eof {
+	for iter.Curr().Kind() != core.Eof {
 		node, err := parser.ParseInline(parser, iter)
 
 		if err != nil {
@@ -52,16 +51,16 @@ func (self ListItem) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 		}
 
 		if node.String() == "\n" {
-			if !iter.MatchCount(tokens.Tab, iter.ListDepth) {
+			if !iter.MatchCount(core.Tab, iter.ListDepth) {
 				break
 			}
 
 			node, err = nil, nil
 			iter.Save()
 
-			if iter.Match(tokens.Integer) && iter.Match(tokens.Period) && iter.Match(tokens.Space) {
+			if iter.Match(core.Integer) && iter.Match(core.Period) && iter.Match(core.Space) {
 				node, err = parser.ParseSyntax("ordered_list", parser, iter)
-			} else if iter.Match(tokens.Dash) && iter.Match(tokens.Space) {
+			} else if iter.Match(core.Dash) && iter.Match(core.Space) {
 				node, err = parser.ParseSyntax("unordered_list", parser, iter)
 			}
 
@@ -87,14 +86,14 @@ func (self ListItem) parseTask(parser core.Parser, iter *core.Iterator) (core.No
 	label := html.Label().For(id)
 	input := html.CheckBoxInput().Id(id)
 
-	if _, err := iter.Consume(tokens.LeftBracket, "expected '['"); err != nil {
+	if _, err := iter.Consume(core.LeftBracket, "expected '['"); err != nil {
 		return label, err
 	}
 
-	checked, err := iter.Consume(tokens.Space, "expected ' ' or 'x'")
+	checked, err := iter.Consume(core.Space, "expected ' ' or 'x'")
 
 	if err != nil {
-		checked, err = iter.Consume(tokens.Text, "expected ' ' or 'x'")
+		checked, err = iter.Consume(core.Text, "expected ' ' or 'x'")
 
 		if err != nil {
 			return label, err
@@ -109,17 +108,17 @@ func (self ListItem) parseTask(parser core.Parser, iter *core.Iterator) (core.No
 		input.Checked(true)
 	}
 
-	if _, err = iter.Consume(tokens.RightBracket, "expected ']'"); err != nil {
+	if _, err = iter.Consume(core.RightBracket, "expected ']'"); err != nil {
 		return label, err
 	}
 
-	if _, err = iter.Consume(tokens.Space, "expected ' '"); err != nil {
+	if _, err = iter.Consume(core.Space, "expected ' '"); err != nil {
 		return label, err
 	}
 
 	text := ""
 
-	for !iter.Match(tokens.NewLine) {
+	for !iter.Match(core.NewLine) {
 		node, err := parser.ParseText(parser, iter)
 
 		if err != nil {

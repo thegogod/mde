@@ -6,7 +6,6 @@ import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
 	"github.com/thegogod/mde/maps"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Table struct{}
@@ -24,25 +23,25 @@ func (self Table) Name() string {
 }
 
 func (self Table) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.Pipe, 1)
+	return iter.MatchCount(core.Pipe, 1)
 }
 
 func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	table := html.Table()
 	columns := []*html.TableCellElement{}
 
-	for !iter.Match(tokens.NewLine) {
+	for !iter.Match(core.NewLine) {
 		th := html.Th()
 
 		for {
-			if !iter.Match(tokens.Space) && !iter.Match(tokens.Tab) {
+			if !iter.Match(core.Space) && !iter.Match(core.Tab) {
 				break
 			}
 		}
 
 		buff := []byte{}
 
-		for !iter.Match(tokens.Pipe) {
+		for !iter.Match(core.Pipe) {
 			node, err := parser.ParseInline(parser, iter)
 
 			if node == nil {
@@ -73,12 +72,12 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 		columns = append(columns, th)
 	}
 
-	if _, err := iter.Consume(tokens.Pipe, "expected opening '|'"); err != nil {
+	if _, err := iter.Consume(core.Pipe, "expected opening '|'"); err != nil {
 		return table, err
 	}
 
 	for i := range len(columns) {
-		node, err := parser.ParseTextUntil(tokens.Pipe, parser, iter)
+		node, err := parser.ParseTextUntil(core.Pipe, parser, iter)
 
 		if node == nil {
 			return table, iter.Curr().Error("expected closing '|'")
@@ -126,26 +125,26 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 		}
 	}
 
-	if _, err := iter.Consume(tokens.NewLine, "expected new line"); err != nil {
+	if _, err := iter.Consume(core.NewLine, "expected new line"); err != nil {
 		return table, err
 	}
 
 	table.Push(html.THead(html.Tr(columns...)))
 	rows := []*html.TableCellElement{}
 
-	for iter.Match(tokens.Pipe) {
+	for iter.Match(core.Pipe) {
 		for i := range len(columns) {
 			td := html.Td()
 
 			for {
-				if !iter.Match(tokens.Space) && !iter.Match(tokens.Tab) {
+				if !iter.Match(core.Space) && !iter.Match(core.Tab) {
 					break
 				}
 			}
 
 			buff := []byte{}
 
-			for !iter.Match(tokens.Pipe) {
+			for !iter.Match(core.Pipe) {
 				node, err := parser.ParseInline(parser, iter)
 
 				if node == nil {
@@ -176,11 +175,11 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 			rows = append(rows, td.Style(columns[i].GetStyles()...))
 		}
 
-		if iter.Curr().Kind() == tokens.Eof {
+		if iter.Curr().Kind() == core.Eof {
 			break
 		}
 
-		if _, err := iter.Consume(tokens.NewLine, "expected new line"); err != nil {
+		if _, err := iter.Consume(core.NewLine, "expected new line"); err != nil {
 			return table, err
 		}
 	}

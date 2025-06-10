@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Highlight struct{}
@@ -21,13 +20,13 @@ func (self Highlight) Name() string {
 }
 
 func (self Highlight) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.Equals, 2)
+	return iter.MatchCount(core.Equals, 2)
 }
 
 func (self Highlight) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	mark := html.Mark()
 
-	for !iter.MatchCount(tokens.Equals, 2) {
+	for !iter.MatchCount(core.Equals, 2) {
 		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {

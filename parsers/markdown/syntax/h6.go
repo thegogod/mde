@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type H6 struct{}
@@ -21,17 +20,17 @@ func (self H6) Name() string {
 }
 
 func (self H6) Select(parser core.Parser, iter *core.Iterator) bool {
-	if !iter.MatchCount(tokens.Hash, 6) {
+	if !iter.MatchCount(core.Hash, 6) {
 		return false
 	}
 
-	return iter.Match(tokens.Space)
+	return iter.Match(core.Space)
 }
 
 func (self H6) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	heading := html.H6()
 
-	for iter.Curr().Kind() != tokens.Eof && iter.Curr().Kind() != tokens.NewLine {
+	for iter.Curr().Kind() != core.Eof && iter.Curr().Kind() != core.NewLine {
 		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil || err != nil {

@@ -6,7 +6,6 @@ import (
 
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Url struct{}
@@ -39,15 +38,15 @@ func (self Url) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error
 	link := html.A()
 	protocol, _ := parser.ParseText(parser, iter)
 
-	if _, err := iter.Consume(tokens.Colon, "expected ':'"); err != nil {
+	if _, err := iter.Consume(core.Colon, "expected ':'"); err != nil {
 		return link, err
 	}
 
-	if _, err := iter.Consume(tokens.Slash, "expected '/'"); err != nil {
+	if _, err := iter.Consume(core.Slash, "expected '/'"); err != nil {
 		return link, err
 	}
 
-	if _, err := iter.Consume(tokens.Slash, "expected '/'"); err != nil {
+	if _, err := iter.Consume(core.Slash, "expected '/'"); err != nil {
 		return link, err
 	}
 
@@ -62,7 +61,7 @@ func (self Url) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error
 
 		path = append(path, part...)
 
-		if iter.Curr().Kind() != tokens.Period {
+		if iter.Curr().Kind() != core.Period {
 			break
 		}
 	}

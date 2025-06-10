@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Break struct{}
@@ -21,7 +20,7 @@ func (self Break) Name() string {
 }
 
 func (self Break) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.Space, 2) && iter.Curr().Kind() == tokens.NewLine
+	return iter.MatchCount(core.Space, 2) && iter.Curr().Kind() == core.NewLine
 }
 
 func (self Break) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {

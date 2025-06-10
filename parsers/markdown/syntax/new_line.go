@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type NewLine struct{}
@@ -21,16 +20,16 @@ func (self NewLine) Name() string {
 }
 
 func (self NewLine) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.Match(tokens.NewLine)
+	return iter.Match(core.NewLine)
 }
 
 func (self NewLine) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
-	if iter.Match(tokens.NewLine) {
+	if iter.Match(core.NewLine) {
 		return nil, nil
 	}
 
 	for range iter.BlockQuoteDepth {
-		if !iter.Match(tokens.GreaterThan) {
+		if !iter.Match(core.GreaterThan) {
 			break
 		}
 	}

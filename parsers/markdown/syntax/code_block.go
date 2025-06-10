@@ -5,7 +5,6 @@ import (
 
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type CodeBlock struct{}
@@ -23,12 +22,12 @@ func (self CodeBlock) Name() string {
 }
 
 func (self CodeBlock) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.BackQuote, 3)
+	return iter.MatchCount(core.BackQuote, 3)
 }
 
 func (self CodeBlock) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	code := html.Code()
-	lang, err := parser.ParseTextUntil(tokens.NewLine, parser, iter)
+	lang, err := parser.ParseTextUntil(core.NewLine, parser, iter)
 
 	if lang == nil || err != nil {
 		return html.Pre(code), err
@@ -40,7 +39,7 @@ func (self CodeBlock) Parse(parser core.Parser, iter *core.Iterator) (core.Node,
 
 	buff := html.Raw{}
 
-	for !iter.MatchCount(tokens.BackQuote, 3) {
+	for !iter.MatchCount(core.BackQuote, 3) {
 		node, err := parser.ParseText(parser, iter)
 
 		if node == nil {

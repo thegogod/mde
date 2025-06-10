@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type ItalicAlt struct{}
@@ -21,13 +20,13 @@ func (self ItalicAlt) Name() string {
 }
 
 func (self ItalicAlt) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.Underscore, 1)
+	return iter.MatchCount(core.Underscore, 1)
 }
 
 func (self ItalicAlt) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	italic := html.I()
 
-	for !iter.Match(tokens.Underscore) {
+	for !iter.Match(core.Underscore) {
 		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {

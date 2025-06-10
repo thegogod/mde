@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type StrikeAlt struct{}
@@ -21,13 +20,13 @@ func (self StrikeAlt) Name() string {
 }
 
 func (self StrikeAlt) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.Tilde, 2)
+	return iter.MatchCount(core.Tilde, 2)
 }
 
 func (self StrikeAlt) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	strike := html.S()
 
-	for !iter.MatchCount(tokens.Tilde, 2) {
+	for !iter.MatchCount(core.Tilde, 2) {
 		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {

@@ -4,7 +4,6 @@ import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
 	"github.com/thegogod/mde/parsers/markdown"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Runtime struct {
@@ -18,7 +17,7 @@ func New(parsers ...core.Parser) *Runtime {
 }
 
 func (self Runtime) Parse(src []byte) (core.Node, error) {
-	iter := core.Iter(tokens.NewScanner(src))
+	iter := core.Iter(markdown.NewScanner(src))
 
 	if !iter.Next() {
 		return nil, nil
@@ -27,7 +26,7 @@ func (self Runtime) Parse(src []byte) (core.Node, error) {
 	group := html.Fragment()
 
 	for {
-		if iter.Curr().Kind() == tokens.Eof {
+		if iter.Curr().Kind() == core.Eof {
 			break
 		}
 

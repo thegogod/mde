@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type OrderedList struct{}
@@ -21,7 +20,7 @@ func (self OrderedList) Name() string {
 }
 
 func (self OrderedList) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.Match(tokens.Integer) && iter.Match(tokens.Period) && iter.Match(tokens.Space)
+	return iter.Match(core.Integer) && iter.Match(core.Period) && iter.Match(core.Space)
 }
 
 func (self OrderedList) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
@@ -38,11 +37,11 @@ func (self OrderedList) Parse(parser core.Parser, iter *core.Iterator) (core.Nod
 
 		ol.Push(node.(*html.ListItemElement))
 
-		if !iter.MatchCount(tokens.Tab, iter.ListDepth-1) {
+		if !iter.MatchCount(core.Tab, iter.ListDepth-1) {
 			break
 		}
 
-		if !(iter.Match(tokens.Integer) && iter.Match(tokens.Period) && iter.Match(tokens.Space)) {
+		if !(iter.Match(core.Integer) && iter.Match(core.Period) && iter.Match(core.Space)) {
 			break
 		}
 	}

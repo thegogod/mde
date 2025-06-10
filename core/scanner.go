@@ -4,5 +4,5 @@ type Scanner interface {
 	Stateful
 
 	Pointer() *Pointer
-	Scan() (Token, error)
+	Scan() (*Token, error)
 }

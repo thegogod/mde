@@ -1,4 +1,4 @@
-package tokens
+package markdown
 
 import (
 	"github.com/thegogod/mde/core"
@@ -49,9 +49,9 @@ func (self *Scanner) RevertAndPop() {
 	self.Pop()
 }
 
-func (self *Scanner) Scan() (core.Token, error) {
+func (self *Scanner) Scan() (*core.Token, error) {
 	if self._pointer.End.Index >= len(self._pointer.Src) {
-		return self.create(Eof), nil
+		return self.create(core.Eof), nil
 	}
 
 	self._pointer.Start = self._pointer.End
@@ -60,65 +60,65 @@ func (self *Scanner) Scan() (core.Token, error) {
 
 	switch b {
 	case ' ':
-		return self.create(Space), nil
+		return self.create(core.Space), nil
 	case '\n':
-		return self.create(NewLine), nil
+		return self.create(core.NewLine), nil
 	case '\t':
-		return self.create(Tab), nil
+		return self.create(core.Tab), nil
 	case '#':
-		return self.create(Hash), nil
+		return self.create(core.Hash), nil
 	case '@':
-		return self.create(At), nil
+		return self.create(core.At), nil
 	case '.':
-		return self.create(Period), nil
+		return self.create(core.Period), nil
 	case '|':
-		return self.create(Pipe), nil
+		return self.create(core.Pipe), nil
 	case '&':
-		return self.create(Ampersand), nil
+		return self.create(core.Ampersand), nil
 	case '-':
-		return self.create(Dash), nil
+		return self.create(core.Dash), nil
 	case '_':
-		return self.create(Underscore), nil
+		return self.create(core.Underscore), nil
 	case '*':
-		return self.create(Asterisk), nil
+		return self.create(core.Asterisk), nil
 	case '~':
-		return self.create(Tilde), nil
+		return self.create(core.Tilde), nil
 	case '=':
-		return self.create(Equals), nil
+		return self.create(core.Equals), nil
 	case '>':
 		if self._pointer.Peek() == ' ' {
 			self._pointer.Next()
 		}
 
-		return self.create(GreaterThan), nil
+		return self.create(core.GreaterThan), nil
 	case '<':
 		if self._pointer.Peek() == ' ' {
 			self._pointer.Next()
 		}
 
-		return self.create(LessThan), nil
+		return self.create(core.LessThan), nil
 	case '`':
-		return self.create(BackQuote), nil
+		return self.create(core.BackQuote), nil
 	case ':':
-		return self.create(Colon), nil
+		return self.create(core.Colon), nil
 	case '!':
-		return self.create(Bang), nil
+		return self.create(core.Bang), nil
 	case '[':
-		return self.create(LeftBracket), nil
+		return self.create(core.LeftBracket), nil
 	case ']':
-		return self.create(RightBracket), nil
+		return self.create(core.RightBracket), nil
 	case '{':
-		return self.create(LeftBrace), nil
+		return self.create(core.LeftBrace), nil
 	case '}':
-		return self.create(RightBrace), nil
+		return self.create(core.RightBrace), nil
 	case '(':
-		return self.create(LeftParen), nil
+		return self.create(core.LeftParen), nil
 	case ')':
-		return self.create(RightParen), nil
+		return self.create(core.RightParen), nil
 	case '/':
-		return self.create(Slash), nil
+		return self.create(core.Slash), nil
 	case '\\':
-		return self.create(BackSlash), nil
+		return self.create(core.BackSlash), nil
 	default:
 		if b >= '0' && b <= '9' {
 			return self.scanNumeric()
@@ -128,13 +128,13 @@ func (self *Scanner) Scan() (core.Token, error) {
 	return self.scanText()
 }
 
-func (self *Scanner) scanNumeric() (*Token, error) {
+func (self *Scanner) scanNumeric() (*core.Token, error) {
 	for self._pointer.Peek() >= '0' && self._pointer.Peek() <= '9' {
 		self._pointer.Next()
 	}
 
 	if self._pointer.Peek() != '.' {
-		return self.create(Integer), nil
+		return self.create(core.Integer), nil
 	}
 
 	self.Save()
@@ -142,7 +142,7 @@ func (self *Scanner) scanNumeric() (*Token, error) {
 
 	if self._pointer.Peek() < '0' || self._pointer.Peek() > '9' {
 		self.RevertAndPop()
-		return self.create(Integer), nil
+		return self.create(core.Integer), nil
 	}
 
 	for self._pointer.Peek() >= '0' && self._pointer.Peek() <= '9' {
@@ -150,20 +150,20 @@ func (self *Scanner) scanNumeric() (*Token, error) {
 	}
 
 	self.Pop()
-	return self.create(Decimal), nil
+	return self.create(core.Decimal), nil
 }
 
-func (self *Scanner) scanText() (*Token, error) {
+func (self *Scanner) scanText() (*core.Token, error) {
 	for (self._pointer.Peek() >= 'a' && self._pointer.Peek() <= 'z') || (self._pointer.Peek() >= 'A' && self._pointer.Peek() <= 'Z') {
 		self._pointer.Next()
 	}
 
-	return self.create(Text), nil
+	return self.create(core.Text), nil
 }
 
-func (self Scanner) create(TokenKind TokenKind) *Token {
-	return NewToken(
-		TokenKind,
+func (self Scanner) create(kind core.TokenKind) *core.Token {
+	return core.NewToken(
+		kind,
 		self._pointer.Start,
 		self._pointer.End,
 		self._pointer.Bytes(),

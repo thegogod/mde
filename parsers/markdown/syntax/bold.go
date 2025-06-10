@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Bold struct{}
@@ -21,13 +20,13 @@ func (self Bold) Name() string {
 }
 
 func (self Bold) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.MatchCount(tokens.Asterisk, 2)
+	return iter.MatchCount(core.Asterisk, 2)
 }
 
 func (self Bold) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	bold := html.Strong()
 
-	for !iter.MatchCount(tokens.Asterisk, 2) {
+	for !iter.MatchCount(core.Asterisk, 2) {
 		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil {

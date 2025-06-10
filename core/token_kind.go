@@ -1,4 +1,4 @@
-package tokens
+package core
 
 type TokenKind = rune
 

@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type Link struct{}
@@ -21,13 +20,13 @@ func (self Link) Name() string {
 }
 
 func (self Link) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.Match(tokens.LeftBracket)
+	return iter.Match(core.LeftBracket)
 }
 
 func (self Link) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	link := html.A()
 
-	for !iter.Match(tokens.RightBracket) {
+	for !iter.Match(core.RightBracket) {
 		node, err := parser.ParseInline(parser, iter)
 
 		if node == nil || err != nil {
@@ -37,11 +36,11 @@ func (self Link) Parse(parser core.Parser, iter *core.Iterator) (core.Node, erro
 		link.Push(node)
 	}
 
-	if _, err := iter.Consume(tokens.LeftParen, "expected '('"); err != nil {
+	if _, err := iter.Consume(core.LeftParen, "expected '('"); err != nil {
 		return link, err
 	}
 
-	node, err := parser.ParseTextUntil(tokens.RightParen, parser, iter)
+	node, err := parser.ParseTextUntil(core.RightParen, parser, iter)
 
 	if node == nil || err != nil {
 		return link, err

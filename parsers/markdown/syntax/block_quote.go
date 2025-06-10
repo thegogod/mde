@@ -3,7 +3,6 @@ package syntax
 import (
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown/tokens"
 )
 
 type BlockQuote struct{}
@@ -21,7 +20,7 @@ func (self BlockQuote) Name() string {
 }
 
 func (self BlockQuote) Select(parser core.Parser, iter *core.Iterator) bool {
-	return iter.Match(tokens.GreaterThan)
+	return iter.Match(core.GreaterThan)
 }
 
 func (self BlockQuote) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
@@ -38,7 +37,7 @@ func (self BlockQuote) Parse(parser core.Parser, iter *core.Iterator) (core.Node
 
 		blockQuote.Push(node)
 
-		if iter.Curr().Kind() != tokens.GreaterThan {
+		if iter.Curr().Kind() != core.GreaterThan {
 			break
 		}
 	}
