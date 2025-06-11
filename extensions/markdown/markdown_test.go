@@ -1,4 +1,4 @@
-package mde_test
+package markdown_test
 
 import (
 	"bytes"
@@ -10,8 +10,8 @@ import (
 	"github.com/thegogod/mde"
 )
 
-func TestParser(t *testing.T) {
-	RunDir(t, filepath.Join("extensions", "markdown", "testcases"), func(t *testing.T, md []byte, html []byte) {
+func TestMarkdown(t *testing.T) {
+	RunDir(t, filepath.Join("testcases"), func(t *testing.T, md []byte, html []byte) {
 		parser := mde.New()
 		node, err := parser.Parse(md)
 

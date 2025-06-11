@@ -101,6 +101,10 @@ func (self *Parser) ParseBlock(parser core.Parser, iterator *core.Iterator) (cor
 
 			iterator.Revert()
 		}
+
+		if node != nil && err == nil {
+			break
+		}
 	}
 
 	iterator.Pop()
@@ -134,6 +138,10 @@ func (self *Parser) ParseInline(parser core.Parser, iterator *core.Iterator) (co
 			}
 
 			iterator.Revert()
+		}
+
+		if node != nil && err == nil {
+			break
 		}
 	}
 
@@ -184,10 +192,6 @@ func (self *Parser) ParseText(parser core.Parser, iter *core.Iterator) ([]byte, 
 	}
 
 	for iter.Curr().Kind() == core.Text {
-		if bytes.Equal(iter.Curr().Bytes(), []byte{' '}) {
-			return text, nil
-		}
-
 		text = append(text, iter.Curr().Bytes()...)
 		iter.Next()
 	}

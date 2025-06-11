@@ -14,6 +14,10 @@ func Ptr(src []byte) *Pointer {
 	}
 }
 
+func (self Pointer) Sof() bool {
+	return self.Start.Index == 0
+}
+
 func (self Pointer) Eof() bool {
 	return self.End.Index >= len(self.Src)
 }
