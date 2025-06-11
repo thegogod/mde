@@ -1,4 +1,4 @@
-package metadata_test
+package fontmatter_test
 
 import (
 	"bytes"
@@ -8,12 +8,12 @@ import (
 	"testing"
 
 	"github.com/thegogod/mde"
-	"github.com/thegogod/mde/extensions/metadata"
+	fontmatter "github.com/thegogod/mde/extensions/frontmatter"
 )
 
-func TestMetaData(t *testing.T) {
+func TestFrontMatter(t *testing.T) {
 	RunDir(t, filepath.Join("testcases"), func(t *testing.T, md []byte, html []byte) {
-		parser := mde.New(metadata.New())
+		parser := mde.New(fontmatter.New())
 		node, err := parser.Parse(md)
 
 		if err != nil {
