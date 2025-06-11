@@ -1,9 +1,7 @@
 package syntax
 
 import (
-	"bytes"
-	"strings"
-
+	"github.com/goccy/go-yaml"
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
 )
@@ -27,46 +25,45 @@ func (self Header) Select(parser core.Parser, iter *core.Iterator) bool {
 }
 
 func (self Header) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
-	fragment := html.Fragment()
+	host := html.Host{}
 
 	if _, err := iter.Consume(core.NewLine, "expected newline"); err != nil {
-		return fragment, err
+		return host, err
 	}
+
+	data := []byte{}
 
 	for {
 		line, err := parser.ParseTextUntil(core.NewLine, parser, iter)
 
 		if line == nil {
-			return fragment, iter.Curr().Error("expected newline at end of key value pair")
+			return host, iter.Curr().Error("expected newline at end of key value pair")
 		}
 
 		if err != nil {
-			return fragment, err
+			return host, err
 		}
 
-		parts := bytes.SplitN(line, []byte{':'}, 2)
-
-		if len(parts) != 2 {
-			return fragment, iter.Curr().Error("expected keyvalue pair separated by ':'")
-		}
-
-		meta := html.Meta()
-		meta = meta.Name(strings.TrimSpace(string(parts[0])))
-		meta = meta.Content(strings.TrimSpace(string(parts[1])))
-		fragment.Push(meta)
+		data = append(data, line...)
 
 		if iter.MatchCount(core.Dash, 3) {
 			break
 		}
+
+		data = append(data, '\n')
 	}
 
 	if _, err := iter.Consume(core.NewLine, "expected newline"); err != nil {
-		return fragment, err
+		return host, err
 	}
 
 	if _, err := iter.Consume(core.NewLine, "expected newline"); err != nil {
-		return fragment, err
+		return host, err
 	}
 
-	return fragment, nil
+	if err := yaml.Unmarshal(data, &host); err != nil {
+		return host, err
+	}
+
+	return host, nil
 }

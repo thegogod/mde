@@ -16,7 +16,14 @@ func Fragment(children ...core.Node) *FragmentElement {
 }
 
 func (self *FragmentElement) Push(children ...core.Node) *FragmentElement {
-	*self = append(*self, children...)
+	for _, child := range children {
+		if _, ok := child.(Host); ok {
+			continue
+		}
+
+		*self = append(*self, child)
+	}
+
 	return self
 }
 

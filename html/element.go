@@ -116,6 +116,12 @@ func (self *Element) Push(children ...any) *Element {
 
 	for _, child := range children {
 		switch v := child.(type) {
+		case Host:
+			for key, value := range v {
+				self.Attr(key, fmt.Sprintf("%v", value))
+			}
+
+			break
 		case core.Node:
 			self.children = append(self.children, v)
 			break
