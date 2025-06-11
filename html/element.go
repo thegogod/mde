@@ -2,6 +2,7 @@ package html
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/thegogod/mde/core"
@@ -67,6 +68,22 @@ func (self Element) GetStyles() maps.OMap[string, string] {
 
 func (self *Element) Class(classes ...string) *Element {
 	return self.Attr("class", strings.Join(classes, " "))
+}
+
+func (self Element) GetClasses() []string {
+	return strings.Split(self.GetAttr("class"), " ")
+}
+
+func (self Element) HasClass(classes ...string) bool {
+	existing := self.GetClasses()
+
+	for _, cls := range classes {
+		if !slices.Contains(existing, cls) {
+			return false
+		}
+	}
+
+	return true
 }
 
 func (self *Element) Void() *Element {
@@ -196,4 +213,33 @@ func (self Element) Bytes() []byte {
 
 func (self Element) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self Element) GetById(id string) core.Node {
+	if self.GetAttr("id") == id {
+		return self
+	}
+
+	for _, child := range self.children {
+		if node := child.GetById(id); node != nil {
+			return node
+		}
+	}
+
+	return nil
+}
+
+func (self Element) GetByClass(classes ...string) []core.Node {
+	nodes := []core.Node{}
+
+	if self.HasClass(classes...) {
+		nodes = append(nodes, self)
+	}
+
+	for _, child := range self.children {
+		n := child.GetByClass(classes...)
+		nodes = append(nodes, n...)
+	}
+
+	return nodes
 }

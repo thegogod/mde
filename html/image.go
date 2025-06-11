@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img
 type ImageElement struct {
@@ -41,6 +44,14 @@ func (self *ImageElement) Class(classes ...string) *ImageElement {
 	return self
 }
 
+func (self ImageElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self ImageElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *ImageElement) Attr(name string, value string) *ImageElement {
 	self.element.Attr(name, value)
 	return self
@@ -69,4 +80,12 @@ func (self ImageElement) Bytes() []byte {
 
 func (self ImageElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self ImageElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self ImageElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

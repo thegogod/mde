@@ -55,3 +55,11 @@ func (self StyleElement) Bytes() []byte {
 func (self StyleElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
+
+func (self StyleElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self StyleElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
+}

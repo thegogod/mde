@@ -34,6 +34,14 @@ func (self *StrikeElement) Class(classes ...string) *StrikeElement {
 	return self
 }
 
+func (self StrikeElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self StrikeElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *StrikeElement) Attr(name string, value string) *StrikeElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self StrikeElement) Bytes() []byte {
 
 func (self StrikeElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self StrikeElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self StrikeElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

@@ -55,3 +55,11 @@ func (self TitleElement) Bytes() []byte {
 func (self TitleElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
+
+func (self TitleElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self TitleElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
+}

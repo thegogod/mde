@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/br
 type BreakLineElement struct {
@@ -31,6 +34,14 @@ func (self *BreakLineElement) Class(classes ...string) *BreakLineElement {
 	return self
 }
 
+func (self BreakLineElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self BreakLineElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *BreakLineElement) Attr(name string, value string) *BreakLineElement {
 	self.element.Attr(name, value)
 	return self
@@ -59,4 +70,12 @@ func (self BreakLineElement) Bytes() []byte {
 
 func (self BreakLineElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self BreakLineElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self BreakLineElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

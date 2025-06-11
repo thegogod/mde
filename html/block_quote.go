@@ -39,6 +39,14 @@ func (self *BlockQuoteElement) Class(classes ...string) *BlockQuoteElement {
 	return self
 }
 
+func (self BlockQuoteElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self BlockQuoteElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *BlockQuoteElement) Attr(name string, value string) *BlockQuoteElement {
 	self.element.Attr(name, value)
 	return self
@@ -81,4 +89,12 @@ func (self BlockQuoteElement) Bytes() []byte {
 
 func (self BlockQuoteElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self BlockQuoteElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self BlockQuoteElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

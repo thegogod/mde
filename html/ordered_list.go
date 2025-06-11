@@ -40,6 +40,14 @@ func (self *OrderedListElement) Class(classes ...string) *OrderedListElement {
 	return self
 }
 
+func (self OrderedListElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self OrderedListElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *OrderedListElement) Attr(name string, value string) *OrderedListElement {
 	self.element.Attr(name, value)
 	return self
@@ -85,4 +93,12 @@ func (self OrderedListElement) Bytes() []byte {
 
 func (self OrderedListElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self OrderedListElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self OrderedListElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

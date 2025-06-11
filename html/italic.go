@@ -34,6 +34,14 @@ func (self *ItalicElement) Class(classes ...string) *ItalicElement {
 	return self
 }
 
+func (self ItalicElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self ItalicElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *ItalicElement) Attr(name string, value string) *ItalicElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self ItalicElement) Bytes() []byte {
 
 func (self ItalicElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self ItalicElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self ItalicElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

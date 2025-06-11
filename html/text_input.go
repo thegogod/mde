@@ -3,6 +3,7 @@ package html
 import (
 	"strconv"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -95,6 +96,14 @@ func (self *TextInputElement) Class(classes ...string) *TextInputElement {
 	return self
 }
 
+func (self TextInputElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self TextInputElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *TextInputElement) Attr(name string, value string) *TextInputElement {
 	self.element.Attr(name, value)
 	return self
@@ -123,4 +132,12 @@ func (self TextInputElement) Bytes() []byte {
 
 func (self TextInputElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self TextInputElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self TextInputElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

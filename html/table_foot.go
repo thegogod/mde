@@ -36,6 +36,14 @@ func (self *TableFootElement) Class(classes ...string) *TableFootElement {
 	return self
 }
 
+func (self TableFootElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self TableFootElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *TableFootElement) Attr(name string, value string) *TableFootElement {
 	self.element.Attr(name, value)
 	return self
@@ -81,4 +89,12 @@ func (self TableFootElement) Bytes() []byte {
 
 func (self TableFootElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self TableFootElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self TableFootElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link
 type LinkElement struct {
@@ -41,6 +44,14 @@ func (self *LinkElement) Class(classes ...string) *LinkElement {
 	return self
 }
 
+func (self LinkElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self LinkElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *LinkElement) Attr(name string, value string) *LinkElement {
 	self.element.Attr(name, value)
 	return self
@@ -69,4 +80,12 @@ func (self LinkElement) Bytes() []byte {
 
 func (self LinkElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self LinkElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self LinkElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

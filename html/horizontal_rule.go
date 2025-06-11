@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/hr
 type HorizontalRuleElement struct {
@@ -31,6 +34,14 @@ func (self *HorizontalRuleElement) Class(classes ...string) *HorizontalRuleEleme
 	return self
 }
 
+func (self HorizontalRuleElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self HorizontalRuleElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *HorizontalRuleElement) Attr(name string, value string) *HorizontalRuleElement {
 	self.element.Attr(name, value)
 	return self
@@ -59,4 +70,12 @@ func (self HorizontalRuleElement) Bytes() []byte {
 
 func (self HorizontalRuleElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self HorizontalRuleElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self HorizontalRuleElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

@@ -58,3 +58,24 @@ func (self FragmentElement) Bytes() []byte {
 func (self FragmentElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
+
+func (self FragmentElement) GetById(id string) core.Node {
+	for _, child := range self {
+		if node := child.GetById(id); node != nil {
+			return node
+		}
+	}
+
+	return nil
+}
+
+func (self FragmentElement) GetByClass(classes ...string) []core.Node {
+	nodes := []core.Node{}
+
+	for _, child := range self {
+		n := child.GetByClass(classes...)
+		nodes = append(nodes, n...)
+	}
+
+	return nodes
+}

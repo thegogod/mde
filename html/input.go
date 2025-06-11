@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input
 type InputElement struct {
@@ -59,6 +62,14 @@ func (self *InputElement) Class(classes ...string) *InputElement {
 	return self
 }
 
+func (self InputElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self InputElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *InputElement) Attr(name string, value string) *InputElement {
 	self.element.Attr(name, value)
 	return self
@@ -87,4 +98,12 @@ func (self InputElement) Bytes() []byte {
 
 func (self InputElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self InputElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self InputElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/checkbox
 type CheckBoxInputElement struct {
@@ -65,6 +68,14 @@ func (self *CheckBoxInputElement) Class(classes ...string) *CheckBoxInputElement
 	return self
 }
 
+func (self CheckBoxInputElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self CheckBoxInputElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *CheckBoxInputElement) Attr(name string, value string) *CheckBoxInputElement {
 	self.element.Attr(name, value)
 	return self
@@ -93,4 +104,12 @@ func (self CheckBoxInputElement) Bytes() []byte {
 
 func (self CheckBoxInputElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self CheckBoxInputElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self CheckBoxInputElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

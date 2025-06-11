@@ -40,6 +40,14 @@ func (self *UnorderedListElement) Class(classes ...string) *UnorderedListElement
 	return self
 }
 
+func (self UnorderedListElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self UnorderedListElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *UnorderedListElement) Attr(name string, value string) *UnorderedListElement {
 	self.element.Attr(name, value)
 	return self
@@ -85,4 +93,12 @@ func (self UnorderedListElement) Bytes() []byte {
 
 func (self UnorderedListElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self UnorderedListElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self UnorderedListElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

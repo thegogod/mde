@@ -34,6 +34,14 @@ func (self *MarkElement) Class(classes ...string) *MarkElement {
 	return self
 }
 
+func (self MarkElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self MarkElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *MarkElement) Attr(name string, value string) *MarkElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self MarkElement) Bytes() []byte {
 
 func (self MarkElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self MarkElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self MarkElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

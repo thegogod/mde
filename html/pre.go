@@ -34,6 +34,14 @@ func (self *PreElement) Class(classes ...string) *PreElement {
 	return self
 }
 
+func (self PreElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self PreElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *PreElement) Attr(name string, value string) *PreElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self PreElement) Bytes() []byte {
 
 func (self PreElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self PreElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self PreElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

@@ -1,5 +1,7 @@
 package html
 
+import "github.com/thegogod/mde/core"
+
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/base
 type BaseElement struct {
 	element *Element
@@ -48,4 +50,12 @@ func (self BaseElement) Bytes() []byte {
 
 func (self BaseElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self BaseElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self BaseElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

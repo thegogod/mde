@@ -34,6 +34,14 @@ func (self *BodyElement) Class(classes ...string) *BodyElement {
 	return self
 }
 
+func (self BodyElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self BodyElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *BodyElement) Attr(name string, value string) *BodyElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self BodyElement) Bytes() []byte {
 
 func (self BodyElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self BodyElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self BodyElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

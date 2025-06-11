@@ -34,6 +34,14 @@ func (self *HtmlElement) Class(classes ...string) *HtmlElement {
 	return self
 }
 
+func (self HtmlElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self HtmlElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *HtmlElement) Attr(name string, value string) *HtmlElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self HtmlElement) Bytes() []byte {
 
 func (self HtmlElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self HtmlElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self HtmlElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

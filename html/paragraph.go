@@ -34,6 +34,14 @@ func (self *ParagraphElement) Class(classes ...string) *ParagraphElement {
 	return self
 }
 
+func (self ParagraphElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self ParagraphElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *ParagraphElement) Attr(name string, value string) *ParagraphElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self ParagraphElement) Bytes() []byte {
 
 func (self ParagraphElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self ParagraphElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self ParagraphElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

@@ -75,3 +75,11 @@ func (self ScriptElement) Bytes() []byte {
 func (self ScriptElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
+
+func (self ScriptElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self ScriptElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
+}

@@ -39,6 +39,14 @@ func (self *LabelElement) Class(classes ...string) *LabelElement {
 	return self
 }
 
+func (self LabelElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self LabelElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *LabelElement) Attr(name string, value string) *LabelElement {
 	self.element.Attr(name, value)
 	return self
@@ -81,4 +89,12 @@ func (self LabelElement) Bytes() []byte {
 
 func (self LabelElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self LabelElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self LabelElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

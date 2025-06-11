@@ -34,6 +34,14 @@ func (self *ListItemElement) Class(classes ...string) *ListItemElement {
 	return self
 }
 
+func (self ListItemElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self ListItemElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *ListItemElement) Attr(name string, value string) *ListItemElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self ListItemElement) Bytes() []byte {
 
 func (self ListItemElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self ListItemElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self ListItemElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

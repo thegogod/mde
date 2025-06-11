@@ -34,6 +34,14 @@ func (self *DivElement) Class(classes ...string) *DivElement {
 	return self
 }
 
+func (self DivElement) GetClasses() []string {
+	return self.element.GetClasses()
+}
+
+func (self DivElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
 func (self *DivElement) Attr(name string, value string) *DivElement {
 	self.element.Attr(name, value)
 	return self
@@ -76,4 +84,12 @@ func (self DivElement) Bytes() []byte {
 
 func (self DivElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self DivElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self DivElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }

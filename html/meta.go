@@ -1,5 +1,7 @@
 package html
 
+import "github.com/thegogod/mde/core"
+
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta
 type MetaElement struct {
 	element *Element
@@ -58,4 +60,12 @@ func (self MetaElement) Bytes() []byte {
 
 func (self MetaElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
+}
+
+func (self MetaElement) GetById(id string) core.Node {
+	return self.element.GetById(id)
+}
+
+func (self MetaElement) GetByClass(classes ...string) []core.Node {
+	return self.element.GetByClass(classes...)
 }
