@@ -3,18 +3,18 @@ package core
 type Scanner struct {
 	_ptr   *Pointer
 	_saves []Position
-	_types []TokenType
+	_types []Tokenizer
 }
 
 func NewScanner(src []byte) *Scanner {
 	return &Scanner{
 		_ptr:   Ptr(src),
 		_saves: []Position{},
-		_types: []TokenType{},
+		_types: []Tokenizer{},
 	}
 }
 
-func (self *Scanner) WithTypes(types ...TokenType) *Scanner {
+func (self *Scanner) WithTypes(types ...Tokenizer) *Scanner {
 	self._types = types
 	return self
 }

@@ -8,8 +8,8 @@ func (self Markdown) Name() string {
 	return "markdown"
 }
 
-func (self Markdown) TokenTypes() []core.TokenType {
-	return []core.TokenType{
+func (self Markdown) Tokenizers() []core.Tokenizer {
+	return []core.Tokenizer{
 		{
 			Id:   core.Eof,
 			Name: "end-of-file",

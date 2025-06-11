@@ -1,6 +1,6 @@
 package core
 
-type TokenType struct {
+type Tokenizer struct {
 	Id   rune
 	Name string
 	Scan func(ptr *Pointer) (*Token, error)

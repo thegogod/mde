@@ -2,6 +2,6 @@ package core
 
 type Extension interface {
 	Name() string
-	TokenTypes() []TokenType
+	Tokenizers() []Tokenizer
 	Syntax() []Syntax
 }

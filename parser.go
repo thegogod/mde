@@ -22,7 +22,7 @@ func New(rules ...core.Syntax) *Parser {
 }
 
 func (self *Parser) Parse(src []byte) (core.Node, error) {
-	iter := core.Iter(core.NewScanner(src).WithTypes(markdown.Markdown{}.TokenTypes()...))
+	iter := core.Iter(core.NewScanner(src).WithTypes(markdown.Markdown{}.Tokenizers()...))
 
 	if !iter.Next() {
 		return nil, nil
