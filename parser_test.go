@@ -11,7 +11,7 @@ import (
 )
 
 func TestParser(t *testing.T) {
-	RunDir(t, filepath.Join("parsers", "markdown", "testcases"), func(t *testing.T, md []byte, html []byte) {
+	RunDir(t, filepath.Join("extensions", "markdown", "testcases"), func(t *testing.T, md []byte, html []byte) {
 		parser := mde.New()
 		node, err := parser.Parse(md)
 

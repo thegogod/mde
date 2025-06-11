@@ -6,8 +6,8 @@ import (
 	"slices"
 
 	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/extensions/markdown"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/parsers/markdown"
 )
 
 type Parser struct {

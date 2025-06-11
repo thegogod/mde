@@ -2,7 +2,7 @@ package markdown
 
 import (
 	"github.com/thegogod/mde/core"
-	"github.com/thegogod/mde/parsers/markdown/syntax"
+	"github.com/thegogod/mde/extensions/markdown/syntax"
 )
 
 type Markdown struct{}
