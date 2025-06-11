@@ -28,7 +28,7 @@ func (self UnOrderedList) Parse(parser core.Parser, iter *core.Iterator) (core.N
 	ul := html.Ul()
 
 	for {
-		node, err := parser.ParseSyntax("list_item", parser, iter)
+		node, err := parser.ParseSyntax("markdown", "list_item", parser, iter)
 
 		if node == nil || err != nil {
 			iter.ListDepth--

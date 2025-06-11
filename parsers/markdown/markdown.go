@@ -1,8 +1,15 @@
 package markdown
 
-import "github.com/thegogod/mde/core"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/parsers/markdown/syntax"
+)
 
 type Markdown struct{}
+
+func New() Markdown {
+	return Markdown{}
+}
 
 func (self Markdown) Name() string {
 	return "markdown"
@@ -372,5 +379,35 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 }
 
 func (self Markdown) Syntax() []core.Syntax {
-	return []core.Syntax{}
+	return []core.Syntax{
+		syntax.H1{},
+		syntax.H2{},
+		syntax.H3{},
+		syntax.H4{},
+		syntax.H5{},
+		syntax.H6{},
+		syntax.HorizontalRule{},
+		syntax.CodeBlock{},
+		syntax.BlockQuote{},
+		syntax.UnOrderedList{},
+		syntax.OrderedList{},
+		syntax.Table{},
+		syntax.Paragraph{},
+
+		syntax.Bold{},
+		syntax.BoldAlt{},
+		syntax.Italic{},
+		syntax.ItalicAlt{},
+		syntax.Strike{},
+		syntax.StrikeAlt{},
+		syntax.Highlight{},
+		syntax.Code{},
+		syntax.Emoji{},
+		syntax.Link{},
+		syntax.Url{},
+		syntax.Image{},
+		syntax.Break{},
+		syntax.ListItem{},
+		syntax.NewLine{},
+	}
 }

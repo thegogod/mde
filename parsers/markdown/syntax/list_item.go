@@ -59,9 +59,9 @@ func (self ListItem) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 			iter.Save()
 
 			if iter.Match(core.Integer) && iter.Match(core.Period) && iter.Match(core.Space) {
-				node, err = parser.ParseSyntax("ordered_list", parser, iter)
+				node, err = parser.ParseSyntax("markdown", "ordered_list", parser, iter)
 			} else if iter.Match(core.Dash) && iter.Match(core.Space) {
-				node, err = parser.ParseSyntax("unordered_list", parser, iter)
+				node, err = parser.ParseSyntax("markdown", "unordered_list", parser, iter)
 			}
 
 			if node != nil && err == nil {

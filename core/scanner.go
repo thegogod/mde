@@ -14,8 +14,8 @@ func NewScanner(src []byte) *Scanner {
 	}
 }
 
-func (self *Scanner) WithTypes(types ...Tokenizer) *Scanner {
-	self._types = types
+func (self *Scanner) Extend(extension Extension) *Scanner {
+	self._types = append(self._types, extension.Tokenizers()...)
 	return self
 }
 
