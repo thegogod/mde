@@ -20,12 +20,8 @@ func New(rules ...core.Syntax) *Parser {
 	}
 }
 
-func (self Parser) Name() string {
-	return "markdown"
-}
-
 func (self *Parser) Parse(src []byte) (core.Node, error) {
-	iter := core.Iter(NewScanner(src))
+	iter := core.Iter(core.NewScanner(src))
 
 	if !iter.Next() {
 		return nil, nil

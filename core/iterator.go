@@ -4,13 +4,13 @@ type Iterator struct {
 	BlockQuoteDepth int
 	ListDepth       int
 
-	_scanner Scanner
+	_scanner *Scanner
 	_prev    *Token
 	_curr    *Token
 	_saves   []Iterator
 }
 
-func Iter(scanner Scanner) *Iterator {
+func Iter(scanner *Scanner) *Iterator {
 	return &Iterator{
 		_scanner: scanner,
 		_saves:   []Iterator{},

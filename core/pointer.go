@@ -18,6 +18,14 @@ func (self Pointer) Eof() bool {
 	return self.End.Index >= len(self.Src)
 }
 
+func (self Pointer) Curr() byte {
+	if self.Start.Index >= len(self.Src) {
+		return 0
+	}
+
+	return self.Src[self.Start.Index]
+}
+
 func (self Pointer) Peek() byte {
 	if self.Eof() {
 		return 0

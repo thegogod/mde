@@ -17,7 +17,7 @@ func New(parsers ...core.Parser) *Runtime {
 }
 
 func (self Runtime) Parse(src []byte) (core.Node, error) {
-	iter := core.Iter(markdown.NewScanner(src))
+	iter := core.Iter(core.NewScanner(src).WithTypes(markdown.Markdown{}.TokenTypes()...))
 
 	if !iter.Next() {
 		return nil, nil

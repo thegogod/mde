@@ -4,7 +4,6 @@ type TokenKind = rune
 
 const (
 	Eof TokenKind = iota
-	Text
 
 	// whitespace
 
@@ -42,4 +41,5 @@ const (
 
 	Integer // 123
 	Decimal // 123.4
+	Text    // text
 )
