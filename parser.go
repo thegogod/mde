@@ -1,4 +1,4 @@
-package markdown
+package mde
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
+	"github.com/thegogod/mde/parsers/markdown"
 	"github.com/thegogod/mde/parsers/markdown/syntax"
 )
 
@@ -21,7 +22,7 @@ func New(rules ...core.Syntax) *Parser {
 }
 
 func (self *Parser) Parse(src []byte) (core.Node, error) {
-	iter := core.Iter(core.NewScanner(src).WithTypes(Markdown{}.TokenTypes()...))
+	iter := core.Iter(core.NewScanner(src).WithTypes(markdown.Markdown{}.TokenTypes()...))
 
 	if !iter.Next() {
 		return nil, nil
