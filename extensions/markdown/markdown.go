@@ -257,6 +257,28 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 			},
 		},
 		{
+			Id:   core.Quote,
+			Name: "quote",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '\'' {
+					return nil, nil
+				}
+
+				return ptr.Done(core.Quote), nil
+			},
+		},
+		{
+			Id:   core.DoubleQuote,
+			Name: "double-quote",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '"' {
+					return nil, nil
+				}
+
+				return ptr.Done(core.DoubleQuote), nil
+			},
+		},
+		{
 			Id:   core.BackQuote,
 			Name: "back-quote",
 			Scan: func(ptr *core.Pointer) (*core.Token, error) {
@@ -380,34 +402,35 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 
 func (self Markdown) Syntax() []core.Syntax {
 	return []core.Syntax{
-		syntax.H1{},
-		syntax.H2{},
-		syntax.H3{},
-		syntax.H4{},
-		syntax.H5{},
-		syntax.H6{},
-		syntax.HorizontalRule{},
-		syntax.CodeBlock{},
-		syntax.BlockQuote{},
-		syntax.UnOrderedList{},
-		syntax.OrderedList{},
-		syntax.Table{},
-		syntax.Paragraph{},
+		&syntax.Html{},
+		&syntax.H1{},
+		&syntax.H2{},
+		&syntax.H3{},
+		&syntax.H4{},
+		&syntax.H5{},
+		&syntax.H6{},
+		&syntax.HorizontalRule{},
+		&syntax.CodeBlock{},
+		&syntax.BlockQuote{},
+		&syntax.UnOrderedList{},
+		&syntax.OrderedList{},
+		&syntax.Table{},
+		&syntax.Paragraph{},
 
-		syntax.Bold{},
-		syntax.BoldAlt{},
-		syntax.Italic{},
-		syntax.ItalicAlt{},
-		syntax.Strike{},
-		syntax.StrikeAlt{},
-		syntax.Highlight{},
-		syntax.Code{},
-		syntax.Emoji{},
-		syntax.Link{},
-		syntax.Url{},
-		syntax.Image{},
-		syntax.Break{},
-		syntax.ListItem{},
-		syntax.NewLine{},
+		&syntax.Bold{},
+		&syntax.BoldAlt{},
+		&syntax.Italic{},
+		&syntax.ItalicAlt{},
+		&syntax.Strike{},
+		&syntax.StrikeAlt{},
+		&syntax.Highlight{},
+		&syntax.Code{},
+		&syntax.Emoji{},
+		&syntax.Link{},
+		&syntax.Url{},
+		&syntax.Image{},
+		&syntax.Break{},
+		&syntax.ListItem{},
+		&syntax.NewLine{},
 	}
 }

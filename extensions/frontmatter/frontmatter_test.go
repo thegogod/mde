@@ -1,4 +1,4 @@
-package fontmatter_test
+package frontmatter_test
 
 import (
 	"bytes"
@@ -8,12 +8,12 @@ import (
 	"testing"
 
 	"github.com/thegogod/mde"
-	fontmatter "github.com/thegogod/mde/extensions/frontmatter"
+	"github.com/thegogod/mde/extensions/frontmatter"
 )
 
 func TestFrontMatter(t *testing.T) {
 	RunDir(t, filepath.Join("testcases"), func(t *testing.T, md []byte, html []byte) {
-		parser := mde.New(fontmatter.New())
+		parser := mde.New(frontmatter.New())
 		node, err := parser.Parse(md)
 
 		if err != nil {

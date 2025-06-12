@@ -58,6 +58,10 @@ func (self Token) KindString() string {
 		return "tab"
 	case Dash:
 		return "dash"
+	case Quote:
+		return "quote"
+	case DoubleQuote:
+		return "double-quote"
 	case BackQuote:
 		return "back-quote"
 	case Colon:

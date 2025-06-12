@@ -30,6 +30,8 @@ const (
 	Equals       // =
 	GreaterThan  // >
 	LessThan     // <
+	Quote        // '
+	DoubleQuote  // "
 	BackQuote    // `
 	Period       // .
 	Pipe         // |

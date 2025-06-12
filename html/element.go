@@ -10,7 +10,7 @@ import (
 )
 
 type Element struct {
-	kind       string
+	Kind       string
 	void       bool // https://developer.mozilla.org/en-US/docs/Glossary/Void_element
 	attributes maps.OMap[string, string]
 	children   []core.Node
@@ -18,7 +18,7 @@ type Element struct {
 
 func Elem(kind string) *Element {
 	return &Element{
-		kind:       kind,
+		Kind:       kind,
 		attributes: maps.OMap[string, string]{},
 		children:   []core.Node{},
 	}
@@ -163,7 +163,7 @@ func (self Element) Children() []core.Node {
 }
 
 func (self Element) String() string {
-	html := "<" + self.kind
+	html := "<" + self.Kind
 
 	for _, attr := range self.attributes {
 		html += fmt.Sprintf(` %s="%s"`, attr.Key, attr.Value)
@@ -180,12 +180,12 @@ func (self Element) String() string {
 		html += child.String()
 	}
 
-	html += fmt.Sprintf("</%s>", self.kind)
+	html += fmt.Sprintf("</%s>", self.Kind)
 	return html
 }
 
 func (self Element) PrettyString(indent string) string {
-	html := "<" + self.kind
+	html := "<" + self.Kind
 
 	for _, attr := range self.attributes {
 		html += fmt.Sprintf(` %s="%s"`, attr.Key, attr.Value)
@@ -209,7 +209,7 @@ func (self Element) PrettyString(indent string) string {
 		html += "\n" + indent + strings.Join(lines, "\n"+indent)
 	}
 
-	html += fmt.Sprintf("\n</%s>", self.kind)
+	html += fmt.Sprintf("\n</%s>", self.Kind)
 	return html
 }
 

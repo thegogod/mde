@@ -1,5 +1,7 @@
 package core
 
+import "slices"
+
 type Iterator struct {
 	BlockQuoteDepth int
 	ListDepth       int
@@ -44,6 +46,17 @@ func (self *Iterator) Next() bool {
 	}
 
 	return true
+}
+
+func (self *Iterator) NextWhile(kind ...rune) int {
+	i := 0
+
+	for slices.Contains(kind, self._curr.Kind()) {
+		i++
+		self.Next()
+	}
+
+	return i
 }
 
 func (self *Iterator) Match(kind ...rune) bool {

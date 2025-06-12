@@ -1,4 +1,4 @@
-package fontmatter
+package frontmatter
 
 import (
 	"github.com/thegogod/mde/core"
