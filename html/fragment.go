@@ -2,20 +2,18 @@ package html
 
 import (
 	"strings"
-
-	"github.com/thegogod/mde/core"
 )
 
 // https://react.dev/reference/react/Fragment
-type FragmentElement []core.Node
+type FragmentElement []Node
 
 // https://react.dev/reference/react/Fragment
-func Fragment(children ...core.Node) *FragmentElement {
+func Fragment(children ...Node) *FragmentElement {
 	self := &FragmentElement{}
 	return self.Push(children...)
 }
 
-func (self *FragmentElement) Push(children ...core.Node) *FragmentElement {
+func (self *FragmentElement) Push(children ...Node) *FragmentElement {
 	for _, child := range children {
 		if _, ok := child.(Host); ok {
 			continue
@@ -34,7 +32,7 @@ func (self *FragmentElement) Pop() *FragmentElement {
 	return self
 }
 
-func (self FragmentElement) Children() []core.Node {
+func (self FragmentElement) Children() []Node {
 	return self
 }
 
@@ -66,7 +64,7 @@ func (self FragmentElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self FragmentElement) GetById(id string) core.Node {
+func (self FragmentElement) GetById(id string) Node {
 	for _, child := range self {
 		if node := child.GetById(id); node != nil {
 			return node
@@ -76,8 +74,8 @@ func (self FragmentElement) GetById(id string) core.Node {
 	return nil
 }
 
-func (self FragmentElement) GetByClass(classes ...string) []core.Node {
-	nodes := []core.Node{}
+func (self FragmentElement) GetByClass(classes ...string) []Node {
+	nodes := []Node{}
 
 	for _, child := range self {
 		n := child.GetByClass(classes...)

@@ -5,7 +5,6 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -13,14 +12,14 @@ type Element struct {
 	Kind       string
 	void       bool // https://developer.mozilla.org/en-US/docs/Glossary/Void_element
 	attributes maps.OMap[string, string]
-	children   []core.Node
+	children   []Node
 }
 
 func Elem(kind string) *Element {
 	return &Element{
 		Kind:       kind,
 		attributes: maps.OMap[string, string]{},
-		children:   []core.Node{},
+		children:   []Node{},
 	}
 }
 
@@ -111,7 +110,7 @@ func (self *Element) DelAttr(name string) *Element {
 
 func (self *Element) Push(children ...any) *Element {
 	if self.children == nil {
-		self.children = []core.Node{}
+		self.children = []Node{}
 	}
 
 	for _, child := range children {
@@ -122,7 +121,7 @@ func (self *Element) Push(children ...any) *Element {
 			}
 
 			break
-		case core.Node:
+		case Node:
 			self.children = append(self.children, v)
 			break
 		case string:
@@ -158,7 +157,7 @@ func (self *Element) Pop() *Element {
 	return self
 }
 
-func (self Element) Children() []core.Node {
+func (self Element) Children() []Node {
 	return self.children
 }
 
@@ -221,7 +220,7 @@ func (self Element) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self Element) GetById(id string) core.Node {
+func (self Element) GetById(id string) Node {
 	if self.GetAttr("id") == id {
 		return self
 	}
@@ -235,8 +234,8 @@ func (self Element) GetById(id string) core.Node {
 	return nil
 }
 
-func (self Element) GetByClass(classes ...string) []core.Node {
-	nodes := []core.Node{}
+func (self Element) GetByClass(classes ...string) []Node {
+	nodes := []Node{}
 
 	if self.HasClass(classes...) {
 		nodes = append(nodes, self)

@@ -60,7 +60,7 @@ func (self *Parser) Parse(src []byte) (core.Node, error) {
 			continue
 		}
 
-		group.Push(node)
+		group.Push(node.(html.Node))
 	}
 
 	return group, nil

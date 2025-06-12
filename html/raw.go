@@ -2,8 +2,6 @@ package html
 
 import (
 	"strings"
-
-	"github.com/thegogod/mde/core"
 )
 
 type Raw []byte
@@ -25,10 +23,10 @@ func (self Raw) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self Raw) GetById(id string) core.Node {
+func (self Raw) GetById(id string) Node {
 	return nil
 }
 
-func (self Raw) GetByClass(classes ...string) []core.Node {
-	return []core.Node{}
+func (self Raw) GetByClass(classes ...string) []Node {
+	return []Node{}
 }

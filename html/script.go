@@ -1,7 +1,5 @@
 package html
 
-import "github.com/thegogod/mde/core"
-
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script
 type ScriptElement struct {
 	element *Element
@@ -56,7 +54,7 @@ func (self *ScriptElement) Pop() *ScriptElement {
 	return self
 }
 
-func (self ScriptElement) Children() []core.Node {
+func (self ScriptElement) Children() []Node {
 	return self.element.children
 }
 
@@ -76,10 +74,10 @@ func (self ScriptElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self ScriptElement) GetById(id string) core.Node {
+func (self ScriptElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self ScriptElement) GetByClass(classes ...string) []core.Node {
+func (self ScriptElement) GetByClass(classes ...string) []Node {
 	return self.element.GetByClass(classes...)
 }

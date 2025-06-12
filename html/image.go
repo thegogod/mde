@@ -1,7 +1,6 @@
 package html
 
 import (
-	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -82,10 +81,10 @@ func (self ImageElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self ImageElement) GetById(id string) core.Node {
+func (self ImageElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self ImageElement) GetByClass(classes ...string) []core.Node {
+func (self ImageElement) GetByClass(classes ...string) []Node {
 	return self.element.GetByClass(classes...)
 }

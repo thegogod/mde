@@ -1,7 +1,5 @@
 package html
 
-import "github.com/thegogod/mde/core"
-
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/title
 type TitleElement struct {
 	element *Element
@@ -36,7 +34,7 @@ func (self *TitleElement) Pop() *TitleElement {
 	return self
 }
 
-func (self TitleElement) Children() []core.Node {
+func (self TitleElement) Children() []Node {
 	return self.element.children
 }
 
@@ -56,10 +54,10 @@ func (self TitleElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self TitleElement) GetById(id string) core.Node {
+func (self TitleElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self TitleElement) GetByClass(classes ...string) []core.Node {
+func (self TitleElement) GetByClass(classes ...string) []Node {
 	return self.element.GetByClass(classes...)
 }

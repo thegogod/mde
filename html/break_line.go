@@ -1,7 +1,6 @@
 package html
 
 import (
-	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -72,10 +71,10 @@ func (self BreakLineElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self BreakLineElement) GetById(id string) core.Node {
+func (self BreakLineElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self BreakLineElement) GetByClass(classes ...string) []core.Node {
+func (self BreakLineElement) GetByClass(classes ...string) []Node {
 	return self.element.GetByClass(classes...)
 }

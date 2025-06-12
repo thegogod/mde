@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"unicode"
 
-	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -114,7 +113,7 @@ func (self *HeadingElement) Pop() *HeadingElement {
 	return self
 }
 
-func (self HeadingElement) Children() []core.Node {
+func (self HeadingElement) Children() []Node {
 	return self.element.children
 }
 
@@ -174,10 +173,10 @@ func (self HeadingElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self HeadingElement) GetById(id string) core.Node {
+func (self HeadingElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self HeadingElement) GetByClass(classes ...string) []core.Node {
+func (self HeadingElement) GetByClass(classes ...string) []Node {
 	return self.element.GetByClass(classes...)
 }

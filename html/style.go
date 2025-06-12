@@ -1,7 +1,5 @@
 package html
 
-import "github.com/thegogod/mde/core"
-
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/style
 type StyleElement struct {
 	element *Element
@@ -36,7 +34,7 @@ func (self *StyleElement) Pop() *StyleElement {
 	return self
 }
 
-func (self StyleElement) Children() []core.Node {
+func (self StyleElement) Children() []Node {
 	return self.element.children
 }
 
@@ -56,10 +54,10 @@ func (self StyleElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self StyleElement) GetById(id string) core.Node {
+func (self StyleElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self StyleElement) GetByClass(classes ...string) []core.Node {
+func (self StyleElement) GetByClass(classes ...string) []Node {
 	return self.element.GetByClass(classes...)
 }

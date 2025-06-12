@@ -1,7 +1,6 @@
 package html
 
 import (
-	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -66,7 +65,7 @@ func (self *StrikeElement) Pop() *StrikeElement {
 	return self
 }
 
-func (self StrikeElement) Children() []core.Node {
+func (self StrikeElement) Children() []Node {
 	return self.element.children
 }
 
@@ -86,10 +85,10 @@ func (self StrikeElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self StrikeElement) GetById(id string) core.Node {
+func (self StrikeElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self StrikeElement) GetByClass(classes ...string) []core.Node {
+func (self StrikeElement) GetByClass(classes ...string) []Node {
 	return self.element.GetByClass(classes...)
 }
