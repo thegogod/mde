@@ -6,14 +6,14 @@ type SelectStatement interface {
 
 type Selector []SelectStatement
 
-func Select(query ...SelectStatement) Selector {
+func Select(query ...SelectStatement) *Selector {
 	stmt := Selector{}
 
 	for _, q := range query {
 		stmt = append(stmt, q)
 	}
 
-	return stmt
+	return &stmt
 }
 
 func (self *Selector) And(query ...SelectStatement) *Selector {
@@ -84,14 +84,39 @@ func (self OrStatement) Eval(node Node) bool {
 	return false
 }
 
+type TagExpression struct {
+	tag string
+}
+
+func WithTag(tag string) TagExpression {
+	return TagExpression{tag}
+}
+
+func (self TagExpression) Eval(node Node) bool {
+	return node.GetTag() == self.tag
+}
+
+type AttributeExpression struct {
+	key   string
+	value string
+}
+
+func HasAttr(key string, value string) AttributeExpression {
+	return AttributeExpression{key, value}
+}
+
+func (self AttributeExpression) Eval(node Node) bool {
+	return node.HasAttr(self.key) && node.GetAttr(self.key) == self.value
+}
+
 type ClassExpression struct {
 	classes []string
 }
 
-func WithClass(classes ...string) ClassExpression {
+func HasClass(classes ...string) ClassExpression {
 	return ClassExpression{classes}
 }
 
 func (self ClassExpression) Eval(node Node) bool {
-	return false
+	return node.HasClass(self.classes...)
 }
