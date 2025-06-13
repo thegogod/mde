@@ -20,5 +20,5 @@ func (self FrontMatter) Tokenizers() []core.Tokenizer {
 }
 
 func (self FrontMatter) Syntax() []core.Syntax {
-	return []core.Syntax{syntax.Header{}}
+	return []core.Syntax{syntax.MetaData{}}
 }

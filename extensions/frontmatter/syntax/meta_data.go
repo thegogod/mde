@@ -6,25 +6,25 @@ import (
 	"github.com/thegogod/mde/html"
 )
 
-type Header struct{}
+type MetaData struct{}
 
-func (self Header) IsBlock() bool {
+func (self MetaData) IsBlock() bool {
 	return true
 }
 
-func (self Header) IsInline() bool {
+func (self MetaData) IsInline() bool {
 	return false
 }
 
-func (self Header) Name() string {
-	return "header"
+func (self MetaData) Name() string {
+	return "metadata"
 }
 
-func (self Header) Select(parser core.Parser, iter *core.Iterator) bool {
+func (self MetaData) Select(parser core.Parser, iter *core.Iterator) bool {
 	return iter.Pointer().Sof() && iter.MatchCount(core.Dash, 3)
 }
 
-func (self Header) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
+func (self MetaData) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	host := html.Host{}
 
 	if _, err := iter.Consume(core.NewLine, "expected newline"); err != nil {
