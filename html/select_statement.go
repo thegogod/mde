@@ -88,7 +88,7 @@ type TagExpression struct {
 	tag string
 }
 
-func WithTag(tag string) TagExpression {
+func HasTag(tag string) TagExpression {
 	return TagExpression{tag}
 }
 

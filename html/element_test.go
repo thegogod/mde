@@ -110,6 +110,21 @@ func TestElement(t *testing.T) {
 			}
 		})
 
+		t.Run("should select by tag", func(t *testing.T) {
+			el := html.Div(
+				html.P(
+					html.Span("test").WithClass("main"),
+				),
+				html.Span().WithClass("main"),
+			)
+
+			nodes := el.Select(html.HasTag("span"))
+
+			if len(nodes) != 2 {
+				t.Fatal(nodes)
+			}
+		})
+
 		t.Run("should select by id and class", func(t *testing.T) {
 			el := html.Div(
 				html.P(
