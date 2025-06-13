@@ -25,7 +25,7 @@ func (self MetaData) Select(parser core.Parser, iter *core.Iterator) bool {
 }
 
 func (self MetaData) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
-	el := html.MetaData{}
+	el := html.MetaData()
 
 	if _, err := iter.Consume(core.NewLine, "expected newline"); err != nil {
 		return el, err

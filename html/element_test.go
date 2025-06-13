@@ -162,5 +162,28 @@ func TestElement(t *testing.T) {
 				t.Fatal(nodes)
 			}
 		})
+
+		t.Run("should select pseudo element", func(t *testing.T) {
+			el := html.Div(
+				html.P(
+					html.Img().WithSrc("https://www.google.com").WithId("123"),
+					html.MetaData().Set("a", 102.3).Set("b", "hi"),
+					html.Span("test").WithClass("main"),
+				),
+				html.Div().WithClass("main"),
+			)
+
+			nodes := el.Select(html.HasTag(":metadata"))
+
+			if len(nodes) != 1 {
+				t.Fatal(nodes)
+			}
+
+			metadata := nodes[0].(html.MetaDataElement)
+
+			if metadata.Get("a") != 102.3 || metadata.Get("b") != "hi" {
+				t.Fatal(metadata)
+			}
+		})
 	})
 }

@@ -2,108 +2,148 @@ package html
 
 import "github.com/thegogod/mde/maps"
 
-type MetaData map[string]any
+type MetaDataElement map[string]any
 
-func (self MetaData) GetTag() string {
-	return ":metadata"
+func MetaData() MetaDataElement {
+	return MetaDataElement{}
 }
 
-func (self MetaData) HasAttr(name string) bool {
-	return false
+func (self MetaDataElement) Exists(key string) bool {
+	_, exists := self[key]
+	return exists
 }
 
-func (self MetaData) GetAttr(name string) string {
-	return ""
-}
+func (self MetaDataElement) Get(key string) any {
+	value, exists := self[key]
 
-func (self MetaData) SetAttr(name string, value string) {
-	return
-}
+	if exists {
+		return value
+	}
 
-func (self MetaData) DelAttr(name string) {
-	return
-}
-
-func (self MetaData) HasId() bool {
-	return false
-}
-
-func (self MetaData) GetId() string {
-	return ""
-}
-
-func (self MetaData) SetId(id string) {
-	return
-}
-
-func (self MetaData) DelId() {
-	return
-}
-
-func (self MetaData) HasClass(name ...string) bool {
-	return false
-}
-
-func (self MetaData) GetClass() []string {
-	return []string{}
-}
-
-func (self MetaData) AddClass(name ...string) {
-	return
-}
-
-func (self MetaData) DelClass(name ...string) {
-	return
-}
-
-func (self MetaData) GetStyles() maps.OMap[string, string] {
-	return maps.OMap[string, string]{}
-}
-
-func (self MetaData) SetStyles(styles ...maps.KeyValue[string, string]) {
-	return
-}
-
-func (self MetaData) HasStyle(name ...string) bool {
-	return false
-}
-
-func (self MetaData) GetStyle(name string) string {
-	return ""
-}
-
-func (self MetaData) SetStyle(name string, value string) {
-	return
-}
-
-func (self MetaData) DelStyle(name ...string) {
-	return
-}
-
-func (self MetaData) String() string {
-	return ""
-}
-
-func (self MetaData) PrettyString(indent string) string {
-	return ""
-}
-
-func (self MetaData) Bytes() []byte {
-	return []byte{}
-}
-
-func (self MetaData) PrettyBytes(indent string) []byte {
-	return []byte{}
-}
-
-func (self MetaData) GetById(id string) Node {
 	return nil
 }
 
-func (self MetaData) GetByClass(classes ...string) []Node {
-	return []Node{}
+func (self MetaDataElement) Set(key string, value any) MetaDataElement {
+	self[key] = value
+	return self
 }
 
-func (self MetaData) Select(query ...any) []Node {
-	return []Node{}
+func (self MetaDataElement) GetTag() string {
+	return ":metadata"
+}
+
+func (self MetaDataElement) HasAttr(name string) bool {
+	return false
+}
+
+func (self MetaDataElement) GetAttr(name string) string {
+	return ""
+}
+
+func (self MetaDataElement) SetAttr(name string, value string) {
+	return
+}
+
+func (self MetaDataElement) DelAttr(name string) {
+	return
+}
+
+func (self MetaDataElement) HasId() bool {
+	return false
+}
+
+func (self MetaDataElement) GetId() string {
+	return ""
+}
+
+func (self MetaDataElement) SetId(id string) {
+	return
+}
+
+func (self MetaDataElement) DelId() {
+	return
+}
+
+func (self MetaDataElement) HasClass(name ...string) bool {
+	return false
+}
+
+func (self MetaDataElement) GetClass() []string {
+	return []string{}
+}
+
+func (self MetaDataElement) AddClass(name ...string) {
+	return
+}
+
+func (self MetaDataElement) DelClass(name ...string) {
+	return
+}
+
+func (self MetaDataElement) GetStyles() maps.OMap[string, string] {
+	return maps.OMap[string, string]{}
+}
+
+func (self MetaDataElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	return
+}
+
+func (self MetaDataElement) HasStyle(name ...string) bool {
+	return false
+}
+
+func (self MetaDataElement) GetStyle(name string) string {
+	return ""
+}
+
+func (self MetaDataElement) SetStyle(name string, value string) {
+	return
+}
+
+func (self MetaDataElement) DelStyle(name ...string) {
+	return
+}
+
+func (self MetaDataElement) String() string {
+	return ""
+}
+
+func (self MetaDataElement) PrettyString(indent string) string {
+	return ""
+}
+
+func (self MetaDataElement) Bytes() []byte {
+	return []byte{}
+}
+
+func (self MetaDataElement) PrettyBytes(indent string) []byte {
+	return []byte{}
+}
+
+func (self MetaDataElement) GetById(id string) Node {
+	return nil
+}
+
+func (self MetaDataElement) Select(query ...any) []Node {
+	stmt := Select()
+
+	for _, q := range query {
+		switch v := q.(type) {
+		case SelectStatement:
+			stmt.And(v)
+			break
+		case string:
+			break
+		default:
+			panic("invalid selector type")
+		}
+	}
+
+	nodes := []Node{}
+
+	if stmt.Eval(self) {
+		nodes = append(nodes, self)
+	}
+
+	return nodes
 }

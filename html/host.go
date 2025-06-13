@@ -100,10 +100,26 @@ func (self Host) GetById(id string) Node {
 	return nil
 }
 
-func (self Host) GetByClass(classes ...string) []Node {
-	return []Node{}
-}
-
 func (self Host) Select(query ...any) []Node {
-	return []Node{}
+	stmt := Select()
+
+	for _, q := range query {
+		switch v := q.(type) {
+		case SelectStatement:
+			stmt.And(v)
+			break
+		case string:
+			break
+		default:
+			panic("invalid selector type")
+		}
+	}
+
+	nodes := []Node{}
+
+	if stmt.Eval(self) {
+		nodes = append(nodes, self)
+	}
+
+	return nodes
 }
