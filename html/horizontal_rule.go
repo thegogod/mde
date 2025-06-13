@@ -14,13 +14,75 @@ func Hr() *HorizontalRuleElement {
 	return &HorizontalRuleElement{Elem("hr").Void()}
 }
 
-func (self *HorizontalRuleElement) Id(value string) *HorizontalRuleElement {
-	self.element.Id(value)
+func (self HorizontalRuleElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *HorizontalRuleElement) WithAttr(name string, value string) *HorizontalRuleElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *HorizontalRuleElement) Style(styles ...maps.KeyValue[string, string]) *HorizontalRuleElement {
-	self.element.Style(styles...)
+func (self HorizontalRuleElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self HorizontalRuleElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *HorizontalRuleElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *HorizontalRuleElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *HorizontalRuleElement) WithId(value string) *HorizontalRuleElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self HorizontalRuleElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self HorizontalRuleElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *HorizontalRuleElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *HorizontalRuleElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *HorizontalRuleElement) WithClass(classes ...string) *HorizontalRuleElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self HorizontalRuleElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self HorizontalRuleElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *HorizontalRuleElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *HorizontalRuleElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *HorizontalRuleElement) WithStyles(styles ...maps.KeyValue[string, string]) *HorizontalRuleElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -28,31 +90,29 @@ func (self HorizontalRuleElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *HorizontalRuleElement) Class(classes ...string) *HorizontalRuleElement {
-	self.element.Class(classes...)
+func (self *HorizontalRuleElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *HorizontalRuleElement) WithStyle(name string, value string) *HorizontalRuleElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self HorizontalRuleElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self HorizontalRuleElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self HorizontalRuleElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self HorizontalRuleElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *HorizontalRuleElement) Attr(name string, value string) *HorizontalRuleElement {
-	self.element.Attr(name, value)
-	return self
+func (self *HorizontalRuleElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self HorizontalRuleElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
-}
-
-func (self *HorizontalRuleElement) DelAttr(name string) *HorizontalRuleElement {
-	self.element.DelAttr(name)
-	return self
+func (self *HorizontalRuleElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
 func (self HorizontalRuleElement) String() string {
@@ -71,10 +131,10 @@ func (self HorizontalRuleElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self HorizontalRuleElement) GetById(id string) Node {
+func (self *HorizontalRuleElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self HorizontalRuleElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *HorizontalRuleElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

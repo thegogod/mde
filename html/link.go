@@ -15,22 +15,84 @@ func Link() *LinkElement {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel
-func (self *LinkElement) Rel(value string) *LinkElement {
-	return self.Attr("rel", value)
+func (self *LinkElement) WithRel(value string) *LinkElement {
+	return self.WithAttr("rel", value)
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link#href
-func (self *LinkElement) Href(value string) *LinkElement {
-	return self.Attr("href", value)
+func (self *LinkElement) WithHref(value string) *LinkElement {
+	return self.WithAttr("href", value)
 }
 
-func (self *LinkElement) Id(value string) *LinkElement {
-	self.element.Id(value)
+func (self LinkElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *LinkElement) WithAttr(name string, value string) *LinkElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *LinkElement) Style(styles ...maps.KeyValue[string, string]) *LinkElement {
-	self.element.Style(styles...)
+func (self LinkElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self LinkElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *LinkElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *LinkElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *LinkElement) WithId(value string) *LinkElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self LinkElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self LinkElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *LinkElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *LinkElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *LinkElement) WithClass(classes ...string) *LinkElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self LinkElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self LinkElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *LinkElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *LinkElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *LinkElement) WithStyles(styles ...maps.KeyValue[string, string]) *LinkElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -38,31 +100,29 @@ func (self LinkElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *LinkElement) Class(classes ...string) *LinkElement {
-	self.element.Class(classes...)
+func (self *LinkElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *LinkElement) WithStyle(name string, value string) *LinkElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self LinkElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self LinkElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self LinkElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self LinkElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *LinkElement) Attr(name string, value string) *LinkElement {
-	self.element.Attr(name, value)
-	return self
+func (self *LinkElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self LinkElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
-}
-
-func (self *LinkElement) DelAttr(name string) *LinkElement {
-	self.element.DelAttr(name)
-	return self
+func (self *LinkElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
 func (self LinkElement) String() string {
@@ -81,10 +141,10 @@ func (self LinkElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self LinkElement) GetById(id string) Node {
+func (self *LinkElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self LinkElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *LinkElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

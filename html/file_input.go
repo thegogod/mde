@@ -17,52 +17,114 @@ func FileInput() *FileInputElement {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#name
-func (self *FileInputElement) Name(value string) *FileInputElement {
-	return self.Attr("name", value)
+func (self *FileInputElement) WithName(value string) *FileInputElement {
+	return self.WithAttr("name", value)
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#disabled
-func (self *FileInputElement) Disabled() *FileInputElement {
-	return self.Attr("disabled", "true")
+func (self *FileInputElement) WithDisabled() *FileInputElement {
+	return self.WithAttr("disabled", "true")
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#disabled
-func (self *FileInputElement) Enabled() *FileInputElement {
-	return self.Attr("disabled", "false")
+func (self *FileInputElement) WithEnabled() *FileInputElement {
+	return self.WithAttr("disabled", "false")
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#form
-func (self *FileInputElement) Form(formId string) *FileInputElement {
-	return self.Attr("form", formId)
+func (self *FileInputElement) WithForm(formId string) *FileInputElement {
+	return self.WithAttr("form", formId)
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file#value
-func (self *FileInputElement) Value(value string) *FileInputElement {
-	return self.Attr("value", value)
+func (self *FileInputElement) WithValue(value string) *FileInputElement {
+	return self.WithAttr("value", value)
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file#accept
-func (self *FileInputElement) Accept(value string) *FileInputElement {
-	return self.Attr("accept", value)
+func (self *FileInputElement) WithAccept(value string) *FileInputElement {
+	return self.WithAttr("accept", value)
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file#capture
-func (self *FileInputElement) Capture(value string) *FileInputElement {
-	return self.Attr("capture", value)
+func (self *FileInputElement) WithCapture(value string) *FileInputElement {
+	return self.WithAttr("capture", value)
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file#multiple
-func (self *FileInputElement) Multiple(value bool) *FileInputElement {
-	return self.Attr("multiple", strconv.FormatBool(value))
+func (self *FileInputElement) WithMultiple(value bool) *FileInputElement {
+	return self.WithAttr("multiple", strconv.FormatBool(value))
 }
 
-func (self *FileInputElement) Id(value string) *FileInputElement {
-	self.element.Id(value)
+func (self FileInputElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *FileInputElement) WithAttr(name string, value string) *FileInputElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *FileInputElement) Style(styles ...maps.KeyValue[string, string]) *FileInputElement {
-	self.element.Style(styles...)
+func (self FileInputElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self FileInputElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *FileInputElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *FileInputElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *FileInputElement) WithId(value string) *FileInputElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self FileInputElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self FileInputElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *FileInputElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *FileInputElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *FileInputElement) WithClass(classes ...string) *FileInputElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self FileInputElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self FileInputElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *FileInputElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *FileInputElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *FileInputElement) WithStyles(styles ...maps.KeyValue[string, string]) *FileInputElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -70,31 +132,29 @@ func (self FileInputElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *FileInputElement) Class(classes ...string) *FileInputElement {
-	self.element.Class(classes...)
+func (self *FileInputElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *FileInputElement) WithStyle(name string, value string) *FileInputElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self FileInputElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self FileInputElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self FileInputElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self FileInputElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *FileInputElement) Attr(name string, value string) *FileInputElement {
-	self.element.Attr(name, value)
-	return self
+func (self *FileInputElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self FileInputElement) GetAttr(name string) string {
-	return self.element.element.attributes.GetOrDefault(name)
-}
-
-func (self *FileInputElement) DelAttr(name string) *FileInputElement {
-	self.element.DelAttr(name)
-	return self
+func (self *FileInputElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
 func (self FileInputElement) String() string {
@@ -113,10 +173,10 @@ func (self FileInputElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self FileInputElement) GetById(id string) Node {
+func (self *FileInputElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self FileInputElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *FileInputElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

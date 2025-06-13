@@ -83,8 +83,8 @@ func (self ListItem) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 
 func (self ListItem) parseTask(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	id := uuid.NewString()
-	label := html.Label().For(id)
-	input := html.CheckBoxInput().Id(id)
+	label := html.Label().WithFor(id)
+	input := html.CheckBoxInput().WithId(id)
 
 	if _, err := iter.Consume(core.LeftBracket, "expected '['"); err != nil {
 		return label, err
@@ -105,7 +105,7 @@ func (self ListItem) parseTask(parser core.Parser, iter *core.Iterator) (core.No
 	}
 
 	if checked.String() == "x" {
-		input.Checked(true)
+		input.WithChecked(true)
 	}
 
 	if _, err = iter.Consume(core.RightBracket, "expected ']'"); err != nil {

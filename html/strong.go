@@ -14,13 +14,75 @@ func Strong(children ...any) *StrongElement {
 	return &StrongElement{Elem("strong").Push(children...)}
 }
 
-func (self *StrongElement) Id(value string) *StrongElement {
-	self.element.Id(value)
+func (self StrongElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *StrongElement) WithAttr(name string, value string) *StrongElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *StrongElement) Style(styles ...maps.KeyValue[string, string]) *StrongElement {
-	self.element.Style(styles...)
+func (self StrongElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self StrongElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *StrongElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *StrongElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *StrongElement) WithId(value string) *StrongElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self StrongElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self StrongElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *StrongElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *StrongElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *StrongElement) WithClass(classes ...string) *StrongElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self StrongElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self StrongElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *StrongElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *StrongElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *StrongElement) WithStyles(styles ...maps.KeyValue[string, string]) *StrongElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -28,31 +90,37 @@ func (self StrongElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *StrongElement) Class(classes ...string) *StrongElement {
-	self.element.Class(classes...)
+func (self *StrongElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *StrongElement) WithStyle(name string, value string) *StrongElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self StrongElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self StrongElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self StrongElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self StrongElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *StrongElement) Attr(name string, value string) *StrongElement {
-	self.element.Attr(name, value)
-	return self
+func (self *StrongElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self StrongElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
+func (self *StrongElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
-func (self *StrongElement) DelAttr(name string) *StrongElement {
-	self.element.DelAttr(name)
-	return self
+func (self StrongElement) Count() int {
+	return self.element.Count()
+}
+
+func (self StrongElement) Children() []Node {
+	return self.element.Children()
 }
 
 func (self *StrongElement) Push(children ...any) *StrongElement {
@@ -63,10 +131,6 @@ func (self *StrongElement) Push(children ...any) *StrongElement {
 func (self *StrongElement) Pop() *StrongElement {
 	self.element.Pop()
 	return self
-}
-
-func (self StrongElement) Children() []Node {
-	return self.element.children
 }
 
 func (self StrongElement) String() string {
@@ -85,10 +149,10 @@ func (self StrongElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self StrongElement) GetById(id string) Node {
+func (self *StrongElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self StrongElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *StrongElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

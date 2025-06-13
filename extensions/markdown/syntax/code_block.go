@@ -34,7 +34,7 @@ func (self CodeBlock) Parse(parser core.Parser, iter *core.Iterator) (core.Node,
 	}
 
 	if len(lang) > 0 {
-		code.Class(fmt.Sprintf("language-%s", lang))
+		code.AddClass(fmt.Sprintf("language-%s", lang))
 	}
 
 	buff := html.Raw{}

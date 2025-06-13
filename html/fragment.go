@@ -2,6 +2,8 @@ package html
 
 import (
 	"strings"
+
+	"github.com/thegogod/mde/maps"
 )
 
 // https://react.dev/reference/react/Fragment
@@ -11,6 +13,82 @@ type FragmentElement []Node
 func Fragment(children ...Node) *FragmentElement {
 	self := &FragmentElement{}
 	return self.Push(children...)
+}
+
+func (self FragmentElement) GetTag() string {
+	return ""
+}
+
+func (self FragmentElement) HasAttr(name string) bool {
+	return false
+}
+
+func (self FragmentElement) GetAttr(name string) string {
+	return ""
+}
+
+func (self FragmentElement) SetAttr(name string, value string) {
+	return
+}
+
+func (self FragmentElement) DelAttr(name string) {
+	return
+}
+
+func (self FragmentElement) HasId() bool {
+	return false
+}
+
+func (self FragmentElement) GetId() string {
+	return ""
+}
+
+func (self FragmentElement) SetId(id string) {
+	return
+}
+
+func (self FragmentElement) DelId() {
+	return
+}
+
+func (self FragmentElement) HasClass(name ...string) bool {
+	return false
+}
+
+func (self FragmentElement) GetClass() []string {
+	return []string{}
+}
+
+func (self FragmentElement) AddClass(name ...string) {
+	return
+}
+
+func (self FragmentElement) DelClass(name ...string) {
+	return
+}
+
+func (self FragmentElement) GetStyles() maps.OMap[string, string] {
+	return maps.OMap[string, string]{}
+}
+
+func (self FragmentElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	return
+}
+
+func (self FragmentElement) HasStyle(name ...string) bool {
+	return false
+}
+
+func (self FragmentElement) GetStyle(name string) string {
+	return ""
+}
+
+func (self FragmentElement) SetStyle(name string, value string) {
+	return
+}
+
+func (self FragmentElement) DelStyle(name ...string) {
+	return
 }
 
 func (self *FragmentElement) Push(children ...Node) *FragmentElement {
@@ -74,12 +152,11 @@ func (self FragmentElement) GetById(id string) Node {
 	return nil
 }
 
-func (self FragmentElement) GetByClass(classes ...string) []Node {
+func (self FragmentElement) Select(query ...any) []Node {
 	nodes := []Node{}
 
 	for _, child := range self {
-		n := child.GetByClass(classes...)
-		nodes = append(nodes, n...)
+		nodes = append(nodes, child.Select(query...)...)
 	}
 
 	return nodes

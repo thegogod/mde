@@ -69,7 +69,7 @@ func (self *Html) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 			value = v
 		}
 
-		el.Attr(string(attr), string(value))
+		el.SetAttr(string(attr), string(value))
 	}
 
 	isVoid := false

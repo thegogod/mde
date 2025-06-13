@@ -36,7 +36,7 @@ func (self Image) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 		return image, err
 	}
 
-	image.Alt(string(node))
+	image.WithAlt(string(node))
 
 	if _, err := iter.Consume(core.LeftParen, "expected '('"); err != nil {
 		return image, err
@@ -48,6 +48,6 @@ func (self Image) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 		return image, err
 	}
 
-	image.Src(string(node))
+	image.WithSrc(string(node))
 	return image, nil
 }

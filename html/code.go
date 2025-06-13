@@ -14,13 +14,75 @@ func Code(children ...any) *CodeElement {
 	return &CodeElement{Elem("code").Push(children...)}
 }
 
-func (self *CodeElement) Id(value string) *CodeElement {
-	self.element.Id(value)
+func (self CodeElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *CodeElement) WithAttr(name string, value string) *CodeElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *CodeElement) Style(styles ...maps.KeyValue[string, string]) *CodeElement {
-	self.element.Style(styles...)
+func (self CodeElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self CodeElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *CodeElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *CodeElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *CodeElement) WithId(value string) *CodeElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self CodeElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self CodeElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *CodeElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *CodeElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *CodeElement) WithClass(classes ...string) *CodeElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self CodeElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self CodeElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *CodeElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *CodeElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *CodeElement) WithStyles(styles ...maps.KeyValue[string, string]) *CodeElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -28,31 +90,37 @@ func (self CodeElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *CodeElement) Class(classes ...string) *CodeElement {
-	self.element.Class(classes...)
+func (self *CodeElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *CodeElement) WithStyle(name string, value string) *CodeElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self CodeElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self CodeElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self CodeElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self CodeElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *CodeElement) Attr(name string, value string) *CodeElement {
-	self.element.Attr(name, value)
-	return self
+func (self *CodeElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self CodeElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
+func (self *CodeElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
-func (self *CodeElement) DelAttr(name string) *CodeElement {
-	self.element.DelAttr(name)
-	return self
+func (self CodeElement) Count() int {
+	return self.element.Count()
+}
+
+func (self CodeElement) Children() []Node {
+	return self.element.Children()
 }
 
 func (self *CodeElement) Push(children ...any) *CodeElement {
@@ -63,10 +131,6 @@ func (self *CodeElement) Push(children ...any) *CodeElement {
 func (self *CodeElement) Pop() *CodeElement {
 	self.element.Pop()
 	return self
-}
-
-func (self CodeElement) Children() []Node {
-	return self.element.children
 }
 
 func (self CodeElement) String() string {
@@ -85,10 +149,10 @@ func (self CodeElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self CodeElement) GetById(id string) Node {
+func (self *CodeElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self CodeElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *CodeElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

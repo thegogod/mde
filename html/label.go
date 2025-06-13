@@ -15,17 +15,79 @@ func Label(children ...any) *LabelElement {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/for
-func (self *LabelElement) For(value string) *LabelElement {
-	return self.Attr("for", value)
+func (self *LabelElement) WithFor(value string) *LabelElement {
+	return self.WithAttr("for", value)
 }
 
-func (self *LabelElement) Id(value string) *LabelElement {
-	self.element.Id(value)
+func (self LabelElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *LabelElement) WithAttr(name string, value string) *LabelElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *LabelElement) Style(styles ...maps.KeyValue[string, string]) *LabelElement {
-	self.element.Style(styles...)
+func (self LabelElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self LabelElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *LabelElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *LabelElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *LabelElement) WithId(value string) *LabelElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self LabelElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self LabelElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *LabelElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *LabelElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *LabelElement) WithClass(classes ...string) *LabelElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self LabelElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self LabelElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *LabelElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *LabelElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *LabelElement) WithStyles(styles ...maps.KeyValue[string, string]) *LabelElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -33,31 +95,37 @@ func (self LabelElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *LabelElement) Class(classes ...string) *LabelElement {
-	self.element.Class(classes...)
+func (self *LabelElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *LabelElement) WithStyle(name string, value string) *LabelElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self LabelElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self LabelElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self LabelElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self LabelElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *LabelElement) Attr(name string, value string) *LabelElement {
-	self.element.Attr(name, value)
-	return self
+func (self *LabelElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self LabelElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
+func (self *LabelElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
-func (self *LabelElement) DelAttr(name string) *LabelElement {
-	self.element.DelAttr(name)
-	return self
+func (self LabelElement) Count() int {
+	return self.element.Count()
+}
+
+func (self LabelElement) Children() []Node {
+	return self.element.Children()
 }
 
 func (self *LabelElement) Push(children ...any) *LabelElement {
@@ -68,10 +136,6 @@ func (self *LabelElement) Push(children ...any) *LabelElement {
 func (self *LabelElement) Pop() *LabelElement {
 	self.element.Pop()
 	return self
-}
-
-func (self LabelElement) Children() []Node {
-	return self.element.children
 }
 
 func (self LabelElement) String() string {
@@ -90,10 +154,10 @@ func (self LabelElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self LabelElement) GetById(id string) Node {
+func (self *LabelElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self LabelElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *LabelElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

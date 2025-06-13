@@ -5,7 +5,6 @@ import (
 
 	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
-	"github.com/thegogod/mde/maps"
 )
 
 type Table struct{}
@@ -108,20 +107,11 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 		rightAlign := bytes.HasSuffix(node, []byte{':'})
 
 		if leftAlign && rightAlign {
-			columns[i].Style(maps.KeyValue[string, string]{
-				Key:   "text-align",
-				Value: "center",
-			})
+			columns[i].SetStyle("text-align", "center")
 		} else if leftAlign {
-			columns[i].Style(maps.KeyValue[string, string]{
-				Key:   "text-align",
-				Value: "left",
-			})
+			columns[i].SetStyle("text-align", "left")
 		} else if rightAlign {
-			columns[i].Style(maps.KeyValue[string, string]{
-				Key:   "text-align",
-				Value: "right",
-			})
+			columns[i].SetStyle("text-align", "right")
 		}
 	}
 
@@ -172,7 +162,7 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 				td.Push(node)
 			}
 
-			rows = append(rows, td.Style(columns[i].GetStyles()...))
+			rows = append(rows, td.WithStyles(columns[i].GetStyles()...))
 		}
 
 		if iter.Curr().Kind() == core.Eof {

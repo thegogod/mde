@@ -68,7 +68,7 @@ func (self Url) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error
 
 	url := fmt.Sprintf("%s://%s", protocol, path)
 
-	link.Href(url)
+	link.WithHref(url)
 	link.Push(url)
 	return link, nil
 }

@@ -16,13 +16,75 @@ func Tr(children ...*TableCellElement) *TableRowElement {
 	return self
 }
 
-func (self *TableRowElement) Id(value string) *TableRowElement {
-	self.element.Id(value)
+func (self TableRowElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *TableRowElement) WithAttr(name string, value string) *TableRowElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *TableRowElement) Style(styles ...maps.KeyValue[string, string]) *TableRowElement {
-	self.element.Style(styles...)
+func (self TableRowElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self TableRowElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *TableRowElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *TableRowElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *TableRowElement) WithId(value string) *TableRowElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self TableRowElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self TableRowElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *TableRowElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *TableRowElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *TableRowElement) WithClass(classes ...string) *TableRowElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self TableRowElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self TableRowElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *TableRowElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *TableRowElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *TableRowElement) WithStyles(styles ...maps.KeyValue[string, string]) *TableRowElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -30,31 +92,37 @@ func (self TableRowElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *TableRowElement) Class(classes ...string) *TableRowElement {
-	self.element.Class(classes...)
+func (self *TableRowElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *TableRowElement) WithStyle(name string, value string) *TableRowElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self TableRowElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self TableRowElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self TableRowElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self TableRowElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *TableRowElement) Attr(name string, value string) *TableRowElement {
-	self.element.Attr(name, value)
-	return self
+func (self *TableRowElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self TableRowElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
+func (self *TableRowElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
-func (self *TableRowElement) DelAttr(name string) *TableRowElement {
-	self.element.DelAttr(name)
-	return self
+func (self TableRowElement) Count() int {
+	return self.element.Count()
+}
+
+func (self TableRowElement) Children() []Node {
+	return self.element.Children()
 }
 
 func (self *TableRowElement) Push(children ...*TableCellElement) *TableRowElement {
@@ -68,10 +136,6 @@ func (self *TableRowElement) Push(children ...*TableCellElement) *TableRowElemen
 func (self *TableRowElement) Pop() *TableRowElement {
 	self.element.Pop()
 	return self
-}
-
-func (self TableRowElement) Children() []Node {
-	return self.element.children
 }
 
 func (self TableRowElement) String() string {
@@ -90,10 +154,10 @@ func (self TableRowElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self TableRowElement) GetById(id string) Node {
+func (self *TableRowElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self TableRowElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *TableRowElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

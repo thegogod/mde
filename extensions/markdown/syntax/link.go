@@ -46,6 +46,6 @@ func (self Link) Parse(parser core.Parser, iter *core.Iterator) (core.Node, erro
 		return link, err
 	}
 
-	link.Href(string(node))
+	link.WithHref(string(node))
 	return link, nil
 }

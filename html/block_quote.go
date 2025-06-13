@@ -15,17 +15,79 @@ func BlockQuote(children ...any) *BlockQuoteElement {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/blockquote#cite
-func (self *BlockQuoteElement) Cite(value string) *BlockQuoteElement {
-	return self.Attr("cite", value)
+func (self *BlockQuoteElement) WithCite(value string) *BlockQuoteElement {
+	return self.WithAttr("cite", value)
 }
 
-func (self *BlockQuoteElement) Id(value string) *BlockQuoteElement {
-	self.element.Id(value)
+func (self BlockQuoteElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *BlockQuoteElement) WithAttr(name string, value string) *BlockQuoteElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *BlockQuoteElement) Style(styles ...maps.KeyValue[string, string]) *BlockQuoteElement {
-	self.element.Style(styles...)
+func (self BlockQuoteElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self BlockQuoteElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *BlockQuoteElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *BlockQuoteElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *BlockQuoteElement) WithId(value string) *BlockQuoteElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self BlockQuoteElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self BlockQuoteElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *BlockQuoteElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *BlockQuoteElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *BlockQuoteElement) WithClass(classes ...string) *BlockQuoteElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self BlockQuoteElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self BlockQuoteElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *BlockQuoteElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *BlockQuoteElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *BlockQuoteElement) WithStyles(styles ...maps.KeyValue[string, string]) *BlockQuoteElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -33,31 +95,37 @@ func (self BlockQuoteElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *BlockQuoteElement) Class(classes ...string) *BlockQuoteElement {
-	self.element.Class(classes...)
+func (self *BlockQuoteElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *BlockQuoteElement) WithStyle(name string, value string) *BlockQuoteElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self BlockQuoteElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self BlockQuoteElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self BlockQuoteElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self BlockQuoteElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *BlockQuoteElement) Attr(name string, value string) *BlockQuoteElement {
-	self.element.Attr(name, value)
-	return self
+func (self *BlockQuoteElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self BlockQuoteElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
+func (self *BlockQuoteElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
-func (self *BlockQuoteElement) DelAttr(name string) *BlockQuoteElement {
-	self.element.DelAttr(name)
-	return self
+func (self BlockQuoteElement) Count() int {
+	return self.element.Count()
+}
+
+func (self BlockQuoteElement) Children() []Node {
+	return self.element.Children()
 }
 
 func (self *BlockQuoteElement) Push(children ...any) *BlockQuoteElement {
@@ -68,10 +136,6 @@ func (self *BlockQuoteElement) Push(children ...any) *BlockQuoteElement {
 func (self *BlockQuoteElement) Pop() *BlockQuoteElement {
 	self.element.Pop()
 	return self
-}
-
-func (self BlockQuoteElement) Children() []Node {
-	return self.element.children
 }
 
 func (self BlockQuoteElement) String() string {
@@ -90,10 +154,10 @@ func (self BlockQuoteElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self BlockQuoteElement) GetById(id string) Node {
+func (self *BlockQuoteElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self BlockQuoteElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *BlockQuoteElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

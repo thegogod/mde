@@ -1,6 +1,84 @@
 package html
 
+import "github.com/thegogod/mde/maps"
+
 type Host map[string]any
+
+func (self Host) GetTag() string {
+	return ":host"
+}
+
+func (self Host) HasAttr(name string) bool {
+	return false
+}
+
+func (self Host) GetAttr(name string) string {
+	return ""
+}
+
+func (self Host) SetAttr(name string, value string) {
+	return
+}
+
+func (self Host) DelAttr(name string) {
+	return
+}
+
+func (self Host) HasId() bool {
+	return false
+}
+
+func (self Host) GetId() string {
+	return ""
+}
+
+func (self Host) SetId(id string) {
+	return
+}
+
+func (self Host) DelId() {
+	return
+}
+
+func (self Host) HasClass(name ...string) bool {
+	return false
+}
+
+func (self Host) GetClass() []string {
+	return []string{}
+}
+
+func (self Host) AddClass(name ...string) {
+	return
+}
+
+func (self Host) DelClass(name ...string) {
+	return
+}
+
+func (self Host) GetStyles() maps.OMap[string, string] {
+	return maps.OMap[string, string]{}
+}
+
+func (self Host) SetStyles(styles ...maps.KeyValue[string, string]) {
+	return
+}
+
+func (self Host) HasStyle(name ...string) bool {
+	return false
+}
+
+func (self Host) GetStyle(name string) string {
+	return ""
+}
+
+func (self Host) SetStyle(name string, value string) {
+	return
+}
+
+func (self Host) DelStyle(name ...string) {
+	return
+}
 
 func (self Host) String() string {
 	return ""
@@ -23,5 +101,9 @@ func (self Host) GetById(id string) Node {
 }
 
 func (self Host) GetByClass(classes ...string) []Node {
+	return []Node{}
+}
+
+func (self Host) Select(query ...any) []Node {
 	return []Node{}
 }

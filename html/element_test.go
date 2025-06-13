@@ -10,8 +10,8 @@ import (
 func TestElement(t *testing.T) {
 	t.Run("should render", func(t *testing.T) {
 		el := html.Elem("div")
-		el.Attr("id", "123")
-		el.Style(maps.Pair("color", "red"), maps.Pair("display", "block"))
+		el.SetAttr("id", "123")
+		el.SetStyles(maps.Pair("color", "red"), maps.Pair("display", "block"))
 		html := el.String()
 
 		if html != `<div id="123" style="color: red;display: block;"></div>` {
@@ -21,8 +21,8 @@ func TestElement(t *testing.T) {
 
 	t.Run("should render pretty", func(t *testing.T) {
 		el := html.Elem("div")
-		el.Attr("id", "123")
-		el.Attr("style", "color: red;display: block;")
+		el.SetAttr("id", "123")
+		el.SetAttr("style", "color: red;display: block;")
 		html := el.PrettyString(" ")
 
 		if html != "<div id=\"123\" style=\"color: red;display: block;\">\n</div>" {
@@ -32,11 +32,11 @@ func TestElement(t *testing.T) {
 
 	t.Run("should render with children", func(t *testing.T) {
 		el := html.Elem("div")
-		el.Attr("id", "123")
-		el.Class("main")
+		el.SetAttr("id", "123")
+		el.AddClass("main")
 		el.Push(
-			html.P().Attr("id", "1").Push("hello world!"),
-			html.Elem("input").Attr("value", "test").Void(),
+			html.P().WithAttr("id", "1").Push("hello world!"),
+			html.Elem("input").WithAttr("value", "test").Void(),
 		)
 
 		html := el.String()
@@ -48,11 +48,11 @@ func TestElement(t *testing.T) {
 
 	t.Run("should render with children pretty", func(t *testing.T) {
 		el := html.Elem("div")
-		el.Attr("id", "123")
-		el.Attr("class", "main")
+		el.SetAttr("id", "123")
+		el.SetAttr("class", "main")
 		el.Push(
-			html.P().Attr("id", "1").Push("hello world!"),
-			html.Elem("input").Attr("value", "test").Void(),
+			html.P().WithAttr("id", "1").Push("hello world!"),
+			html.Elem("input").WithAttr("value", "test").Void(),
 		)
 
 		html := el.PrettyString("\t")
@@ -64,13 +64,13 @@ func TestElement(t *testing.T) {
 
 	t.Run("should render with children nested pretty", func(t *testing.T) {
 		el := html.Elem("div")
-		el.Attr("id", "123")
-		el.Attr("class", "main")
+		el.SetAttr("id", "123")
+		el.SetAttr("class", "main")
 		el.Push(
-			html.P().Attr("id", "1").
+			html.P().WithAttr("id", "1").
 				Push("hello world!").
 				Push(html.Elem("span").Push("hi!")),
-			html.Elem("input").Attr("value", "test").Void(),
+			html.Elem("input").WithAttr("value", "test").Void(),
 		)
 
 		html := el.PrettyString("\t")

@@ -20,13 +20,75 @@ func Ol(children ...*ListItemElement) *OrderedListElement {
 	return &OrderedListElement{el}
 }
 
-func (self *OrderedListElement) Id(value string) *OrderedListElement {
-	self.element.Id(value)
+func (self OrderedListElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *OrderedListElement) WithAttr(name string, value string) *OrderedListElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *OrderedListElement) Style(styles ...maps.KeyValue[string, string]) *OrderedListElement {
-	self.element.Style(styles...)
+func (self OrderedListElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self OrderedListElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *OrderedListElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *OrderedListElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *OrderedListElement) WithId(value string) *OrderedListElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self OrderedListElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self OrderedListElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *OrderedListElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *OrderedListElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *OrderedListElement) WithClass(classes ...string) *OrderedListElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self OrderedListElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self OrderedListElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *OrderedListElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *OrderedListElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *OrderedListElement) WithStyles(styles ...maps.KeyValue[string, string]) *OrderedListElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -34,31 +96,37 @@ func (self OrderedListElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *OrderedListElement) Class(classes ...string) *OrderedListElement {
-	self.element.Class(classes...)
+func (self *OrderedListElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *OrderedListElement) WithStyle(name string, value string) *OrderedListElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self OrderedListElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self OrderedListElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self OrderedListElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self OrderedListElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *OrderedListElement) Attr(name string, value string) *OrderedListElement {
-	self.element.Attr(name, value)
-	return self
+func (self *OrderedListElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self OrderedListElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
+func (self *OrderedListElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
-func (self *OrderedListElement) DelAttr(name string) *OrderedListElement {
-	self.element.DelAttr(name)
-	return self
+func (self OrderedListElement) Count() int {
+	return self.element.Count()
+}
+
+func (self OrderedListElement) Children() []Node {
+	return self.element.Children()
 }
 
 func (self *OrderedListElement) Push(children ...*ListItemElement) *OrderedListElement {
@@ -72,10 +140,6 @@ func (self *OrderedListElement) Push(children ...*ListItemElement) *OrderedListE
 func (self *OrderedListElement) Pop() *OrderedListElement {
 	self.element.Pop()
 	return self
-}
-
-func (self OrderedListElement) Children() []Node {
-	return self.element.children
 }
 
 func (self OrderedListElement) String() string {
@@ -94,10 +158,10 @@ func (self OrderedListElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self OrderedListElement) GetById(id string) Node {
+func (self *OrderedListElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self OrderedListElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *OrderedListElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

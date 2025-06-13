@@ -23,34 +23,140 @@ func Elem(kind string) *Element {
 	}
 }
 
-func (self *Element) Id(value string) *Element {
-	return self.Attr("id", value)
+func (self *Element) Void() *Element {
+	self.void = true
+	return self
 }
 
-func (self *Element) Style(styles ...maps.KeyValue[string, string]) *Element {
-	value := []string{}
-	set := self.GetStyles()
-	set.Merge(styles)
+func (self Element) GetTag() string {
+	return self.Kind
+}
 
-	if len(set) == 0 {
-		return self.DelAttr("style")
+func (self *Element) WithAttr(name string, value string) *Element {
+	self.SetAttr(name, value)
+	return self
+}
+
+func (self Element) HasAttr(name string) bool {
+	if self.attributes == nil {
+		self.attributes = maps.OMap[string, string]{}
 	}
 
-	for _, pair := range set {
-		if pair.Key == "" || pair.Value == "" {
+	return self.attributes.Exists(name)
+}
+
+func (self Element) GetAttr(name string) string {
+	if self.attributes == nil {
+		self.attributes = maps.OMap[string, string]{}
+	}
+
+	return self.attributes.GetOrDefault(name)
+}
+
+func (self *Element) SetAttr(name string, value string) {
+	if self.attributes == nil {
+		self.attributes = maps.OMap[string, string]{}
+	}
+
+	self.attributes.Set(name, value)
+}
+
+func (self *Element) DelAttr(name string) {
+	if self.attributes == nil {
+		self.attributes = maps.OMap[string, string]{}
+	}
+
+	self.attributes.Del(name)
+}
+
+func (self *Element) WithId(id string) *Element {
+	self.SetId(id)
+	return self
+}
+
+func (self Element) HasId() bool {
+	return self.HasAttr("id")
+}
+
+func (self Element) GetId() string {
+	return self.GetAttr("id")
+}
+
+func (self *Element) SetId(id string) {
+	self.SetAttr("id", id)
+}
+
+func (self *Element) DelId() {
+	self.DelAttr("id")
+}
+
+func (self *Element) WithClass(name ...string) *Element {
+	self.AddClass(name...)
+	return self
+}
+
+func (self Element) HasClass(name ...string) bool {
+	classes := self.GetClass()
+
+	for _, cls := range name {
+		if !slices.Contains(classes, cls) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (self Element) GetClass() []string {
+	classes := []string{}
+	existing := strings.Split(self.GetAttr("class"), " ")
+
+	for _, cls := range existing {
+		cls = strings.TrimSpace(cls)
+
+		if len(cls) > 0 {
+			classes = append(classes, cls)
+		}
+	}
+
+	return classes
+}
+
+func (self *Element) AddClass(name ...string) {
+	classes := self.GetClass()
+
+	for _, cls := range name {
+		cls = strings.TrimSpace(cls)
+
+		if len(cls) == 0 {
 			continue
 		}
 
-		value = append(value, fmt.Sprintf("%s: %s", pair.Key, pair.Value))
+		if !slices.Contains(classes, cls) {
+			classes = append(classes, cls)
+		}
 	}
 
-	return self.Attr("style", strings.Join(append(value, ""), ";"))
+	self.SetAttr("class", strings.Join(classes, " "))
+}
+
+func (self *Element) DelClass(name ...string) {
+	classes := self.GetClass()
+	classes = slices.DeleteFunc(classes, func(cls string) bool {
+		return slices.Contains(name, cls)
+	})
+
+	self.SetAttr("class", strings.Join(classes, " "))
+}
+
+func (self *Element) WithStyles(styles ...maps.KeyValue[string, string]) *Element {
+	self.SetStyles(styles...)
+	return self
 }
 
 func (self Element) GetStyles() maps.OMap[string, string] {
 	styles := maps.OMap[string, string]{}
-	existing := self.attributes.GetOrDefault("style")
-	lines := strings.SplitSeq(existing, ";")
+	lines := strings.SplitSeq(self.attributes.GetOrDefault("style"), ";")
 
 	for line := range lines {
 		parts := strings.Split(line, ": ")
@@ -65,19 +171,35 @@ func (self Element) GetStyles() maps.OMap[string, string] {
 	return styles
 }
 
-func (self *Element) Class(classes ...string) *Element {
-	return self.Attr("class", strings.Join(classes, " "))
+func (self *Element) SetStyles(styles ...maps.KeyValue[string, string]) {
+	value := []string{}
+
+	for _, pair := range styles {
+		if pair.Key == "" || pair.Value == "" {
+			continue
+		}
+
+		value = append(value, fmt.Sprintf("%s: %s", pair.Key, pair.Value))
+	}
+
+	if len(value) == 0 {
+		self.DelAttr("style")
+		return
+	}
+
+	self.SetAttr("style", strings.Join(append(value, ""), ";"))
 }
 
-func (self Element) GetClasses() []string {
-	return strings.Split(self.GetAttr("class"), " ")
+func (self *Element) WithStyle(name string, value string) *Element {
+	self.SetStyle(name, value)
+	return self
 }
 
-func (self Element) HasClass(classes ...string) bool {
-	existing := self.GetClasses()
+func (self Element) HasStyle(name ...string) bool {
+	styles := self.GetStyles()
 
-	for _, cls := range classes {
-		if !slices.Contains(existing, cls) {
+	for _, style := range name {
+		if !styles.Exists(style) {
 			return false
 		}
 	}
@@ -85,27 +207,41 @@ func (self Element) HasClass(classes ...string) bool {
 	return true
 }
 
-func (self *Element) Void() *Element {
-	self.void = true
-	return self
+func (self Element) GetStyle(name string) string {
+	styles := self.GetStyles()
+	return styles.GetOrDefault(name)
 }
 
-func (self *Element) Attr(name string, value string) *Element {
-	if self.attributes == nil {
-		self.attributes = maps.OMap[string, string]{}
+func (self *Element) SetStyle(name string, value string) {
+	styles := self.GetStyles()
+	styles.Set(name, value)
+	self.SetStyles(styles...)
+}
+
+func (self *Element) DelStyle(name ...string) {
+	styles := self.GetStyles()
+
+	for _, style := range name {
+		styles.Del(style)
 	}
 
-	self.attributes.Set(name, value)
-	return self
+	self.SetStyles(styles...)
 }
 
-func (self Element) GetAttr(name string) string {
-	return self.attributes.GetOrDefault(name)
+func (self Element) Count() int {
+	if self.children == nil {
+		self.children = []Node{}
+	}
+
+	return len(self.children)
 }
 
-func (self *Element) DelAttr(name string) *Element {
-	self.attributes.Del(name)
-	return self
+func (self Element) Children() []Node {
+	if self.children == nil {
+		self.children = []Node{}
+	}
+
+	return self.children
 }
 
 func (self *Element) Push(children ...any) *Element {
@@ -117,7 +253,7 @@ func (self *Element) Push(children ...any) *Element {
 		switch v := child.(type) {
 		case Host:
 			for key, value := range v {
-				self.Attr(key, fmt.Sprintf("%v", value))
+				self.SetAttr(key, fmt.Sprintf("%v", value))
 			}
 
 			break
@@ -153,12 +289,12 @@ func (self *Element) Push(children ...any) *Element {
 }
 
 func (self *Element) Pop() *Element {
+	if self.children == nil || len(self.children) == 0 {
+		return self
+	}
+
 	self.children = self.children[:len(self.children)-1]
 	return self
-}
-
-func (self Element) Children() []Node {
-	return self.children
 }
 
 func (self Element) String() string {
@@ -220,7 +356,7 @@ func (self Element) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self Element) GetById(id string) Node {
+func (self *Element) GetById(id string) Node {
 	if self.GetAttr("id") == id {
 		return self
 	}
@@ -234,16 +370,29 @@ func (self Element) GetById(id string) Node {
 	return nil
 }
 
-func (self Element) GetByClass(classes ...string) []Node {
+func (self *Element) Select(query ...any) []Node {
+	stmt := Select()
+
+	for _, q := range query {
+		switch v := q.(type) {
+		case SelectStatement:
+			stmt.And(v)
+			break
+		case string:
+			break
+		default:
+			panic("invalid selector type")
+		}
+	}
+
 	nodes := []Node{}
 
-	if self.HasClass(classes...) {
+	if stmt.Eval(self) {
 		nodes = append(nodes, self)
 	}
 
 	for _, child := range self.children {
-		n := child.GetByClass(classes...)
-		nodes = append(nodes, n...)
+		nodes = append(nodes, child.Select(query...)...)
 	}
 
 	return nodes

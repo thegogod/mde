@@ -14,13 +14,75 @@ func Pre(children ...any) *PreElement {
 	return &PreElement{Elem("pre").Push(children...)}
 }
 
-func (self *PreElement) Id(value string) *PreElement {
-	self.element.Id(value)
+func (self PreElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *PreElement) WithAttr(name string, value string) *PreElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *PreElement) Style(styles ...maps.KeyValue[string, string]) *PreElement {
-	self.element.Style(styles...)
+func (self PreElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self PreElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *PreElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *PreElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *PreElement) WithId(value string) *PreElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self PreElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self PreElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *PreElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *PreElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *PreElement) WithClass(classes ...string) *PreElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self PreElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self PreElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *PreElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *PreElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *PreElement) WithStyles(styles ...maps.KeyValue[string, string]) *PreElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -28,31 +90,37 @@ func (self PreElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *PreElement) Class(classes ...string) *PreElement {
-	self.element.Class(classes...)
+func (self *PreElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *PreElement) WithStyle(name string, value string) *PreElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self PreElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self PreElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self PreElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self PreElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *PreElement) Attr(name string, value string) *PreElement {
-	self.element.Attr(name, value)
-	return self
+func (self *PreElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self PreElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
+func (self *PreElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
-func (self *PreElement) DelAttr(name string) *PreElement {
-	self.element.DelAttr(name)
-	return self
+func (self PreElement) Count() int {
+	return self.element.Count()
+}
+
+func (self PreElement) Children() []Node {
+	return self.element.Children()
 }
 
 func (self *PreElement) Push(children ...any) *PreElement {
@@ -63,10 +131,6 @@ func (self *PreElement) Push(children ...any) *PreElement {
 func (self *PreElement) Pop() *PreElement {
 	self.element.Pop()
 	return self
-}
-
-func (self PreElement) Children() []Node {
-	return self.element.children
 }
 
 func (self PreElement) String() string {
@@ -85,10 +149,10 @@ func (self PreElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self PreElement) GetById(id string) Node {
+func (self *PreElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self PreElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *PreElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }

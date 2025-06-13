@@ -62,13 +62,75 @@ func H6(children ...any) *HeadingElement {
 	return &HeadingElement{Elem("h6").Push(children...)}
 }
 
-func (self *HeadingElement) Id(value string) *HeadingElement {
-	self.element.Id(value)
+func (self HeadingElement) GetTag() string {
+	return self.element.GetTag()
+}
+
+func (self *HeadingElement) WithAttr(name string, value string) *HeadingElement {
+	self.element.WithAttr(name, value)
 	return self
 }
 
-func (self *HeadingElement) Style(styles ...maps.KeyValue[string, string]) *HeadingElement {
-	self.element.Style(styles...)
+func (self HeadingElement) HasAttr(name string) bool {
+	return self.element.HasAttr(name)
+}
+
+func (self HeadingElement) GetAttr(name string) string {
+	return self.element.GetAttr(name)
+}
+
+func (self *HeadingElement) SetAttr(name string, value string) {
+	self.element.SetAttr(name, value)
+}
+
+func (self *HeadingElement) DelAttr(name string) {
+	self.element.DelAttr(name)
+}
+
+func (self *HeadingElement) WithId(value string) *HeadingElement {
+	self.element.WithId(value)
+	return self
+}
+
+func (self HeadingElement) HasId() bool {
+	return self.element.HasId()
+}
+
+func (self HeadingElement) GetId() string {
+	return self.element.GetId()
+}
+
+func (self *HeadingElement) SetId(id string) {
+	self.element.SetId(id)
+}
+
+func (self *HeadingElement) DelId() {
+	self.element.DelId()
+}
+
+func (self *HeadingElement) WithClass(classes ...string) *HeadingElement {
+	self.element.WithClass(classes...)
+	return self
+}
+
+func (self HeadingElement) HasClass(classes ...string) bool {
+	return self.element.HasClass(classes...)
+}
+
+func (self HeadingElement) GetClass() []string {
+	return self.element.GetClass()
+}
+
+func (self *HeadingElement) AddClass(name ...string) {
+	self.element.AddClass(name...)
+}
+
+func (self *HeadingElement) DelClass(name ...string) {
+	self.element.DelClass(name...)
+}
+
+func (self *HeadingElement) WithStyles(styles ...maps.KeyValue[string, string]) *HeadingElement {
+	self.element.WithStyles(styles...)
 	return self
 }
 
@@ -76,31 +138,37 @@ func (self HeadingElement) GetStyles() maps.OMap[string, string] {
 	return self.element.GetStyles()
 }
 
-func (self *HeadingElement) Class(classes ...string) *HeadingElement {
-	self.element.Class(classes...)
+func (self *HeadingElement) SetStyles(styles ...maps.KeyValue[string, string]) {
+	self.element.SetStyles(styles...)
+}
+
+func (self *HeadingElement) WithStyle(name string, value string) *HeadingElement {
+	self.element.WithStyle(name, value)
 	return self
 }
 
-func (self HeadingElement) GetClasses() []string {
-	return self.element.GetClasses()
+func (self HeadingElement) HasStyle(name ...string) bool {
+	return self.element.HasStyle(name...)
 }
 
-func (self HeadingElement) HasClass(classes ...string) bool {
-	return self.element.HasClass(classes...)
+func (self HeadingElement) GetStyle(name string) string {
+	return self.element.GetStyle(name)
 }
 
-func (self *HeadingElement) Attr(name string, value string) *HeadingElement {
-	self.element.Attr(name, value)
-	return self
+func (self *HeadingElement) SetStyle(name string, value string) {
+	self.element.SetStyle(name, value)
 }
 
-func (self HeadingElement) GetAttr(name string) string {
-	return self.element.attributes.GetOrDefault(name)
+func (self *HeadingElement) DelStyle(name ...string) {
+	self.element.DelStyle(name...)
 }
 
-func (self *HeadingElement) DelAttr(name string) *HeadingElement {
-	self.element.DelAttr(name)
-	return self
+func (self HeadingElement) Count() int {
+	return self.element.Count()
+}
+
+func (self HeadingElement) Children() []Node {
+	return self.element.Children()
 }
 
 func (self *HeadingElement) Push(children ...any) *HeadingElement {
@@ -111,10 +179,6 @@ func (self *HeadingElement) Push(children ...any) *HeadingElement {
 func (self *HeadingElement) Pop() *HeadingElement {
 	self.element.Pop()
 	return self
-}
-
-func (self HeadingElement) Children() []Node {
-	return self.element.children
 }
 
 func (self HeadingElement) String() string {
@@ -135,7 +199,7 @@ func (self HeadingElement) String() string {
 			}
 		}
 
-		self.Attr("id", string(id))
+		self.SetAttr("id", string(id))
 	}
 
 	return self.element.String()
@@ -159,7 +223,7 @@ func (self HeadingElement) PrettyString(indent string) string {
 			}
 		}
 
-		self.Attr("id", string(id))
+		self.SetAttr("id", string(id))
 	}
 
 	return self.element.PrettyString(indent)
@@ -173,10 +237,10 @@ func (self HeadingElement) PrettyBytes(indent string) []byte {
 	return []byte(self.PrettyString(indent))
 }
 
-func (self HeadingElement) GetById(id string) Node {
+func (self *HeadingElement) GetById(id string) Node {
 	return self.element.GetById(id)
 }
 
-func (self HeadingElement) GetByClass(classes ...string) []Node {
-	return self.element.GetByClass(classes...)
+func (self *HeadingElement) Select(query ...any) []Node {
+	return self.element.Select(query...)
 }
