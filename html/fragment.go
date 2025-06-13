@@ -93,10 +93,6 @@ func (self FragmentElement) DelStyle(name ...string) {
 
 func (self *FragmentElement) Push(children ...Node) *FragmentElement {
 	for _, child := range children {
-		if _, ok := child.(Host); ok {
-			continue
-		}
-
 		*self = append(*self, child)
 	}
 
@@ -105,6 +101,11 @@ func (self *FragmentElement) Push(children ...Node) *FragmentElement {
 
 func (self *FragmentElement) Pop() *FragmentElement {
 	arr := *self
+
+	if len(arr) == 0 {
+		return self
+	}
+
 	arr = arr[:len(arr)-1]
 	*self = arr
 	return self
@@ -118,6 +119,10 @@ func (self FragmentElement) String() string {
 	content := ""
 
 	for _, node := range self {
+		if strings.HasPrefix(node.GetTag(), ":") {
+			continue
+		}
+
 		content += node.String()
 	}
 
@@ -128,6 +133,10 @@ func (self FragmentElement) PrettyString(indent string) string {
 	content := []string{}
 
 	for _, node := range self {
+		if strings.HasPrefix(node.GetTag(), ":") {
+			continue
+		}
+
 		content = append(content, node.PrettyString(indent))
 	}
 

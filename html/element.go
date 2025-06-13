@@ -312,6 +312,10 @@ func (self Element) String() string {
 	html += ">"
 
 	for _, child := range self.children {
+		if strings.HasPrefix(child.GetTag(), ":") {
+			continue
+		}
+
 		html += child.String()
 	}
 
@@ -334,6 +338,10 @@ func (self Element) PrettyString(indent string) string {
 	html += ">"
 
 	for _, child := range self.children {
+		if strings.HasPrefix(child.GetTag(), ":") {
+			continue
+		}
+
 		lines := strings.Split(child.PrettyString(indent), "\n")
 
 		if len(lines) == 3 {
