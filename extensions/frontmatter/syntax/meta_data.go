@@ -25,10 +25,10 @@ func (self MetaData) Select(parser core.Parser, iter *core.Iterator) bool {
 }
 
 func (self MetaData) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
-	host := html.Host{}
+	el := html.MetaData{}
 
 	if _, err := iter.Consume(core.NewLine, "expected newline"); err != nil {
-		return host, err
+		return el, err
 	}
 
 	data := []byte{}
@@ -37,11 +37,11 @@ func (self MetaData) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 		line, err := parser.ParseTextUntil(core.NewLine, parser, iter)
 
 		if line == nil {
-			return host, iter.Curr().Error("expected newline at end of key value pair")
+			return el, iter.Curr().Error("expected newline at end of key value pair")
 		}
 
 		if err != nil {
-			return host, err
+			return el, err
 		}
 
 		data = append(data, line...)
@@ -54,16 +54,16 @@ func (self MetaData) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 	}
 
 	if _, err := iter.Consume(core.NewLine, "expected newline"); err != nil {
-		return host, err
+		return el, err
 	}
 
 	if _, err := iter.Consume(core.NewLine, "expected newline"); err != nil {
-		return host, err
+		return el, err
 	}
 
-	if err := yaml.Unmarshal(data, &host); err != nil {
-		return host, err
+	if err := yaml.Unmarshal(data, &el); err != nil {
+		return el, err
 	}
 
-	return host, nil
+	return el, nil
 }
