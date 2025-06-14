@@ -50,7 +50,7 @@ const styles = `.alert {
 			fill: #193c47;
 			display: inline-block;
 			vertical-align: middle;
-			margin-right: .4em;
+			margin-right: 0.4em;
 			display: inline-block;
 		}
 
