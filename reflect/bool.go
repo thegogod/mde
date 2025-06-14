@@ -1,32 +1,50 @@
 package reflect
 
-func NewBool(value bool) *Value {
-	return &Value{
-		_type:  NewBoolType(),
-		_value: value,
+import (
+	"fmt"
+	"strconv"
+)
+
+type BoolValue struct {
+	value bool
+}
+
+func Bool(value bool) BoolValue {
+	return BoolValue{value}
+}
+
+func (self BoolValue) Type() Type {
+	return BoolType{}
+}
+
+func (self BoolValue) Any() any {
+	return self.value
+}
+
+func (self BoolValue) String() string {
+	return strconv.FormatBool(self.value)
+}
+
+func (self BoolValue) Bool() bool {
+	return self.value
+}
+
+func (self BoolValue) Equals(value Value) bool {
+	switch v := value.(type) {
+	case BoolValue:
+		return self.value == v.value
+	default:
+		return false
 	}
 }
 
-func (self Value) BoolType() BoolType {
-	return self._type.(BoolType)
-}
-
-func (self Value) IsBool() bool {
-	return self.Kind() == Bool
-}
-
-func (self Value) Bool() bool {
-	return self._value.(bool)
-}
-
-func (self *Value) SetBool(value bool) {
-	self._value = value
-}
-
-func (self Value) BoolToString() string {
-	if self.Bool() {
-		return "true"
+func (self BoolValue) Convert(t Type) Value {
+	switch t.(type) {
+	case BoolType:
+		return self
+	case StringType:
+		return String(self.String())
+	default:
+		panic(fmt.Sprintf("value of type '%s' is not convertable to type '%s'", t.Name(), self.Type().Name()))
 	}
-
-	return "false"
 }
