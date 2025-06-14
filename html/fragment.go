@@ -91,6 +91,14 @@ func (self FragmentElement) DelStyle(name ...string) {
 	return
 }
 
+func (self FragmentElement) Count() int {
+	return len(self)
+}
+
+func (self FragmentElement) Children() []Node {
+	return self
+}
+
 func (self *FragmentElement) Push(children ...Node) *FragmentElement {
 	for _, child := range children {
 		*self = append(*self, child)
@@ -108,10 +116,6 @@ func (self *FragmentElement) Pop() *FragmentElement {
 
 	arr = arr[:len(arr)-1]
 	*self = arr
-	return self
-}
-
-func (self FragmentElement) Children() []Node {
 	return self
 }
 

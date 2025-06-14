@@ -36,3 +36,10 @@ type Node interface {
 	GetById(id string) Node
 	Select(query ...any) []Node
 }
+
+type ParentNode interface {
+	Node
+
+	Count() int
+	Children() []Node
+}

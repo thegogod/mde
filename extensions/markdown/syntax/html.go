@@ -86,7 +86,7 @@ func (self *Html) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 
 	if !isVoid {
 		for {
-			iter.NextWhile(core.NewLine, core.Space, core.Tab)
+			iter.NextWhile(core.NewLine, core.Tab)
 
 			if self.parseClosingTag(iter, name, depth) {
 				break
