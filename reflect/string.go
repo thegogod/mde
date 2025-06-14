@@ -22,6 +22,10 @@ func (self StringValue) String() string {
 	return self.value
 }
 
+func (self StringValue) Length() int {
+	return len(self.value)
+}
+
 func (self StringValue) Equals(value Value) bool {
 	switch v := value.(type) {
 	case StringValue:
