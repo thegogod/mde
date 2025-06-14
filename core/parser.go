@@ -2,6 +2,7 @@ package core
 
 // Parses tokens into an AST
 type Parser interface {
+	Parse(src []byte) (Node, error)
 	ParseBlock(parser Parser, iter *Iterator) (Node, error)
 	ParseInline(parser Parser, iter *Iterator) (Node, error)
 	ParseSyntax(extension string, name string, parser Parser, iter *Iterator) (Node, error)
