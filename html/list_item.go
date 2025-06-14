@@ -14,8 +14,8 @@ func Li(children ...any) *ListItemElement {
 	return &ListItemElement{Elem("li").Push(children...)}
 }
 
-func (self ListItemElement) GetTag() string {
-	return self.element.GetTag()
+func (self ListItemElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *ListItemElement) WithAttr(name string, value string) *ListItemElement {

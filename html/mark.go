@@ -14,8 +14,8 @@ func Mark(children ...any) *MarkElement {
 	return &MarkElement{Elem("mark").Push(children...)}
 }
 
-func (self MarkElement) GetTag() string {
-	return self.element.GetTag()
+func (self MarkElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *MarkElement) WithAttr(name string, value string) *MarkElement {

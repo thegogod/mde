@@ -14,8 +14,8 @@ func Code(children ...any) *CodeElement {
 	return &CodeElement{Elem("code").Push(children...)}
 }
 
-func (self CodeElement) GetTag() string {
-	return self.element.GetTag()
+func (self CodeElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *CodeElement) WithAttr(name string, value string) *CodeElement {

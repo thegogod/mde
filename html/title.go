@@ -12,8 +12,8 @@ func Title(children ...any) *TitleElement {
 	return &TitleElement{Elem("title").Push(children...)}
 }
 
-func (self TitleElement) GetTag() string {
-	return self.element.GetTag()
+func (self TitleElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TitleElement) WithAttr(name string, value string) *TitleElement {

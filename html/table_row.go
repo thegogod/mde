@@ -16,8 +16,8 @@ func Tr(children ...*TableCellElement) *TableRowElement {
 	return self
 }
 
-func (self TableRowElement) GetTag() string {
-	return self.element.GetTag()
+func (self TableRowElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TableRowElement) WithAttr(name string, value string) *TableRowElement {

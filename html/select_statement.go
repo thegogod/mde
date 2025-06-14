@@ -93,7 +93,7 @@ func HasTag(tag string) TagExpression {
 }
 
 func (self TagExpression) Eval(node Node) bool {
-	return node.GetTag() == self.tag
+	return node.GetSelector() == self.tag
 }
 
 type AttributeExpression struct {

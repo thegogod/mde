@@ -24,8 +24,8 @@ func (self *ImageElement) WithAlt(value string) *ImageElement {
 	return self.WithAttr("alt", value)
 }
 
-func (self ImageElement) GetTag() string {
-	return self.element.GetTag()
+func (self ImageElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *ImageElement) WithAttr(name string, value string) *ImageElement {

@@ -14,8 +14,8 @@ func Head(children ...any) *HeadElement {
 	return &HeadElement{Elem("head").Push(children...)}
 }
 
-func (self HeadElement) GetTag() string {
-	return self.element.GetTag()
+func (self HeadElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *HeadElement) WithAttr(name string, value string) *HeadElement {

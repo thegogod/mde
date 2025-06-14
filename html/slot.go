@@ -14,8 +14,8 @@ func Slot(children ...any) *SlotElement {
 	return &SlotElement{Elem("slot").Push(children...)}
 }
 
-func (self SlotElement) GetTag() string {
-	return self.element.GetTag()
+func (self SlotElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *SlotElement) WithAttr(name string, value string) *SlotElement {

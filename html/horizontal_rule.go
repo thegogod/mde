@@ -14,8 +14,8 @@ func Hr() *HorizontalRuleElement {
 	return &HorizontalRuleElement{Elem("hr").Void()}
 }
 
-func (self HorizontalRuleElement) GetTag() string {
-	return self.element.GetTag()
+func (self HorizontalRuleElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *HorizontalRuleElement) WithAttr(name string, value string) *HorizontalRuleElement {

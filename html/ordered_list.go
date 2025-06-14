@@ -20,8 +20,8 @@ func Ol(children ...*ListItemElement) *OrderedListElement {
 	return &OrderedListElement{el}
 }
 
-func (self OrderedListElement) GetTag() string {
-	return self.element.GetTag()
+func (self OrderedListElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *OrderedListElement) WithAttr(name string, value string) *OrderedListElement {

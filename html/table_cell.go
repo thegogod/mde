@@ -37,8 +37,8 @@ func (self *TableCellElement) WithRowSpan(value int) *TableCellElement {
 	return self.WithAttr("rowspan", strconv.Itoa(value))
 }
 
-func (self TableCellElement) GetTag() string {
-	return self.element.GetTag()
+func (self TableCellElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TableCellElement) WithAttr(name string, value string) *TableCellElement {

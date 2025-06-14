@@ -15,7 +15,7 @@ func Fragment(children ...Node) *FragmentElement {
 	return self.Push(children...)
 }
 
-func (self FragmentElement) GetTag() string {
+func (self FragmentElement) GetSelector() string {
 	return ""
 }
 
@@ -123,7 +123,7 @@ func (self FragmentElement) String() string {
 	content := ""
 
 	for _, node := range self {
-		if strings.HasPrefix(node.GetTag(), ":") {
+		if strings.HasPrefix(node.GetSelector(), ":") {
 			continue
 		}
 
@@ -137,7 +137,7 @@ func (self FragmentElement) PrettyString(indent string) string {
 	content := []string{}
 
 	for _, node := range self {
-		if strings.HasPrefix(node.GetTag(), ":") {
+		if strings.HasPrefix(node.GetSelector(), ":") {
 			continue
 		}
 

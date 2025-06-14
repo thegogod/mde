@@ -22,8 +22,8 @@ func (self *BaseElement) WithTarget(value string) *BaseElement {
 	return self.WithAttr("target", value)
 }
 
-func (self BaseElement) GetTag() string {
-	return self.element.GetTag()
+func (self BaseElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *BaseElement) WithAttr(name string, value string) *BaseElement {

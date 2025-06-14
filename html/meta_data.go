@@ -28,7 +28,7 @@ func (self MetaDataElement) Set(key string, value any) MetaDataElement {
 	return self
 }
 
-func (self MetaDataElement) GetTag() string {
+func (self MetaDataElement) GetSelector() string {
 	return ":metadata"
 }
 

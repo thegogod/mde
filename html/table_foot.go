@@ -16,8 +16,8 @@ func TFoot(children ...*TableRowElement) *TableFootElement {
 	return self
 }
 
-func (self TableFootElement) GetTag() string {
-	return self.element.GetTag()
+func (self TableFootElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TableFootElement) WithAttr(name string, value string) *TableFootElement {

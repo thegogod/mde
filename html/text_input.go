@@ -76,8 +76,8 @@ func (self *TextInputElement) WithSpellcheck(value bool) *TextInputElement {
 	return self.WithAttr("spellcheck", strconv.FormatBool(value))
 }
 
-func (self TextInputElement) GetTag() string {
-	return self.element.GetTag()
+func (self TextInputElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TextInputElement) WithAttr(name string, value string) *TextInputElement {

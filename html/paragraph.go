@@ -14,8 +14,8 @@ func P(children ...any) *ParagraphElement {
 	return &ParagraphElement{Elem("p").Push(children...)}
 }
 
-func (self ParagraphElement) GetTag() string {
-	return self.element.GetTag()
+func (self ParagraphElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *ParagraphElement) WithAttr(name string, value string) *ParagraphElement {

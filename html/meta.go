@@ -32,8 +32,8 @@ func (self *MetaElement) WithMedia(value string) *MetaElement {
 	return self.WithAttr("media", value)
 }
 
-func (self MetaElement) GetTag() string {
-	return self.element.GetTag()
+func (self MetaElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *MetaElement) WithAttr(name string, value string) *MetaElement {

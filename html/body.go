@@ -14,8 +14,8 @@ func Body(children ...any) *BodyElement {
 	return &BodyElement{Elem("body").Push(children...)}
 }
 
-func (self BodyElement) GetTag() string {
-	return self.element.GetTag()
+func (self BodyElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *BodyElement) WithAttr(name string, value string) *BodyElement {

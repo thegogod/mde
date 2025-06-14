@@ -14,8 +14,8 @@ func Div(children ...any) *DivElement {
 	return &DivElement{Elem("div").Push(children...)}
 }
 
-func (self DivElement) GetTag() string {
-	return self.element.GetTag()
+func (self DivElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *DivElement) WithAttr(name string, value string) *DivElement {

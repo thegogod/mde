@@ -14,8 +14,8 @@ func Template(children ...any) *TemplateElement {
 	return &TemplateElement{Elem("template").Push(children...)}
 }
 
-func (self TemplateElement) GetTag() string {
-	return self.element.GetTag()
+func (self TemplateElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TemplateElement) WithAttr(name string, value string) *TemplateElement {

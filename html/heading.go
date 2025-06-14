@@ -62,8 +62,8 @@ func H6(children ...any) *HeadingElement {
 	return &HeadingElement{Elem("h6").Push(children...)}
 }
 
-func (self HeadingElement) GetTag() string {
-	return self.element.GetTag()
+func (self HeadingElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *HeadingElement) WithAttr(name string, value string) *HeadingElement {

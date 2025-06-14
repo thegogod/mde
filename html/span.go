@@ -14,8 +14,8 @@ func Span(children ...any) *SpanElement {
 	return &SpanElement{Elem("span").Push(children...)}
 }
 
-func (self SpanElement) GetTag() string {
-	return self.element.GetTag()
+func (self SpanElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *SpanElement) WithAttr(name string, value string) *SpanElement {

@@ -8,7 +8,7 @@ import (
 
 type Raw []byte
 
-func (self Raw) GetTag() string {
+func (self Raw) GetSelector() string {
 	return ""
 }
 

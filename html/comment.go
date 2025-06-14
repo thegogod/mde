@@ -10,7 +10,7 @@ import (
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Comments
 type Comment []byte
 
-func (self Comment) GetTag() string {
+func (self Comment) GetSelector() string {
 	return ""
 }
 

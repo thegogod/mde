@@ -14,8 +14,8 @@ func Pre(children ...any) *PreElement {
 	return &PreElement{Elem("pre").Push(children...)}
 }
 
-func (self PreElement) GetTag() string {
-	return self.element.GetTag()
+func (self PreElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *PreElement) WithAttr(name string, value string) *PreElement {

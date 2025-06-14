@@ -14,8 +14,8 @@ func S(children ...any) *StrikeElement {
 	return &StrikeElement{Elem("s").Push(children...)}
 }
 
-func (self StrikeElement) GetTag() string {
-	return self.element.GetTag()
+func (self StrikeElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *StrikeElement) WithAttr(name string, value string) *StrikeElement {

@@ -8,7 +8,7 @@ import (
 type Node interface {
 	core.Node
 
-	GetTag() string
+	GetSelector() string
 
 	HasAttr(name string) bool
 	GetAttr(name string) string

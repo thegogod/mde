@@ -16,8 +16,8 @@ func THead(children ...*TableRowElement) *TableHeadElement {
 	return self
 }
 
-func (self TableHeadElement) GetTag() string {
-	return self.element.GetTag()
+func (self TableHeadElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TableHeadElement) WithAttr(name string, value string) *TableHeadElement {

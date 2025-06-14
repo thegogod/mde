@@ -92,8 +92,8 @@ func (self Alert) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 
 	el := node.(html.ParentNode)
 
-	if el.GetTag() != "alert" {
-		return nil, iter.Curr().Error(fmt.Sprintf("expected 'alert', received '%s'", el.GetTag()))
+	if el.GetSelector() != "alert" {
+		return nil, iter.Curr().Error(fmt.Sprintf("expected 'alert', received '%s'", el.GetSelector()))
 	}
 
 	kind := "note"

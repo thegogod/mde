@@ -14,8 +14,8 @@ func Table(children ...any) *TableElement {
 	return &TableElement{Elem("table").Push(children...)}
 }
 
-func (self TableElement) GetTag() string {
-	return self.element.GetTag()
+func (self TableElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TableElement) WithAttr(name string, value string) *TableElement {

@@ -24,8 +24,8 @@ func (self *AnchorElement) WithTarget(value string) *AnchorElement {
 	return self.WithAttr("target", value)
 }
 
-func (self AnchorElement) GetTag() string {
-	return self.element.GetTag()
+func (self AnchorElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *AnchorElement) WithAttr(name string, value string) *AnchorElement {

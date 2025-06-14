@@ -42,8 +42,8 @@ func (self *InputElement) WithForm(formId string) *InputElement {
 	return self.WithAttr("form", formId)
 }
 
-func (self InputElement) GetTag() string {
-	return self.element.GetTag()
+func (self InputElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *InputElement) WithAttr(name string, value string) *InputElement {

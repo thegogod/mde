@@ -4,7 +4,7 @@ import "github.com/thegogod/mde/maps"
 
 type Host map[string]any
 
-func (self Host) GetTag() string {
+func (self Host) GetSelector() string {
 	return ":host"
 }
 

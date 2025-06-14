@@ -19,8 +19,8 @@ func (self *HtmlElement) WithLang(value string) *HtmlElement {
 	return self.WithAttr("lang", value)
 }
 
-func (self HtmlElement) GetTag() string {
-	return self.element.GetTag()
+func (self HtmlElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *HtmlElement) WithAttr(name string, value string) *HtmlElement {

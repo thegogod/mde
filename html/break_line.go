@@ -14,8 +14,8 @@ func Br() *BreakLineElement {
 	return &BreakLineElement{Elem("br").Void()}
 }
 
-func (self BreakLineElement) GetTag() string {
-	return self.element.GetTag()
+func (self BreakLineElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *BreakLineElement) WithAttr(name string, value string) *BreakLineElement {

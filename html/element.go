@@ -28,7 +28,7 @@ func (self *Element) Void() *Element {
 	return self
 }
 
-func (self Element) GetTag() string {
+func (self Element) GetSelector() string {
 	return self.Kind
 }
 
@@ -312,7 +312,7 @@ func (self Element) String() string {
 	html += ">"
 
 	for _, child := range self.children {
-		if strings.HasPrefix(child.GetTag(), ":") {
+		if strings.HasPrefix(child.GetSelector(), ":") {
 			continue
 		}
 
@@ -338,7 +338,7 @@ func (self Element) PrettyString(indent string) string {
 	html += ">"
 
 	for _, child := range self.children {
-		if strings.HasPrefix(child.GetTag(), ":") {
+		if strings.HasPrefix(child.GetSelector(), ":") {
 			continue
 		}
 

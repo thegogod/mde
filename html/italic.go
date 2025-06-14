@@ -14,8 +14,8 @@ func I(children ...any) *ItalicElement {
 	return &ItalicElement{Elem("i").Push(children...)}
 }
 
-func (self ItalicElement) GetTag() string {
-	return self.element.GetTag()
+func (self ItalicElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *ItalicElement) WithAttr(name string, value string) *ItalicElement {

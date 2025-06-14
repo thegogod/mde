@@ -56,8 +56,8 @@ func (self *FileInputElement) WithMultiple(value bool) *FileInputElement {
 	return self.WithAttr("multiple", strconv.FormatBool(value))
 }
 
-func (self FileInputElement) GetTag() string {
-	return self.element.GetTag()
+func (self FileInputElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *FileInputElement) WithAttr(name string, value string) *FileInputElement {

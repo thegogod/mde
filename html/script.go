@@ -32,8 +32,8 @@ func (self *ScriptElement) WithDefer() *ScriptElement {
 	return self.WithAttr("defer", "")
 }
 
-func (self ScriptElement) GetTag() string {
-	return self.element.GetTag()
+func (self ScriptElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *ScriptElement) WithAttr(name string, value string) *ScriptElement {

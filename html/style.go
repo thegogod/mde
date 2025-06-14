@@ -12,8 +12,8 @@ func Style(children ...any) *StyleElement {
 	return &StyleElement{Elem("style").WithAttr("type", "text/css").Push(children...)}
 }
 
-func (self StyleElement) GetTag() string {
-	return self.element.GetTag()
+func (self StyleElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *StyleElement) WithAttr(name string, value string) *StyleElement {

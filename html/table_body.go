@@ -16,8 +16,8 @@ func TBody(children ...*TableRowElement) *TableBodyElement {
 	return self
 }
 
-func (self TableBodyElement) GetTag() string {
-	return self.element.GetTag()
+func (self TableBodyElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *TableBodyElement) WithAttr(name string, value string) *TableBodyElement {

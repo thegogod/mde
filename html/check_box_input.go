@@ -49,8 +49,8 @@ func (self *CheckBoxInputElement) WithChecked(value bool) *CheckBoxInputElement 
 	return self
 }
 
-func (self CheckBoxInputElement) GetTag() string {
-	return self.element.GetTag()
+func (self CheckBoxInputElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *CheckBoxInputElement) WithAttr(name string, value string) *CheckBoxInputElement {

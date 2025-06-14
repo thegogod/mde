@@ -14,8 +14,8 @@ func Strong(children ...any) *StrongElement {
 	return &StrongElement{Elem("strong").Push(children...)}
 }
 
-func (self StrongElement) GetTag() string {
-	return self.element.GetTag()
+func (self StrongElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *StrongElement) WithAttr(name string, value string) *StrongElement {

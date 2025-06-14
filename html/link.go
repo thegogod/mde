@@ -24,8 +24,8 @@ func (self *LinkElement) WithHref(value string) *LinkElement {
 	return self.WithAttr("href", value)
 }
 
-func (self LinkElement) GetTag() string {
-	return self.element.GetTag()
+func (self LinkElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *LinkElement) WithAttr(name string, value string) *LinkElement {

@@ -19,8 +19,8 @@ func (self *BlockQuoteElement) WithCite(value string) *BlockQuoteElement {
 	return self.WithAttr("cite", value)
 }
 
-func (self BlockQuoteElement) GetTag() string {
-	return self.element.GetTag()
+func (self BlockQuoteElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *BlockQuoteElement) WithAttr(name string, value string) *BlockQuoteElement {

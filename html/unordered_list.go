@@ -20,8 +20,8 @@ func Ul(children ...*ListItemElement) *UnorderedListElement {
 	return &UnorderedListElement{el}
 }
 
-func (self UnorderedListElement) GetTag() string {
-	return self.element.GetTag()
+func (self UnorderedListElement) GetSelector() string {
+	return self.element.GetSelector()
 }
 
 func (self *UnorderedListElement) WithAttr(name string, value string) *UnorderedListElement {
