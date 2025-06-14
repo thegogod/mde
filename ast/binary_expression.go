@@ -37,7 +37,7 @@ func (self BinaryExpression) Validate() error {
 	left := self.left.Type()
 	right := self.right.Type()
 
-	if !left.AssignableTo(right) {
+	if !left.Assignable(right) {
 		return core.Err(
 			self.op.Start(),
 			self.op.End(),

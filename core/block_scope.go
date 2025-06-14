@@ -74,7 +74,7 @@ func (self *BlockScope) Set(key string, value reflect.Value) error {
 		return err
 	}
 
-	if !existing.Type().AssignableTo(value.Type()) {
+	if !existing.Type().Assignable(value.Type()) {
 		return fmt.Errorf(
 			"cannot assign value of type '%s' to type '%s'",
 			value.Type().Name(),

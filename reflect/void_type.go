@@ -10,10 +10,10 @@ func (self VoidType) String() string {
 	return "void"
 }
 
-func (self VoidType) AssignableTo(t Type) bool {
+func (self VoidType) Assignable(t Type) bool {
 	return false
 }
 
-func (self VoidType) ConvertableTo(t Type) bool {
+func (self VoidType) Convertable(t Type) bool {
 	return false
 }

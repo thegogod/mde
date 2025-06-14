@@ -6,6 +6,10 @@ import (
 
 type UnionType []Type
 
+func Union(types ...Type) UnionType {
+	return types
+}
+
 func (self UnionType) Name() string {
 	return self.String()
 }
@@ -20,9 +24,9 @@ func (self UnionType) String() string {
 	return strings.Join(names, " | ")
 }
 
-func (self UnionType) AssignableTo(t Type) bool {
+func (self UnionType) Assignable(t Type) bool {
 	for _, ut := range self {
-		if ut.AssignableTo(t) {
+		if ut.Assignable(t) {
 			return true
 		}
 	}
@@ -30,9 +34,9 @@ func (self UnionType) AssignableTo(t Type) bool {
 	return false
 }
 
-func (self UnionType) ConvertableTo(t Type) bool {
+func (self UnionType) Convertable(t Type) bool {
 	for _, ut := range self {
-		if ut.ConvertableTo(t) {
+		if ut.Convertable(t) {
 			return true
 		}
 	}

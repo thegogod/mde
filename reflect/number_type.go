@@ -10,7 +10,7 @@ func (self NumberType) String() string {
 	return "number"
 }
 
-func (self NumberType) AssignableTo(t Type) bool {
+func (self NumberType) Assignable(t Type) bool {
 	switch t.(type) {
 	case NumberType:
 		return true
@@ -19,7 +19,7 @@ func (self NumberType) AssignableTo(t Type) bool {
 	}
 }
 
-func (self NumberType) ConvertableTo(t Type) bool {
+func (self NumberType) Convertable(t Type) bool {
 	switch t.(type) {
 	case NumberType:
 		return true

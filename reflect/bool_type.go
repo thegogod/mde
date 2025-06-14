@@ -10,7 +10,7 @@ func (self BoolType) String() string {
 	return "bool"
 }
 
-func (self BoolType) AssignableTo(t Type) bool {
+func (self BoolType) Assignable(t Type) bool {
 	switch t.(type) {
 	case BoolType:
 		return true
@@ -19,7 +19,7 @@ func (self BoolType) AssignableTo(t Type) bool {
 	}
 }
 
-func (self BoolType) ConvertableTo(t Type) bool {
+func (self BoolType) Convertable(t Type) bool {
 	switch t.(type) {
 	case BoolType:
 		return true
