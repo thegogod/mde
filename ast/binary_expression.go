@@ -37,7 +37,7 @@ func (self BinaryExpression) Validate() error {
 	left := self.left.Type()
 	right := self.right.Type()
 
-	if !left.Assignable(right) {
+	if !left.Equals(right) {
 		return core.Err(
 			self.op.Start(),
 			self.op.End(),
@@ -52,8 +52,14 @@ func (self BinaryExpression) Evaluate(scope core.Scope) (reflect.Value, error) {
 	_, err := self.left.Evaluate(scope)
 
 	if err != nil {
-		return nil, err
+		return reflect.NewNil(), err
 	}
 
-	return reflect.Null(), nil
+	_, err = self.right.Evaluate(scope)
+
+	if err != nil {
+		return reflect.NewNil(), err
+	}
+
+	return reflect.NewNil(), nil
 }

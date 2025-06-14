@@ -40,7 +40,7 @@ func (self BlockScope) Has(key string) bool {
 
 func (self BlockScope) GetLocal(key string) (reflect.Value, error) {
 	if !self.HasLocal(key) {
-		return reflect.Null(), fmt.Errorf("identifier '%s' not found", key)
+		return reflect.NewNil(), fmt.Errorf("identifier '%s' not found", key)
 	}
 
 	return self.values[key], nil
@@ -48,7 +48,7 @@ func (self BlockScope) GetLocal(key string) (reflect.Value, error) {
 
 func (self BlockScope) Get(key string) (reflect.Value, error) {
 	if !self.Has(key) {
-		return reflect.Null(), fmt.Errorf("identifier '%s' not found", key)
+		return reflect.NewNil(), fmt.Errorf("identifier '%s' not found", key)
 	}
 
 	if self.HasLocal(key) {
@@ -74,7 +74,7 @@ func (self *BlockScope) Set(key string, value reflect.Value) error {
 		return err
 	}
 
-	if !existing.Type().Assignable(value.Type()) {
+	if !existing.Type().Equals(value.Type()) {
 		return fmt.Errorf(
 			"cannot assign value of type '%s' to type '%s'",
 			value.Type().Name(),

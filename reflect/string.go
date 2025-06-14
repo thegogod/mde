@@ -1,45 +1,44 @@
 package reflect
 
-import "fmt"
+import "strconv"
 
-type StringValue struct {
-	value string
-}
-
-func String(value string) StringValue {
-	return StringValue{value}
-}
-
-func (self StringValue) Type() Type {
-	return StringType{}
-}
-
-func (self StringValue) Any() any {
-	return self.value
-}
-
-func (self StringValue) String() string {
-	return self.value
-}
-
-func (self StringValue) Length() int {
-	return len(self.value)
-}
-
-func (self StringValue) Equals(value Value) bool {
-	switch v := value.(type) {
-	case StringValue:
-		return self.value == v.value
-	default:
-		return false
+func NewString(value string) Value {
+	return Value{
+		_type:  NewStringType(),
+		_value: value,
 	}
 }
 
-func (self StringValue) Convert(t Type) Value {
-	switch t.(type) {
-	case StringType:
-		return self
-	default:
-		panic(fmt.Sprintf("value of type '%s' is not convertable to type '%s'", t.Name(), self.Type().Name()))
+func (self Value) StringType() StringType {
+	return self._type.(StringType)
+}
+
+func (self Value) IsString() bool {
+	return self.Kind() == String
+}
+
+func (self Value) String() string {
+	return self._value.(string)
+}
+
+func (self *Value) SetString(value string) {
+	self._value = value
+}
+
+func (self Value) SubString(i int, j int) string {
+	return self.String()[i:j]
+}
+
+func (self Value) Append(value string) {
+	self._value = self.String() + value
+}
+
+func (self Value) StringToInt() int {
+	v, err := strconv.Atoi(self.String())
+
+	if err != nil {
+		panic(err)
 	}
+
+	return v
 }
