@@ -1,10 +1,13 @@
 package core
 
-import "slices"
+import (
+	"slices"
+)
 
 type Iterator struct {
 	BlockQuoteDepth int
 	ListDepth       int
+	Scope           Scope
 
 	_scanner *Scanner
 	_prev    *Token
@@ -14,6 +17,7 @@ type Iterator struct {
 
 func Iter(scanner *Scanner) *Iterator {
 	return &Iterator{
+		Scope:    NewBlockScope(),
 		_scanner: scanner,
 		_saves:   []Iterator{},
 	}

@@ -52,4 +52,7 @@ const (
 	Integer // 123
 	Decimal // 123.4
 	Text    // text
+	True    // true
+	False   // false
+	Null    // null
 )

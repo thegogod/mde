@@ -1,9 +1,5 @@
 package core
 
-import (
-	"fmt"
-)
-
 type Token struct {
 	kind  TokenKind
 	start Position
@@ -42,91 +38,4 @@ func (self Token) String() string {
 
 func (self Token) Error(message string) error {
 	return Err(self.start, self.end, message)
-}
-
-func (self Token) KindString() string {
-	switch self.kind {
-	case Eof:
-		return "eof"
-	case Text:
-		return "text"
-	case NewLine:
-		return "newline"
-	case Space:
-		return "space"
-	case Tab:
-		return "tab"
-	case Plus:
-		return "plus"
-	case Percent:
-		return "percent"
-	case Dash:
-		return "dash"
-	case Quote:
-		return "quote"
-	case DoubleQuote:
-		return "double-quote"
-	case BackQuote:
-		return "back-quote"
-	case Colon:
-		return "colon"
-	case Bang:
-		return "bang"
-	case Hash:
-		return "hash"
-	case At:
-		return "at"
-	case LeftParen:
-		return "left-paren"
-	case RightParen:
-		return "right-paren"
-	case LeftBracket:
-		return "left-bracket"
-	case RightBracket:
-		return "right-bracket"
-	case LeftBrace:
-		return "left-brace"
-	case RightBrace:
-		return "right-brace"
-	case Asterisk:
-		return "asterisk"
-	case Underscore:
-		return "underscore"
-	case Slash:
-		return "slash"
-	case BackSlash:
-		return "back-slash"
-	case Tilde:
-		return "tilde"
-	case Equals:
-		return "equals"
-	case EqualsEquals:
-		return "equals-equals"
-	case NotEquals:
-		return "not-equals"
-	case GreaterThan:
-		return "greater-than"
-	case GreaterThanEquals:
-		return "greater-than-equals"
-	case LessThan:
-		return "less-than"
-	case LessThanEquals:
-		return "less-than-equals"
-	case Period:
-		return "period"
-	case Pipe:
-		return "pipe"
-	case Or:
-		return "or"
-	case Ampersand:
-		return "ampersand"
-	case And:
-		return "and"
-	case Integer:
-		return "integer"
-	case Decimal:
-		return "decimal"
-	default:
-		panic(fmt.Sprintf("'%d': unsupported token type", self.kind))
-	}
 }

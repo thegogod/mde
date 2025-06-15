@@ -46,35 +46,3 @@ func (self IfStatement) Evaluate(scope core.Scope) (reflect.Value, error) {
 
 	return reflect.NewNil(), nil
 }
-
-func (self IfStatement) Render(scope core.Scope) []byte {
-	value, err := self.condition.Evaluate(scope)
-
-	if err != nil {
-		return []byte{}
-	}
-
-	if value.Truthy() {
-		return self.then.Render(scope)
-	} else if self._else != nil {
-		return self._else.Render(scope)
-	}
-
-	return []byte{}
-}
-
-func (self IfStatement) RenderPretty(scope core.Scope, indent string) []byte {
-	value, err := self.condition.Evaluate(scope)
-
-	if err != nil {
-		return []byte{}
-	}
-
-	if value.Truthy() {
-		return self.then.RenderPretty(scope, indent)
-	} else if self._else != nil {
-		return self._else.RenderPretty(scope, indent)
-	}
-
-	return []byte{}
-}

@@ -5,21 +5,21 @@ import (
 	"github.com/thegogod/mde/html"
 )
 
-type If struct{}
+type IfStatement struct{}
 
-func (self If) IsBlock() bool {
+func (self IfStatement) IsBlock() bool {
 	return true
 }
 
-func (self If) IsInline() bool {
+func (self IfStatement) IsInline() bool {
 	return true
 }
 
-func (self If) Name() string {
+func (self IfStatement) Name() string {
 	return "if"
 }
 
-func (self If) Select(parser core.Parser, iter *core.Iterator) bool {
+func (self IfStatement) Select(parser core.Parser, iter *core.Iterator) bool {
 	if !iter.Match(core.At) || !iter.MatchLiteral("if") {
 		return false
 	}
@@ -27,7 +27,7 @@ func (self If) Select(parser core.Parser, iter *core.Iterator) bool {
 	return true
 }
 
-func (self If) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
+func (self IfStatement) Parse(parser core.Parser, iter *core.Iterator) (core.Node, error) {
 	body := html.Fragment()
 	iter.NextWhile(core.Space, core.Tab, core.NewLine)
 

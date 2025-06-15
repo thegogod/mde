@@ -6,8 +6,6 @@ import (
 )
 
 type Statement interface {
-	core.Node
-
 	Validate() error
 	Evaluate(scope core.Scope) (reflect.Value, error)
 }

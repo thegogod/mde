@@ -33,8 +33,6 @@ func TestScanner(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-
-			t.Logf("%s => %s", token.KindString(), token.String())
 		}
 	})
 }

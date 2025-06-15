@@ -40,27 +40,3 @@ func (self BlockStatement) Evaluate(scope core.Scope) (reflect.Value, error) {
 
 	return reflect.NewNil(), nil
 }
-
-func (self BlockStatement) Render(scope core.Scope) []byte {
-	child := scope.Create()
-	value := []byte{}
-
-	for _, statement := range self.statements {
-		block := statement.Render(child)
-		value = append(value, block...)
-	}
-
-	return value
-}
-
-func (self BlockStatement) RenderPretty(scope core.Scope, indent string) []byte {
-	child := scope.Create()
-	value := []byte{}
-
-	for _, statement := range self.statements {
-		block := statement.RenderPretty(child, indent)
-		value = append(value, block...)
-	}
-
-	return value
-}
