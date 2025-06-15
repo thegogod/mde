@@ -21,3 +21,13 @@ func (self ExpressionStatement) Evaluate(scope core.Scope) (reflect.Value, error
 	_, err := self.expression.Evaluate(scope)
 	return reflect.NewNil(), err
 }
+
+func (self ExpressionStatement) Render(scope core.Scope) []byte {
+	self.expression.Evaluate(scope)
+	return []byte{}
+}
+
+func (self ExpressionStatement) RenderPretty(scope core.Scope, indent string) []byte {
+	self.expression.Evaluate(scope)
+	return []byte{}
+}

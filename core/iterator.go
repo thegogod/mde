@@ -94,7 +94,7 @@ func (self *Iterator) MatchCount(kind rune, count int) bool {
 	return true
 }
 
-func (self *Iterator) MatchBytes(value ...byte) bool {
+func (self *Iterator) MatchLiteral(value string) bool {
 	self.Save()
 	i := 0
 
