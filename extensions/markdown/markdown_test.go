@@ -19,7 +19,7 @@ func TestMarkdown(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		pretty := node.PrettyBytes("  ")
+		pretty := node.RenderPretty("  ")
 
 		if html == nil {
 			t.Log(string(pretty))

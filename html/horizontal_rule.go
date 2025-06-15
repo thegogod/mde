@@ -115,20 +115,12 @@ func (self *HorizontalRuleElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self HorizontalRuleElement) String() string {
-	return self.element.String()
+func (self HorizontalRuleElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self HorizontalRuleElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self HorizontalRuleElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self HorizontalRuleElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self HorizontalRuleElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *HorizontalRuleElement) GetById(id string) Node {

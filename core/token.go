@@ -32,7 +32,7 @@ func (self Token) End() Position {
 	return self.end
 }
 
-func (self Token) Bytes() []byte {
+func (self Token) Render() []byte {
 	return self.value
 }
 

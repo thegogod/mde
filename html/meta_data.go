@@ -104,19 +104,11 @@ func (self MetaDataElement) DelStyle(name ...string) {
 	return
 }
 
-func (self MetaDataElement) String() string {
-	return ""
-}
-
-func (self MetaDataElement) PrettyString(indent string) string {
-	return ""
-}
-
-func (self MetaDataElement) Bytes() []byte {
+func (self MetaDataElement) Render() []byte {
 	return []byte{}
 }
 
-func (self MetaDataElement) PrettyBytes(indent string) []byte {
+func (self MetaDataElement) RenderPretty(indent string) []byte {
 	return []byte{}
 }
 

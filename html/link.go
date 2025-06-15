@@ -125,20 +125,12 @@ func (self *LinkElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self LinkElement) String() string {
-	return self.element.String()
+func (self LinkElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self LinkElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self LinkElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self LinkElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self LinkElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *LinkElement) GetById(id string) Node {

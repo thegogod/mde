@@ -297,7 +297,7 @@ func (self *Element) Pop() *Element {
 	return self
 }
 
-func (self Element) String() string {
+func (self Element) Render() []byte {
 	html := "<" + self.Kind
 
 	for _, attr := range self.attributes {
@@ -306,7 +306,7 @@ func (self Element) String() string {
 
 	if self.void {
 		html += " />"
-		return html
+		return []byte(html)
 	}
 
 	html += ">"
@@ -316,14 +316,14 @@ func (self Element) String() string {
 			continue
 		}
 
-		html += child.String()
+		html += string(child.Render())
 	}
 
 	html += fmt.Sprintf("</%s>", self.Kind)
-	return html
+	return []byte(html)
 }
 
-func (self Element) PrettyString(indent string) string {
+func (self Element) RenderPretty(indent string) []byte {
 	html := "<" + self.Kind
 
 	for _, attr := range self.attributes {
@@ -332,7 +332,7 @@ func (self Element) PrettyString(indent string) string {
 
 	if self.void {
 		html += " />"
-		return html
+		return []byte(html)
 	}
 
 	html += ">"
@@ -342,10 +342,10 @@ func (self Element) PrettyString(indent string) string {
 			continue
 		}
 
-		lines := strings.Split(child.PrettyString(indent), "\n")
+		lines := strings.Split(string(child.RenderPretty(indent)), "\n")
 
 		if len(lines) == 3 {
-			html += "\n" + indent + child.String()
+			html += "\n" + indent + string(child.Render())
 			continue
 		}
 
@@ -353,15 +353,7 @@ func (self Element) PrettyString(indent string) string {
 	}
 
 	html += fmt.Sprintf("\n</%s>", self.Kind)
-	return html
-}
-
-func (self Element) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self Element) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+	return []byte(html)
 }
 
 func (self *Element) GetById(id string) Node {

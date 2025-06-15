@@ -84,21 +84,13 @@ func (self Raw) DelStyle(name ...string) {
 	return
 }
 
-func (self Raw) String() string {
-	return string(self)
-}
-
-func (self Raw) PrettyString(indent string) string {
-	lines := strings.Split(string(self), "\n")
-	return strings.Join(lines, "\n"+indent)
-}
-
-func (self Raw) Bytes() []byte {
+func (self Raw) Render() []byte {
 	return self
 }
 
-func (self Raw) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self Raw) RenderPretty(indent string) []byte {
+	lines := strings.Split(string(self), "\n")
+	return []byte(strings.Join(lines, "\n"+indent))
 }
 
 func (self Raw) GetById(id string) Node {

@@ -36,7 +36,7 @@ func (self *Html) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 	iter.NextWhile(core.Space, core.Tab)
 
 	for iter.Match(core.Text) || iter.Match(core.Underscore) || iter.Match(core.Dash) {
-		name = append(name, iter.Prev().Bytes()...)
+		name = append(name, iter.Prev().Render()...)
 	}
 
 	el := html.Elem(string(name))
@@ -48,7 +48,7 @@ func (self *Html) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 		value := []byte{}
 
 		for iter.Match(core.Text) || iter.Match(core.Underscore) || iter.Match(core.Dash) {
-			attr = append(attr, iter.Prev().Bytes()...)
+			attr = append(attr, iter.Prev().Render()...)
 		}
 
 		if iter.Match(core.Equals) {
@@ -120,7 +120,7 @@ func (self Html) parseClosingTag(iter *core.Iterator, name []byte, depth int) bo
 	tag := []byte{}
 
 	for iter.Match(core.Text) || iter.Match(core.Underscore) || iter.Match(core.Dash) {
-		tag = append(tag, iter.Prev().Bytes()...)
+		tag = append(tag, iter.Prev().Render()...)
 	}
 
 	if !bytes.Equal(tag, name) {

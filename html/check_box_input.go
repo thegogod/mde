@@ -150,20 +150,12 @@ func (self *CheckBoxInputElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self CheckBoxInputElement) String() string {
-	return self.element.String()
+func (self CheckBoxInputElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self CheckBoxInputElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self CheckBoxInputElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self CheckBoxInputElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self CheckBoxInputElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *CheckBoxInputElement) GetById(id string) Node {

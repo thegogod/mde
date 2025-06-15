@@ -133,20 +133,12 @@ func (self *MetaElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self MetaElement) String() string {
-	return self.element.String()
+func (self MetaElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self MetaElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self MetaElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self MetaElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self MetaElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *MetaElement) GetById(id string) Node {

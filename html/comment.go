@@ -86,22 +86,14 @@ func (self Comment) DelStyle(name ...string) {
 	return
 }
 
-func (self Comment) String() string {
-	return fmt.Sprintf("<!-- %s -->", string(self))
+func (self Comment) Render() []byte {
+	return []byte(fmt.Sprintf("<!-- %s -->", string(self)))
 }
 
-func (self Comment) PrettyString(indent string) string {
+func (self Comment) RenderPretty(indent string) []byte {
 	lines := strings.Split(string(self), "\n")
 	formatted := strings.Join(lines, "\n"+indent)
-	return fmt.Sprintf("<!--\n %s \n-->", formatted)
-}
-
-func (self Comment) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self Comment) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+	return []byte(fmt.Sprintf("<!--\n %s \n-->", formatted))
 }
 
 func (self Comment) GetById(id string) Node {

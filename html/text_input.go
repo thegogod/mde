@@ -177,20 +177,12 @@ func (self *TextInputElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self TextInputElement) String() string {
-	return self.element.String()
+func (self TextInputElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self TextInputElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self TextInputElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self TextInputElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self TextInputElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *TextInputElement) GetById(id string) Node {

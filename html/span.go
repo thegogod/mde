@@ -133,20 +133,12 @@ func (self *SpanElement) Pop() *SpanElement {
 	return self
 }
 
-func (self SpanElement) String() string {
-	return self.element.String()
+func (self SpanElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self SpanElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self SpanElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self SpanElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self SpanElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *SpanElement) GetById(id string) Node {

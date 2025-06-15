@@ -143,20 +143,12 @@ func (self *AnchorElement) Pop() *AnchorElement {
 	return self
 }
 
-func (self AnchorElement) String() string {
-	return self.element.String()
+func (self AnchorElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self AnchorElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self AnchorElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self AnchorElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self AnchorElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *AnchorElement) GetById(id string) Node {

@@ -80,19 +80,11 @@ func (self Host) DelStyle(name ...string) {
 	return
 }
 
-func (self Host) String() string {
-	return ""
-}
-
-func (self Host) PrettyString(indent string) string {
-	return ""
-}
-
-func (self Host) Bytes() []byte {
+func (self Host) Render() []byte {
 	return []byte{}
 }
 
-func (self Host) PrettyBytes(indent string) []byte {
+func (self Host) RenderPretty(indent string) []byte {
 	return []byte{}
 }
 

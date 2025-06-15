@@ -119,7 +119,7 @@ func (self *FragmentElement) Pop() *FragmentElement {
 	return self
 }
 
-func (self FragmentElement) String() string {
+func (self FragmentElement) Render() []byte {
 	content := ""
 
 	for _, node := range self {
@@ -127,13 +127,13 @@ func (self FragmentElement) String() string {
 			continue
 		}
 
-		content += node.String()
+		content += string(node.Render())
 	}
 
-	return content
+	return []byte(content)
 }
 
-func (self FragmentElement) PrettyString(indent string) string {
+func (self FragmentElement) RenderPretty(indent string) []byte {
 	content := []string{}
 
 	for _, node := range self {
@@ -141,18 +141,10 @@ func (self FragmentElement) PrettyString(indent string) string {
 			continue
 		}
 
-		content = append(content, node.PrettyString(indent))
+		content = append(content, string(node.RenderPretty(indent)))
 	}
 
-	return strings.Join(content, "\n")
-}
-
-func (self FragmentElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self FragmentElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+	return []byte(strings.Join(content, "\n"))
 }
 
 func (self FragmentElement) GetById(id string) Node {

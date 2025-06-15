@@ -133,20 +133,12 @@ func (self *ItalicElement) Pop() *ItalicElement {
 	return self
 }
 
-func (self ItalicElement) String() string {
-	return self.element.String()
+func (self ItalicElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self ItalicElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self ItalicElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self ItalicElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self ItalicElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *ItalicElement) GetById(id string) Node {

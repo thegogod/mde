@@ -142,20 +142,12 @@ func (self *OrderedListElement) Pop() *OrderedListElement {
 	return self
 }
 
-func (self OrderedListElement) String() string {
-	return self.element.String()
+func (self OrderedListElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self OrderedListElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self OrderedListElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self OrderedListElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self OrderedListElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *OrderedListElement) GetById(id string) Node {

@@ -125,20 +125,12 @@ func (self *ImageElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self ImageElement) String() string {
-	return self.element.String()
+func (self ImageElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self ImageElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self ImageElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self ImageElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self ImageElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *ImageElement) GetById(id string) Node {

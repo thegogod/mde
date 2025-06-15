@@ -133,20 +133,12 @@ func (self *SlotElement) Pop() *SlotElement {
 	return self
 }
 
-func (self SlotElement) String() string {
-	return self.element.String()
+func (self SlotElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self SlotElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self SlotElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self SlotElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self SlotElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *SlotElement) GetById(id string) Node {

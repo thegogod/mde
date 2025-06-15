@@ -151,20 +151,12 @@ func (self *ScriptElement) Pop() *ScriptElement {
 	return self
 }
 
-func (self ScriptElement) String() string {
-	return self.element.String()
+func (self ScriptElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self ScriptElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self ScriptElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self ScriptElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self ScriptElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *ScriptElement) GetById(id string) Node {

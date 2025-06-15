@@ -181,12 +181,12 @@ func (self *HeadingElement) Pop() *HeadingElement {
 	return self
 }
 
-func (self HeadingElement) String() string {
+func (self HeadingElement) Render() []byte {
 	if !self.element.attributes.Exists("id") {
 		id := []byte{}
 
 		for _, child := range self.element.children {
-			value := child.Bytes()
+			value := child.Render()
 
 			for _, b := range value {
 				if unicode.IsSpace(rune(b)) {
@@ -202,15 +202,15 @@ func (self HeadingElement) String() string {
 		self.SetAttr("id", string(id))
 	}
 
-	return self.element.String()
+	return self.element.Render()
 }
 
-func (self HeadingElement) PrettyString(indent string) string {
+func (self HeadingElement) RenderPretty(indent string) []byte {
 	if !self.element.attributes.Exists("id") {
 		id := []byte{}
 
 		for _, child := range self.element.children {
-			value := child.Bytes()
+			value := child.Render()
 
 			for _, b := range value {
 				if unicode.IsSpace(rune(b)) {
@@ -226,15 +226,7 @@ func (self HeadingElement) PrettyString(indent string) string {
 		self.SetAttr("id", string(id))
 	}
 
-	return self.element.PrettyString(indent)
-}
-
-func (self HeadingElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self HeadingElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+	return self.element.RenderPretty(indent)
 }
 
 func (self *HeadingElement) GetById(id string) Node {

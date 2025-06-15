@@ -143,20 +143,12 @@ func (self *InputElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self InputElement) String() string {
-	return self.element.String()
+func (self InputElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self InputElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self InputElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self InputElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self InputElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *InputElement) GetById(id string) Node {

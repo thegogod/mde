@@ -133,20 +133,12 @@ func (self *DivElement) Pop() *DivElement {
 	return self
 }
 
-func (self DivElement) String() string {
-	return self.element.String()
+func (self DivElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self DivElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self DivElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self DivElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self DivElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *DivElement) GetById(id string) Node {

@@ -131,20 +131,12 @@ func (self *StyleElement) Pop() *StyleElement {
 	return self
 }
 
-func (self StyleElement) String() string {
-	return self.element.String()
+func (self StyleElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self StyleElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self StyleElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self StyleElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self StyleElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *StyleElement) GetById(id string) Node {

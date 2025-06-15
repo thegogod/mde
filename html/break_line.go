@@ -115,20 +115,12 @@ func (self *BreakLineElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self BreakLineElement) String() string {
-	return self.element.String()
+func (self BreakLineElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self BreakLineElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self BreakLineElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self BreakLineElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self BreakLineElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *BreakLineElement) GetById(id string) Node {

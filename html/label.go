@@ -138,20 +138,12 @@ func (self *LabelElement) Pop() *LabelElement {
 	return self
 }
 
-func (self LabelElement) String() string {
-	return self.element.String()
+func (self LabelElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self LabelElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self LabelElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self LabelElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self LabelElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *LabelElement) GetById(id string) Node {

@@ -138,20 +138,12 @@ func (self *TableHeadElement) Pop() *TableHeadElement {
 	return self
 }
 
-func (self TableHeadElement) String() string {
-	return self.element.String()
+func (self TableHeadElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self TableHeadElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self TableHeadElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self TableHeadElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self TableHeadElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *TableHeadElement) GetById(id string) Node {

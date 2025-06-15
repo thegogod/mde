@@ -133,20 +133,12 @@ func (self *CodeElement) Pop() *CodeElement {
 	return self
 }
 
-func (self CodeElement) String() string {
-	return self.element.String()
+func (self CodeElement) Render() []byte {
+	return self.element.Render()
 }
 
-func (self CodeElement) PrettyString(indent string) string {
-	return self.element.PrettyString(indent)
-}
-
-func (self CodeElement) Bytes() []byte {
-	return []byte(self.String())
-}
-
-func (self CodeElement) PrettyBytes(indent string) []byte {
-	return []byte(self.PrettyString(indent))
+func (self CodeElement) RenderPretty(indent string) []byte {
+	return self.element.RenderPretty(indent)
 }
 
 func (self *CodeElement) GetById(id string) Node {
