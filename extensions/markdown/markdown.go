@@ -183,6 +183,29 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 			},
 		},
 		{
+			Id:   core.Plus,
+			Name: "plus",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '+' {
+					return nil, nil
+				}
+
+				return ptr.Done(core.Plus), nil
+			},
+		},
+		{
+			Id:   core.Percent,
+			Name: "percent",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '%' {
+					return nil, nil
+				}
+
+				return ptr.Done(core.Percent), nil
+			},
+		},
+
+		{
 			Id:   core.Dash,
 			Name: "dash",
 			Scan: func(ptr *core.Pointer) (*core.Token, error) {
@@ -216,6 +239,18 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 			},
 		},
 		{
+			Id:   core.EqualsEquals,
+			Name: "equals-equals",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '=' || ptr.Peek() != '=' {
+					return nil, nil
+				}
+
+				ptr.Next()
+				return ptr.Done(core.EqualsEquals), nil
+			},
+		},
+		{
 			Id:   core.Equals,
 			Name: "equals",
 			Scan: func(ptr *core.Pointer) (*core.Token, error) {
@@ -224,6 +259,18 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 				}
 
 				return ptr.Done(core.Equals), nil
+			},
+		},
+		{
+			Id:   core.GreaterThanEquals,
+			Name: "greater-than-equals",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '>' || ptr.Peek() != '=' {
+					return nil, nil
+				}
+
+				ptr.Next()
+				return ptr.Done(core.GreaterThanEquals), nil
 			},
 		},
 		{
@@ -239,6 +286,18 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 				}
 
 				return ptr.Done(core.GreaterThan), nil
+			},
+		},
+		{
+			Id:   core.LessThanEquals,
+			Name: "less-than-equals",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '<' || ptr.Peek() != '=' {
+					return nil, nil
+				}
+
+				ptr.Next()
+				return ptr.Done(core.LessThanEquals), nil
 			},
 		},
 		{

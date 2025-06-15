@@ -38,11 +38,7 @@ func (self BinaryExpression) Validate() error {
 	right := self.right.Type()
 
 	if !left.Equals(right) {
-		return core.Err(
-			self.op.Start(),
-			self.op.End(),
-			fmt.Sprintf("expected type '%s', received '%s'", left.Name(), right.Name()),
-		)
+		return self.op.Error(fmt.Sprintf("expected type '%s', received '%s'", left.Name(), right.Name()))
 	}
 
 	return nil

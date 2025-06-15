@@ -56,6 +56,10 @@ func (self Token) KindString() string {
 		return "space"
 	case Tab:
 		return "tab"
+	case Plus:
+		return "plus"
+	case Percent:
+		return "percent"
 	case Dash:
 		return "dash"
 	case Quote:
@@ -96,10 +100,16 @@ func (self Token) KindString() string {
 		return "tilde"
 	case Equals:
 		return "equals"
+	case EqualsEquals:
+		return "equals-equals"
 	case GreaterThan:
 		return "greater-than"
+	case GreaterThanEquals:
+		return "greater-than-equals"
 	case LessThan:
 		return "less-than"
+	case LessThanEquals:
+		return "less-than-equals"
 	case Period:
 		return "period"
 	case Pipe:
