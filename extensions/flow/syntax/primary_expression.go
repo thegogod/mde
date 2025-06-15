@@ -39,8 +39,6 @@ func (self PrimaryExpression) Parse(parser core.Parser, iter *core.Iterator) (co
 		return ast.Html(ast.Literal(reflect.NewFloat(i))), err
 	} else if iter.Match(core.Null) {
 		return ast.Html(ast.Literal(reflect.NewNil())), nil
-	} else if iter.Match(core.Text) {
-		return ast.Html(ast.VarRef(*iter.Prev(), reflect)), nil
 	}
 
 	return nil, nil
