@@ -102,6 +102,8 @@ func (self Token) KindString() string {
 		return "equals"
 	case EqualsEquals:
 		return "equals-equals"
+	case NotEquals:
+		return "not-equals"
 	case GreaterThan:
 		return "greater-than"
 	case GreaterThanEquals:
@@ -114,8 +116,12 @@ func (self Token) KindString() string {
 		return "period"
 	case Pipe:
 		return "pipe"
+	case Or:
+		return "or"
 	case Ampersand:
 		return "ampersand"
+	case And:
+		return "and"
 	case Integer:
 		return "integer"
 	case Decimal:

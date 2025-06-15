@@ -73,6 +73,18 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 			},
 		},
 		{
+			Id:   core.NotEquals,
+			Name: "not-equals",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '!' || ptr.Peek() != '=' {
+					return nil, nil
+				}
+
+				ptr.Next()
+				return ptr.Done(core.NotEquals), nil
+			},
+		},
+		{
 			Id:   core.Bang,
 			Name: "bang",
 			Scan: func(ptr *core.Pointer) (*core.Token, error) {
@@ -360,6 +372,18 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 			},
 		},
 		{
+			Id:   core.Or,
+			Name: "or",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '|' || ptr.Peek() != '|' {
+					return nil, nil
+				}
+
+				ptr.Next()
+				return ptr.Done(core.Or), nil
+			},
+		},
+		{
 			Id:   core.Pipe,
 			Name: "pipe",
 			Scan: func(ptr *core.Pointer) (*core.Token, error) {
@@ -368,6 +392,18 @@ func (self Markdown) Tokenizers() []core.Tokenizer {
 				}
 
 				return ptr.Done(core.Pipe), nil
+			},
+		},
+		{
+			Id:   core.And,
+			Name: "and",
+			Scan: func(ptr *core.Pointer) (*core.Token, error) {
+				if ptr.Curr() != '&' || ptr.Peek() != '&' {
+					return nil, nil
+				}
+
+				ptr.Next()
+				return ptr.Done(core.And), nil
 			},
 		},
 		{

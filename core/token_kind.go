@@ -31,6 +31,7 @@ const (
 	Tilde             // ~
 	Equals            // =
 	EqualsEquals      // ==
+	NotEquals         // !=
 	GreaterThan       // >
 	GreaterThanEquals // >=
 	LessThan          // <
@@ -40,7 +41,9 @@ const (
 	BackQuote         // `
 	Period            // .
 	Pipe              // |
+	Or                // ||
 	Ampersand         // &
+	And               // &&
 	Slash             // /
 	BackSlash         // \
 
