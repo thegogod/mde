@@ -3,6 +3,7 @@ package html
 import (
 	"strings"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -119,7 +120,7 @@ func (self *FragmentElement) Pop() *FragmentElement {
 	return self
 }
 
-func (self FragmentElement) Render() []byte {
+func (self FragmentElement) Render(scope core.Scope) []byte {
 	content := ""
 
 	for _, node := range self {
@@ -127,13 +128,13 @@ func (self FragmentElement) Render() []byte {
 			continue
 		}
 
-		content += string(node.Render())
+		content += string(node.Render(scope))
 	}
 
 	return []byte(content)
 }
 
-func (self FragmentElement) RenderPretty(indent string) []byte {
+func (self FragmentElement) RenderPretty(scope core.Scope, indent string) []byte {
 	content := []string{}
 
 	for _, node := range self {
@@ -141,7 +142,7 @@ func (self FragmentElement) RenderPretty(indent string) []byte {
 			continue
 		}
 
-		content = append(content, string(node.RenderPretty(indent)))
+		content = append(content, string(node.RenderPretty(scope, indent)))
 	}
 
 	return []byte(strings.Join(content, "\n"))

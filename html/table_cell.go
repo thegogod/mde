@@ -3,6 +3,7 @@ package html
 import (
 	"strconv"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -156,12 +157,12 @@ func (self *TableCellElement) Pop() *TableCellElement {
 	return self
 }
 
-func (self TableCellElement) Render() []byte {
-	return self.element.Render()
+func (self TableCellElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self TableCellElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self TableCellElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *TableCellElement) GetById(id string) Node {

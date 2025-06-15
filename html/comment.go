@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -86,11 +87,11 @@ func (self Comment) DelStyle(name ...string) {
 	return
 }
 
-func (self Comment) Render() []byte {
+func (self Comment) Render(scope core.Scope) []byte {
 	return []byte(fmt.Sprintf("<!-- %s -->", string(self)))
 }
 
-func (self Comment) RenderPretty(indent string) []byte {
+func (self Comment) RenderPretty(scope core.Scope, indent string) []byte {
 	lines := strings.Split(string(self), "\n")
 	formatted := strings.Join(lines, "\n"+indent)
 	return []byte(fmt.Sprintf("<!--\n %s \n-->", formatted))

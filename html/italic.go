@@ -1,6 +1,7 @@
 package html
 
 import (
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -133,12 +134,12 @@ func (self *ItalicElement) Pop() *ItalicElement {
 	return self
 }
 
-func (self ItalicElement) Render() []byte {
-	return self.element.Render()
+func (self ItalicElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self ItalicElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self ItalicElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *ItalicElement) GetById(id string) Node {

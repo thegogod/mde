@@ -1,6 +1,7 @@
 package html
 
 import (
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -142,12 +143,12 @@ func (self *OrderedListElement) Pop() *OrderedListElement {
 	return self
 }
 
-func (self OrderedListElement) Render() []byte {
-	return self.element.Render()
+func (self OrderedListElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self OrderedListElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self OrderedListElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *OrderedListElement) GetById(id string) Node {

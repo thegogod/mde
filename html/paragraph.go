@@ -1,6 +1,7 @@
 package html
 
 import (
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -133,12 +134,12 @@ func (self *ParagraphElement) Pop() *ParagraphElement {
 	return self
 }
 
-func (self ParagraphElement) Render() []byte {
-	return self.element.Render()
+func (self ParagraphElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self ParagraphElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self ParagraphElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *ParagraphElement) GetById(id string) Node {

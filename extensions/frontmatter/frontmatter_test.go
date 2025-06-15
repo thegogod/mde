@@ -8,10 +8,13 @@ import (
 	"testing"
 
 	"github.com/thegogod/mde"
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/extensions/frontmatter"
 )
 
 func TestFrontMatter(t *testing.T) {
+	scope := core.NewBlockScope()
+
 	RunDir(t, filepath.Join("testcases"), func(t *testing.T, md []byte, html []byte) {
 		parser := mde.New(frontmatter.New())
 		node, err := parser.Parse(md)
@@ -20,7 +23,7 @@ func TestFrontMatter(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		pretty := node.RenderPretty("  ")
+		pretty := node.RenderPretty(scope, "  ")
 
 		if html == nil {
 			t.Log(string(pretty))

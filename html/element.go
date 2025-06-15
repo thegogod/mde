@@ -5,6 +5,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -297,7 +298,7 @@ func (self *Element) Pop() *Element {
 	return self
 }
 
-func (self Element) Render() []byte {
+func (self Element) Render(scope core.Scope) []byte {
 	html := "<" + self.Kind
 
 	for _, attr := range self.attributes {
@@ -316,14 +317,14 @@ func (self Element) Render() []byte {
 			continue
 		}
 
-		html += string(child.Render())
+		html += string(child.Render(scope))
 	}
 
 	html += fmt.Sprintf("</%s>", self.Kind)
 	return []byte(html)
 }
 
-func (self Element) RenderPretty(indent string) []byte {
+func (self Element) RenderPretty(scope core.Scope, indent string) []byte {
 	html := "<" + self.Kind
 
 	for _, attr := range self.attributes {
@@ -342,10 +343,10 @@ func (self Element) RenderPretty(indent string) []byte {
 			continue
 		}
 
-		lines := strings.Split(string(child.RenderPretty(indent)), "\n")
+		lines := strings.Split(string(child.RenderPretty(scope, indent)), "\n")
 
 		if len(lines) == 3 {
-			html += "\n" + indent + string(child.Render())
+			html += "\n" + indent + string(child.Render(scope))
 			continue
 		}
 

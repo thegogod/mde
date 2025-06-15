@@ -8,9 +8,12 @@ import (
 	"testing"
 
 	"github.com/thegogod/mde"
+	"github.com/thegogod/mde/core"
 )
 
 func TestMarkdown(t *testing.T) {
+	scope := core.NewBlockScope()
+
 	RunDir(t, filepath.Join("testcases"), func(t *testing.T, md []byte, html []byte) {
 		parser := mde.New()
 		node, err := parser.Parse(md)
@@ -19,7 +22,7 @@ func TestMarkdown(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		pretty := node.RenderPretty("  ")
+		pretty := node.RenderPretty(scope, "  ")
 
 		if html == nil {
 			t.Log(string(pretty))

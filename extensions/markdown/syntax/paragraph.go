@@ -38,12 +38,12 @@ func (self Paragraph) Parse(parser core.Parser, iter *core.Iterator) (core.Node,
 			return paragraph, err
 		}
 
-		if string(node.Render()) == "\n" {
+		if raw, ok := node.(html.Raw); ok && string(raw) == "\n" {
 			if iter.Curr().Kind() == core.GreaterThan {
 				break
 			}
 
-			buff = append(buff, node.Render()...)
+			buff = append(buff, raw...)
 			continue
 		}
 

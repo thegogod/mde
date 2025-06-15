@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"unicode"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -181,12 +182,12 @@ func (self *HeadingElement) Pop() *HeadingElement {
 	return self
 }
 
-func (self HeadingElement) Render() []byte {
+func (self HeadingElement) Render(scope core.Scope) []byte {
 	if !self.element.attributes.Exists("id") {
 		id := []byte{}
 
 		for _, child := range self.element.children {
-			value := child.Render()
+			value := child.Render(scope)
 
 			for _, b := range value {
 				if unicode.IsSpace(rune(b)) {
@@ -202,15 +203,15 @@ func (self HeadingElement) Render() []byte {
 		self.SetAttr("id", string(id))
 	}
 
-	return self.element.Render()
+	return self.element.Render(scope)
 }
 
-func (self HeadingElement) RenderPretty(indent string) []byte {
+func (self HeadingElement) RenderPretty(scope core.Scope, indent string) []byte {
 	if !self.element.attributes.Exists("id") {
 		id := []byte{}
 
 		for _, child := range self.element.children {
-			value := child.Render()
+			value := child.Render(scope)
 
 			for _, b := range value {
 				if unicode.IsSpace(rune(b)) {
@@ -226,7 +227,7 @@ func (self HeadingElement) RenderPretty(indent string) []byte {
 		self.SetAttr("id", string(id))
 	}
 
-	return self.element.RenderPretty(indent)
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *HeadingElement) GetById(id string) Node {

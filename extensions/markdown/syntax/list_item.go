@@ -50,7 +50,7 @@ func (self ListItem) Parse(parser core.Parser, iter *core.Iterator) (core.Node, 
 			break
 		}
 
-		if string(node.Render()) == "\n" {
+		if raw, ok := node.(html.Raw); ok && string(raw) == "\n" {
 			if !iter.MatchCount(core.Tab, iter.ListDepth) {
 				break
 			}

@@ -55,8 +55,8 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 				continue
 			}
 
-			if raw, ok := node.(html.Raw); ok && (string(raw.Render()) == " " || string(raw.Render()) == "\t") {
-				buff = append(buff, raw.Render()...)
+			if raw, ok := node.(html.Raw); ok && (string(raw) == " " || string(raw) == "\t") {
+				buff = append(buff, raw...)
 				continue
 			}
 
@@ -149,8 +149,8 @@ func (self Table) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 					continue
 				}
 
-				if raw, ok := node.(html.Raw); ok && (string(raw.Render()) == " " || string(raw.Render()) == "\t") {
-					buff = append(buff, raw.Render()...)
+				if raw, ok := node.(html.Raw); ok && (string(raw) == " " || string(raw) == "\t") {
+					buff = append(buff, raw...)
 					continue
 				}
 

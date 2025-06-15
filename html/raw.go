@@ -3,6 +3,7 @@ package html
 import (
 	"strings"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -84,11 +85,11 @@ func (self Raw) DelStyle(name ...string) {
 	return
 }
 
-func (self Raw) Render() []byte {
+func (self Raw) Render(scope core.Scope) []byte {
 	return self
 }
 
-func (self Raw) RenderPretty(indent string) []byte {
+func (self Raw) RenderPretty(scope core.Scope, indent string) []byte {
 	lines := strings.Split(string(self), "\n")
 	return []byte(strings.Join(lines, "\n"+indent))
 }

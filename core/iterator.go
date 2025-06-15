@@ -99,7 +99,7 @@ func (self *Iterator) MatchBytes(value ...byte) bool {
 	i := 0
 
 	for i < len(value) {
-		for _, b := range self._curr.Render() {
+		for _, b := range self._curr.value {
 			if i >= len(value) {
 				break
 			}

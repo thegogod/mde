@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 type MetaDataElement map[string]any
 
@@ -104,11 +107,11 @@ func (self MetaDataElement) DelStyle(name ...string) {
 	return
 }
 
-func (self MetaDataElement) Render() []byte {
+func (self MetaDataElement) Render(scope core.Scope) []byte {
 	return []byte{}
 }
 
-func (self MetaDataElement) RenderPretty(indent string) []byte {
+func (self MetaDataElement) RenderPretty(scope core.Scope, indent string) []byte {
 	return []byte{}
 }
 

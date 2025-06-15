@@ -1,6 +1,7 @@
 package html
 
 import (
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -125,12 +126,12 @@ func (self *LinkElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self LinkElement) Render() []byte {
-	return self.element.Render()
+func (self LinkElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self LinkElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self LinkElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *LinkElement) GetById(id string) Node {

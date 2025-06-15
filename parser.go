@@ -184,7 +184,7 @@ func (self *Parser) ParseText(parser core.Parser, iter *core.Iterator) ([]byte, 
 		return nil, nil
 	}
 
-	text := html.Raw(iter.Curr().Render())
+	text := html.Raw(iter.Curr().Bytes())
 	iter.Next()
 
 	if bytes.Equal(text, []byte{' '}) {
@@ -192,7 +192,7 @@ func (self *Parser) ParseText(parser core.Parser, iter *core.Iterator) ([]byte, 
 	}
 
 	for iter.Curr().Kind() == core.Text {
-		text = append(text, iter.Curr().Render()...)
+		text = append(text, iter.Curr().Bytes()...)
 		iter.Next()
 	}
 

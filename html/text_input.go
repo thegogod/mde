@@ -3,6 +3,7 @@ package html
 import (
 	"strconv"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -177,12 +178,12 @@ func (self *TextInputElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self TextInputElement) Render() []byte {
-	return self.element.Render()
+func (self TextInputElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self TextInputElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self TextInputElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *TextInputElement) GetById(id string) Node {

@@ -3,16 +3,19 @@ package html_test
 import (
 	"testing"
 
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/html"
 	"github.com/thegogod/mde/maps"
 )
 
 func TestElement(t *testing.T) {
+	scope := core.NewBlockScope()
+
 	t.Run("should render", func(t *testing.T) {
 		el := html.Elem("div")
 		el.SetAttr("id", "123")
 		el.SetStyles(maps.Pair("color", "red"), maps.Pair("display", "block"))
-		html := string(el.Render())
+		html := string(el.Render(scope))
 
 		if html != `<div id="123" style="color: red;display: block;"></div>` {
 			t.Error(html)
@@ -23,7 +26,7 @@ func TestElement(t *testing.T) {
 		el := html.Elem("div")
 		el.SetAttr("id", "123")
 		el.SetAttr("style", "color: red;display: block;")
-		html := string(el.RenderPretty(" "))
+		html := string(el.RenderPretty(scope, " "))
 
 		if html != "<div id=\"123\" style=\"color: red;display: block;\">\n</div>" {
 			t.Error(html)
@@ -39,7 +42,7 @@ func TestElement(t *testing.T) {
 			html.Elem("input").WithAttr("value", "test").Void(),
 		)
 
-		html := string(el.Render())
+		html := string(el.Render(scope))
 
 		if html != `<div id="123" class="main"><p id="1">hello world!</p><input value="test" /></div>` {
 			t.Error(html)
@@ -55,7 +58,7 @@ func TestElement(t *testing.T) {
 			html.Elem("input").WithAttr("value", "test").Void(),
 		)
 
-		html := string(el.RenderPretty("\t"))
+		html := string(el.RenderPretty(scope, "\t"))
 
 		if html != "<div id=\"123\" class=\"main\">\n\t<p id=\"1\">hello world!</p>\n\t<input value=\"test\" />\n</div>" {
 			t.Error(html)
@@ -73,7 +76,7 @@ func TestElement(t *testing.T) {
 			html.Elem("input").WithAttr("value", "test").Void(),
 		)
 
-		html := string(el.RenderPretty("\t"))
+		html := string(el.RenderPretty(scope, "\t"))
 
 		if html != "<div id=\"123\" class=\"main\">\n\t<p id=\"1\">\n\t\thello world!\n\t\t<span>hi!</span>\n\t</p>\n\t<input value=\"test\" />\n</div>" {
 			t.Error(html)

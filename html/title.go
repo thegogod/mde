@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/title
 type TitleElement struct {
@@ -131,12 +134,12 @@ func (self *TitleElement) Pop() *TitleElement {
 	return self
 }
 
-func (self TitleElement) Render() []byte {
-	return self.element.Render()
+func (self TitleElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self TitleElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self TitleElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *TitleElement) GetById(id string) Node {

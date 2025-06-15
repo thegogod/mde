@@ -2,6 +2,6 @@ package core
 
 // AST Node
 type Node interface {
-	Render() []byte
-	RenderPretty(indent string) []byte
+	Render(scope Scope) []byte
+	RenderPretty(scope Scope, indent string) []byte
 }

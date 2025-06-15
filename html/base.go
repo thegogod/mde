@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/base
 type BaseElement struct {
@@ -123,12 +126,12 @@ func (self *BaseElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self BaseElement) Render() []byte {
-	return self.element.Render()
+func (self BaseElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self BaseElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self BaseElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *BaseElement) GetById(id string) Node {

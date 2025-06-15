@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/style
 type StyleElement struct {
@@ -131,12 +134,12 @@ func (self *StyleElement) Pop() *StyleElement {
 	return self
 }
 
-func (self StyleElement) Render() []byte {
-	return self.element.Render()
+func (self StyleElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self StyleElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self StyleElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *StyleElement) GetById(id string) Node {

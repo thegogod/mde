@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 type Host map[string]any
 
@@ -80,11 +83,11 @@ func (self Host) DelStyle(name ...string) {
 	return
 }
 
-func (self Host) Render() []byte {
+func (self Host) Render(scope core.Scope) []byte {
 	return []byte{}
 }
 
-func (self Host) RenderPretty(indent string) []byte {
+func (self Host) RenderPretty(scope core.Scope, indent string) []byte {
 	return []byte{}
 }
 

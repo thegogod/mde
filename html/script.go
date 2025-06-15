@@ -1,6 +1,9 @@
 package html
 
-import "github.com/thegogod/mde/maps"
+import (
+	"github.com/thegogod/mde/core"
+	"github.com/thegogod/mde/maps"
+)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script
 type ScriptElement struct {
@@ -151,12 +154,12 @@ func (self *ScriptElement) Pop() *ScriptElement {
 	return self
 }
 
-func (self ScriptElement) Render() []byte {
-	return self.element.Render()
+func (self ScriptElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self ScriptElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self ScriptElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *ScriptElement) GetById(id string) Node {

@@ -1,6 +1,7 @@
 package html
 
 import (
+	"github.com/thegogod/mde/core"
 	"github.com/thegogod/mde/maps"
 )
 
@@ -115,12 +116,12 @@ func (self *BreakLineElement) DelStyle(name ...string) {
 	self.element.DelStyle(name...)
 }
 
-func (self BreakLineElement) Render() []byte {
-	return self.element.Render()
+func (self BreakLineElement) Render(scope core.Scope) []byte {
+	return self.element.Render(scope)
 }
 
-func (self BreakLineElement) RenderPretty(indent string) []byte {
-	return self.element.RenderPretty(indent)
+func (self BreakLineElement) RenderPretty(scope core.Scope, indent string) []byte {
+	return self.element.RenderPretty(scope, indent)
 }
 
 func (self *BreakLineElement) GetById(id string) Node {

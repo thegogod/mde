@@ -41,7 +41,7 @@ func (self Emoji) Parse(parser core.Parser, iter *core.Iterator) (core.Node, err
 		alias = append(alias, node...)
 	}
 
-	emoji, exists := emojis.Get(string(alias.Render()))
+	emoji, exists := emojis.Get(string(alias))
 
 	if !exists {
 		return alias, iter.Curr().Error("emoji alias not found")

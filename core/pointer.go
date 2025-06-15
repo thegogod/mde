@@ -54,7 +54,7 @@ func (self Pointer) Error(message string) error {
 	return Err(self.Start, self.End, message)
 }
 
-func (self Pointer) Render() []byte {
+func (self Pointer) Bytes() []byte {
 	return self.Src[self.Start.Index:self.End.Index]
 }
 
@@ -63,6 +63,6 @@ func (self *Pointer) Done(kind TokenKind) *Token {
 		kind,
 		self.Start,
 		self.End,
-		self.Render(),
+		self.Bytes(),
 	)
 }
